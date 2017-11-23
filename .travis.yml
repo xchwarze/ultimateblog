@@ -39,6 +39,10 @@ branches:
     - master
     - /^\d+(\.\d+)?\.x$/
 
+notifications:
+  slack:
+    on_success: never
+
 before_install:
   - chmod +x travis/prepare-phpbb.sh
 

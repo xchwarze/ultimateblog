@@ -1,9 +1,10 @@
 {
     "name": "mrgoldy/ultimateblog",
     "type": "phpbb-extension",
-    "description": "The Ultimate Blog extension for phpBB 3.2",
-    "version": "1.0.0-dev",
+    "description": "Ultimate Blog extension for phpBB 3.2",
+    "version": "1.0.0",
     "time": "2017-10-27",
+    "keywords": ["phpbb", "extension", "mrgoldy", "ultimate", "blog"],
     "license": "GPL-2.0",
     "authors": [
         {
@@ -12,13 +13,16 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.4.0",
         "composer/installers": "~1.0"
+    },
+    "require-dev": {
+        "phpbb/epv": "dev-master"
     },
     "extra": {
         "display-name": "Ultimate Blog",
 		"soft-require": {
-            "phpbb/phpbb": ">=3.1.4,<3.2.0@dev"
+            "phpbb/phpbb": "~3.2"
         }
     }
 }
