@@ -1,0 +1,102 @@
+<!-- INCLUDE overall_header.html -->
+<!-- INCLUDECSS @mrgoldy_ultimateblog/bloglist.css -->
+<!-- INCLUDECSS @mrgoldy_ultimateblog/menu.css -->
+
+<!-- IF S_ULTIMATEBLOG_ENABLED and S_UB_ANNOUNCEMENT_ENABLED --><!-- INCLUDE @mrgoldy_ultimateblog/ub_announcement.html --><!-- ENDIF -->
+
+<div class="ub-menu-parent">
+	<a href="{U_BLOG_INDEX}" class="ub-menu-index" style="text-decoration: none; color: #fff;"><i class="fa fa-home fa-2x"></i></a>
+	<a href="{U_BLOG_CATEGORIES}" class="ub-menu-categories" style="text-decoration: none; color: #fff;"><i class="fa fa-tags fa-2x"></i></a>
+	<a href="{U_BLOG_ARCHIVE}" class="ub-menu-archive" style="text-decoration: none; color: #fff;"><i class="fa fa-archive fa-2x"></i></a>
+	<div class="ub-menu-button"><i class="fa fa-home fa-3x"></i></div>
+</div>
+
+<div class="ub-title-parent">
+	<h2>{ULTIMATEBLOG_TITLE} <i class="fa fa-angle-double-right"></i> <!-- IF CATEGORY_TITLE -->{CATEGORY_TITLE}<!-- ELSE -->{L_BLOG_INDEX}<!-- ENDIF --></h2>
+	<!-- IF CATEGORY_DESCRIPTION -->{CATEGORY_DESCRIPTION}<!-- ENDIF -->
+	<!-- IF ARCHIVE_DESCRIPTION -->{ARCHIVE_DESCRIPTION}<!-- ENDIF -->
+</div>
+
+<!-- IF S_BLOG_CAN_ADD -->
+	<!-- IF S_BLOG_CATEGORY and S_BLOG_CATEGORY_PRIVATE -->
+		<!-- IF S_BLOG_CATEGORY_POST_PRIVATE -->
+			<a href="{U_BLOG_ADD}" class="button" style="float: right;" title="{L_BLOG_ADD}">
+				<span>{L_BLOG_ADD}</span> <i class="icon fa-pencil fa-fw" aria-hidden="true"></i>
+			</a>
+		<!-- ENDIF -->
+	<!-- ELSE -->
+		<a href="{U_BLOG_ADD}" class="button" style="float: right;" title="{L_BLOG_ADD}">
+			<span>{L_BLOG_ADD}</span> <i class="icon fa-pencil fa-fw" aria-hidden="true"></i>
+		</a>
+	<!-- ENDIF -->
+<!-- ENDIF -->
+
+<div class="blog-container">
+	<!-- BEGIN blogs -->
+		<div class="panel blog-panel<!-- IF (blogs.S_IS_UNAPPROVED and S_BLOG_MOD_APPROVE) or (blogs.S_IS_REPORTED and S_BLOG_MOD_REPORT) --> reported<!-- ENDIF --> bg1 hvr-float-shadow">
+			<div class="blog-image"><a href="{blogs.U_BLOG}" title="{L_BLOG_READ_FULL}"><img src="{blogs.IMAGE}" alt="{blogs.TITLE}" width="350" height="225" /></a></div>
+			<div class="blog-author">{blogs.AUTHOR}</div>
+			<a class="blog-title" href="{blogs.U_BLOG}" title="{L_BLOG_READ_FULL}">{blogs.TITLE}</a>
+			<div class="<!-- IF (blogs.S_IS_UNAPPROVED and S_BLOG_MOD_APPROVE) or (blogs.S_IS_REPORTED and S_BLOG_MOD_REPORT) -->blog-categories-not-approved<!-- ELSE -->blog-categories<!-- ENDIF --> bg2">
+				<span>
+					<!-- IF blogs.S_IS_REPORTED or blogs.S_IS_UNAPPROVED -->
+						<!-- IF blogs.S_IS_REPORTED -->
+							<strong>{L_BLOG_REPORTED}</strong>
+						<!-- ELSE -->
+							<strong>{L_BLOG_UNAPPROVED}</strong>
+						<!-- ENDIF -->
+					<!-- ELSE -->
+						<!-- BEGIN cats -->
+							<!-- IF blogs.cats.S_CURRENT_CATEGORY --><strong><!-- ENDIF --><a href="{blogs.cats.U_BLOG_CATEGORY}">{blogs.cats.BLOG_CATEGORY_NAME}</a><!-- IF blogs.cats.S_CURRENT_CATEGORY --></strong><!-- ENDIF --><!-- IF not blogs.cats.S_LAST_ROW -->, <!-- ENDIF -->
+						<!-- END cats -->
+					<!-- ENDIF -->
+				</span>
+			</div>
+		</div>
+	<!-- END blogs -->
+</div>
+
+<div class="dropdown-container dropdown-container-left dropdown-up dropdown-{S_CONTENT_FLOW_END} dropdown-button-control">
+	<span title="{L_BLOG_VIEW_PERMISSIONS}" class="button button-secondary dropdown-trigger dropdown-select">
+		<i class="icon fa-gavel fa-fw" aria-hidden="true"></i>
+		<span class="sr-only">{L_BLOG_VIEW_PERMISSIONS}</span>
+		<span class="caret"><i class="icon fa-sort-down fa-fw" aria-hidden="true"></i></span>
+	</span>
+	<div class="dropdown">
+		<div class="pointer"><div class="pointer-inner"></div></div>
+		<ul class="dropdown-contents">
+			<!-- IF S_BLOG_CATEGORY and S_BLOG_CATEGORY_PRIVATE -->
+				<li><!-- IF S_BLOG_CATEGORY_POST_PRIVATE -->{L_BLOG_PERM_ADD_CAN}<!-- ELSE -->{L_BLOG_PERM_ADD_NOT}<!-- ENDIF --></li>
+			<!-- ELSE -->
+				<li><!-- IF S_BLOG_CAN_ADD -->{L_BLOG_PERM_ADD_CAN}<!-- ELSE -->{L_BLOG_PERM_ADD_NOT}<!-- ENDIF --></li>
+			<!-- ENDIF -->
+			<li><!-- IF S_BLOG_CAN_NOAPPROVE -->{L_BLOG_PERM_NOAPPROVE_CAN}<!-- ELSE -->{L_BLOG_PERM_NOAPPROVE_NOT}<!-- ENDIF --></li>
+			<li><!-- IF S_BLOG_CAN_EDIT -->{L_BLOG_PERM_EDIT_CAN}<!-- ELSE -->{L_BLOG_PERM_EDIT_NOT}<!-- ENDIF --></li>
+			<li><!-- IF S_BLOG_CAN_DELETE -->{L_BLOG_PERM_DELETE_CAN}<!-- ELSE -->{L_BLOG_PERM_DELETE_NOT}<!-- ENDIF --></li>
+			<!-- IF S_BLOG_COMMENTS_ENABLED -->
+				<li><!-- IF S_BLOG_CAN_COMMENT -->{L_BLOG_PERM_COMMENT_CAN}<!-- ELSE -->{L_BLOG_PERM_COMMENT_NOT}<!-- ENDIF --></li>
+				<li><!-- IF S_BLOG_CAN_COMMENT_VIEW -->{L_BLOG_PERM_COMMENT_VIEW_CAN}<!-- ELSE -->{L_BLOG_PERM_COMMENT_VIEW_NOT}<!-- ENDIF --></li>
+			<!-- ENDIF -->
+			<li><!-- IF S_BLOG_CAN_EDIT_VIEW -->{L_BLOG_PERM_EDIT_VIEW_CAN}<!-- ELSE -->{L_BLOG_PERM_EDIT_VIEW_NOT}<!-- ENDIF --></li>
+			<!-- IF S_BLOG_RATING_ENABLED --><li><!-- IF S_BLOG_CAN_RATE -->{L_BLOG_PERM_RATE_CAN}<!-- ELSE -->{L_BLOG_PERM_RATE_NOT}<!-- ENDIF --></li><!-- ENDIF -->
+			<li><!-- IF S_BLOG_CAN_RATE -->{L_BLOG_PERM_REPORT_CAN}<!-- ELSE -->{L_BLOG_PERM_REPORT_NOT}<!-- ENDIF --></li>
+		</ul>
+	</div>
+</div>
+
+<div class="action-bar top">
+	<!-- IF .pagination or TOTAL_BLOGS -->
+		<div class="pagination">
+			{TOTAL_BLOGS}
+			<!-- IF .pagination -->
+				<!-- INCLUDE pagination.html -->
+			<!-- ELSE -->
+				&bull; {PAGE_NUMBER}
+			<!-- ENDIF -->
+		</div>
+	<!-- ENDIF -->
+</div>
+
+<!-- INCLUDEJS @mrgoldy_ultimateblog/js/menu.js -->
+
+<!-- INCLUDE overall_footer.html -->

@@ -1,0 +1,77 @@
+<!-- IF S_ULTIMATEBLOG_ENABLED and S_SHOW_ULTIMATEBLOG_REPORTS -->
+	<div class="panel">
+		<div class="inner">
+
+		<h3>{L_MCP_UB_BLOG_REPORTS_LATEST}</h3>
+		<p>{MCP_UB_BLOG_REPORTS_TOTAL}</p>
+
+		<!-- IF .blog_report -->
+			<ul class="topiclist two-long-columns">
+				<li class="header">
+					<dl>
+						<dt><div class="list-inner">{L_VIEW_DETAILS}</div></dt>
+						<dd class="moderation"><span>{L_REPORTER}</span></dd>
+					</dl>
+				</li>
+			</ul>
+
+			<ul class="topiclist cplist two-long-columns responsive-show-all">
+				<!-- BEGIN blog_report -->
+				<li class="row<!-- IF blog_report.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+					<dl>
+						<dt>
+							<div class="list-inner">
+								<a href="{blog_report.U_BLOG_REPORT_DETAILS}" class="topictitle">{blog_report.SUBJECT}</a><br>
+								<span>{L_POSTED} {L_POST_BY_AUTHOR} {blog_report.AUTHOR_FULL} &raquo; {blog_report.POST_TIME}</span>
+							</div>
+						</dt>
+						<dd class="moderation">
+							<span>{L_REPORTED} {L_POST_BY_AUTHOR} {blog_report.REPORTER_FULL}<br>&raquo; {blog_report.REPORT_TIME}</span>
+						</dd>
+					</dl>
+				</li>
+				<!-- END blog_report -->
+			</ul>
+		<!-- ENDIF -->
+
+		</div>
+	</div>
+
+	<div class="panel">
+		<div class="inner">
+
+		<h3>{L_MCP_UB_COMMENT_REPORTS_LATEST}</h3>
+		<p>{MCP_UB_COMMENT_REPORTS_TOTAL}</p>
+
+		<!-- IF .comment_report -->
+			<ul class="topiclist two-long-columns">
+				<li class="header">
+					<dl>
+						<dt><div class="list-inner">{L_VIEW_DETAILS}</div></dt>
+						<dd class="moderation"><span>{L_REPORTER}</span></dd>
+					</dl>
+				</li>
+			</ul>
+
+			<ul class="topiclist cplist two-long-columns responsive-show-all">
+				<!-- BEGIN comment_report -->
+				<li class="row<!-- IF comment_report.S_ROW_COUNT is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+					<dl>
+						<dt>
+							<div class="list-inner">
+								<a href="{comment_report.U_BLOG_REPORT_DETAILS}" class="topictitle">{L_MCP_UB_COMMENT_TO}{L_COLON} {comment_report.SUBJECT}</a><br>
+								<span>{L_POSTED} {L_POST_BY_AUTHOR} {comment_report.AUTHOR_FULL} &raquo; {comment_report.POST_TIME}</span>
+							</div>
+						</dt>
+						<dd class="moderation">
+							<span>{L_REPORTED} {L_POST_BY_AUTHOR} {comment_report.REPORTER_FULL}<br>&raquo; {comment_report.REPORT_TIME}</span>
+						</dd>
+					</dl>
+				</li>
+				<!-- END comment_report -->
+			</ul>
+		<!-- ENDIF -->
+
+		</div>
+	</div>
+<!-- ENDIF -->

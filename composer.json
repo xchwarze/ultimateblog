@@ -1,0 +1,27 @@
+{
+    "name": "mrgoldy/ultimateblog",
+    "type": "phpbb-extension",
+    "description": "",
+    "homepage": "",
+    "version": "1.0.0-dev",
+    "time": "2017-10-27",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Mr. Goldy",
+            "email": "",
+            "homepage": "",
+            "role": "Author"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "composer/installers": "~1.0"
+    },
+    "extra": {
+        "display-name": "Ultimate Blog",
+		"soft-require": {
+            "phpbb/phpbb": ">=3.1.4,<3.2.0@dev"
+        }
+    }
+}

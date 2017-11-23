@@ -1,0 +1,57 @@
+To do list:
+
+☐ Announcement Text with BBCodes instead of HTML
+☐ MCP (approve, reported)
+☐ Blog index: latest/comments/rating
+☐ ACP Overview Statistics check enabled also in SQL? And if none: -
+☐ Notifications
+☐ subscriptions
+☐ RSS
+☐ Search
+☐ Twig Syntax
+☐ Blog errors better exceptions (trigger error perhaps) (no blogs in blog list)
+☐ Drag and drop image upload
+☐ Show user's comments
+☐ Change bloglist $cats[$category_id] to $category
+☐ MISC: Split up language files, Style files in proper folder, Check 'protected' and 'Construct', Comment everything
+☐ MISC2: Different blog layouts, Blog and Category title in URL (blog/1/My-blog), Share this blog
+☐ SEO: Show SEO per blog, Sitemap and XML Sitemap, Schema.org Blog EXAMPLE, Test SEO on Localhost
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+	✔ Blog images @done(2017-11-23 13:22)
+	✔ Category images @done(2017-11-23 13:22)
+	✔ Check friends array not empty @done(2017-11-23 13:22)
+	✔ Check zebra tables on Enable Friends Only @done(2017-11-23 13:22)
+	✔ Breadcrumbs remove 'Board Index' @done(2017-11-23 13:22)
+	✔ Posting.php REDO: $preview? : $edit? : $add? @done(2017-11-23 13:22)
+	✔ Hide 'change author' on $add @done(2017-11-23 13:22)
+	✔ Disable smilies in blogs not working @done(2017-11-23 13:22)
+	✔ Reporting: blogs @done(2017-11-23 13:22)
+	✔ Reporting: comments @done(2017-11-23 13:22)
+	✔ Hide 'Friends Only' option on posting when Friends Only disabled @done(2017-11-23 13:22)
+	✔ jQueried blog index layout @done(2017-11-23 13:22)
+	✔ Detailed viewonline (detailed is too heavy on DB, only 'reading blog' - 'viewing categories' - 'viewing archives' - 'blog index') @done(2017-11-23 13:22)
+	✔ Schema.org Blog @done(2017-11-23 13:22)
+	✔ description @done(2017-11-23 13:22)
+	✔ Archive @done(2017-11-23 13:22)
+	✔ Blog index permissions (pop up blog, like Quick Links) @done(2017-11-23 13:22)
+	✔ Blog index archive @done(2017-11-23 13:22)
+	✔ Overview statistics @done(2017-11-23 13:22)
+	✔ Overview logs (user logs???) @done(2017-11-23 13:22)
+	✔ Edit reasons view and delete @done(2017-11-23 13:22)
+	✔ Lock rating @done(2017-11-23 13:22)
+	✔ Comments @done(2017-11-23 13:22)
+	✔ Close comments option @done(2017-11-23 13:22)
+	✔ Locked editing option @done(2017-11-23 13:22)
+	✔ Profile (blogs, comments) @done(2017-11-23 13:22)
+	✔ Private category @done(2017-11-23 13:22)
+	✔ Blog Preview @done(2017-11-23 13:22)
+	✔ Blog preview categories deselected @done(2017-11-23 13:22)
+	✔ Tabbing during blog add/edit (tab index) @done(2017-11-23 13:22)
+	✔ Cleaning up URL's routing even more, adding requirements and defaults @done(2017-11-23 13:22)
+	✔ Category order ID @done(2017-11-23 13:22)
+	✔ View ratings @done(2017-11-23 13:22)
+	✔ Pagination (blogs) - (NOTE: Include Approved or Unapproved in SQL) @done(2017-11-23 13:22)
+	✔ Comment username tagging (TOO HEAVY) @done(2017-11-23 13:22)
+	✔ Friends only view @done(2017-11-23 13:22)

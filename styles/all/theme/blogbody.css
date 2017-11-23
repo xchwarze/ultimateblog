@@ -1,0 +1,245 @@
+.blog-preview {
+	padding-top: 10px;
+}
+
+.blog-rating {
+    color: #ffd700;
+}
+
+.blog-body-author {
+	font-size: 1.3em;
+	text-align: center;
+}
+
+.blog-body-desc {
+	align-items: center;
+	border-top-right-radius: 7px;
+	display: flex;
+	flex-direction: column;
+	font-size: 1.7em;
+	justify-content: center;
+	padding-left: 5px;
+	padding-right: 5px;
+	text-align: center;
+}
+
+.blog-body-desc > span {
+	color: color: #242f2f;
+}
+
+.blog-body-image {
+	border-radius: 7px;
+	height: 225px;
+	margin-left: 0;
+	margin-top: 0;
+	overflow: hidden;
+}
+
+.blog-body-info {
+	border-top-left-radius: 7px;
+	font-size: 1.1em;
+	padding: 10px;
+	text-align: center;
+}
+
+.blog-body-info > dl > dt {
+	font-weight: bold;
+}
+
+.blog-body-info > dl > dd {
+	text-align: left;
+}
+
+.blog-body-info > dl > dd > a {
+	text-decoration: none;
+}
+
+.blog-body-panel {
+	padding: 0;
+}
+
+.blog-body-text {
+	font-size: 1.3em;
+	margin: 10px;
+	padding-bottom: 1px;
+}
+
+.blog-body-top {
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+	display: flex;
+	flex-flow: row wrap;
+	height: 225px;
+}
+
+.blog-body-top > * {
+	flex: 1 100%;
+}
+
+@media all and (min-width: 600px) {
+	.blog-body-info, .blog-body-image {
+		flex: 1 auto;
+	}
+}
+
+@media all and (min-width: 800px) {
+	.blog-body-desc { flex: 2 0px; }
+	.blog-body-info { order: 1; }
+	.blog-body-image { order: 2; }
+	.blog-body-desc { order: 3; }
+}
+
+.view-edits-popup {
+  display: none;
+  position:absolute;
+  font-size: 1.2em;
+  z-index: 50;
+  max-width: 400px;
+  width: 90%;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-60%, -25%);
+  transform: translate(-60%, -25%);
+  box-shadow: 0px 2px 6px rgba(0,0,0,1);
+}
+
+.view-edits-popup > div {
+	padding-left: 5px;
+	padding-top: 2px;
+	padding-right: 2px;
+}
+
+.view-edits-close-extra {
+    width:25px;
+    height:25px;
+    padding-top:4px;
+    display:inline-block;
+    position:absolute;
+    top:0px;
+    right:0px;
+    transition:ease 0.25s all;
+    -webkit-transform:translate(50%, -50%);
+    transform:translate(50%, -50%);
+    background:rgba(0,0,0,0.8);
+    font-family:Arial, Sans-Serif;
+    font-size:18px;
+    text-align:center;
+    line-height:100%;
+    color:#fff;
+}
+
+.view-edits-close-extra:hover {
+    background:rgba(0,0,0,1);
+    text-decoration:none;
+}
+
+.view-edits-delete {
+	float: right;
+}
+
+/* Wobble Horizontal & Icon Grow
+ *
+ * Courtesty of Hover.css
+ * github.com/IanLunn/Hover
+ */
+@-webkit-keyframes hvr-wobble-horizontal {
+  16.65% {
+    -webkit-transform: translateX(8px);
+    transform: translateX(8px);
+  }
+  33.3% {
+    -webkit-transform: translateX(-6px);
+    transform: translateX(-6px);
+  }
+  49.95% {
+    -webkit-transform: translateX(4px);
+    transform: translateX(4px);
+  }
+  66.6% {
+    -webkit-transform: translateX(-2px);
+    transform: translateX(-2px);
+  }
+  83.25% {
+    -webkit-transform: translateX(1px);
+    transform: translateX(1px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+@keyframes hvr-wobble-horizontal {
+  16.65% {
+    -webkit-transform: translateX(8px);
+    transform: translateX(8px);
+  }
+  33.3% {
+    -webkit-transform: translateX(-6px);
+    transform: translateX(-6px);
+  }
+  49.95% {
+    -webkit-transform: translateX(4px);
+    transform: translateX(4px);
+  }
+  66.6% {
+    -webkit-transform: translateX(-2px);
+    transform: translateX(-2px);
+  }
+  83.25% {
+    -webkit-transform: translateX(1px);
+    transform: translateX(1px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+.hvr-wobble-horizontal {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+}
+.hvr-wobble-horizontal:hover, .hvr-wobble-horizontal:focus, .hvr-wobble-horizontal:active {
+  -webkit-animation-name: hvr-wobble-horizontal;
+  animation-name: hvr-wobble-horizontal;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+}
+
+/* Icon Grow */
+.hvr-icon-grow {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  position: relative;
+  padding-right: 1.6em;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+}
+.hvr-icon-grow:before {
+  content: "\f06e";
+  position: absolute;
+  right: 0.2em;
+  padding: 0 1px;
+  font-family: FontAwesome;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+.hvr-icon-grow:hover:before, .hvr-icon-grow:focus:before, .hvr-icon-grow:active:before {
+  -webkit-transform: scale(1.3) translateZ(0);
+  transform: scale(1.3) translateZ(0);
+}
