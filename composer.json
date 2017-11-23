@@ -1,16 +1,13 @@
 {
     "name": "mrgoldy/ultimateblog",
     "type": "phpbb-extension",
-    "description": "",
-    "homepage": "",
+    "description": "The Ultimate Blog extension for phpBB 3.2",
     "version": "1.0.0-dev",
     "time": "2017-10-27",
     "license": "GPL-2.0",
     "authors": [
         {
             "name": "Mr. Goldy",
-            "email": "",
-            "homepage": "",
             "role": "Author"
         }
     ],

@@ -1,115 +1,115 @@
-<!-- INCLUDE overall_header.html -->
-<!-- INCLUDECSS @mrgoldy_ultimateblog/blogbody.css -->
-<!-- INCLUDECSS @mrgoldy_ultimateblog/blogcomments.css -->
+{% INCLUDE 'overall_header.html' %}
+{% INCLUDECSS '@mrgoldy_ultimateblog/blogbody.css' %}
+{% INCLUDECSS '@mrgoldy_ultimateblog/blogcomments.css' %}
 
-<!-- IF S_BLOG_RATING_ENABLED and S_BLOG_RATING_CAN -->
+{% if S_BLOG_RATING_ENABLED and S_BLOG_RATING_CAN %}
 	<script>
 			var blogRatingURL = '{{ U_BLOG_RATING | escape('js') }}';
 	</script>
-<!-- ENDIF -->
+{% endif %}
 
-<!-- IF S_ULTIMATEBLOG_ENABLED and S_UB_ANNOUNCEMENT_ENABLED --><!-- INCLUDE @mrgoldy_ultimateblog/ub_announcement.html --><!-- ENDIF -->
+{% if S_ULTIMATEBLOG_ENABLED and S_UB_ANNOUNCEMENT_ENABLED %}{% INCLUDE '@mrgoldy_ultimateblog/ub_announcement.html' %}{% endif %}
 
 
-<!-- IF S_BLOG_CAN_DELETE -->
-	<a href="{U_BLOG_DELETE}" style="float: right;" class="button" title="{L_BLOG_DELETE}">
-		<span>{L_BLOG_DELETE}</span> <i class="icon fa-trash-o fa-fw" aria-hidden="true"></i>
+{% if S_BLOG_CAN_DELETE %}
+	<a href="{{ U_BLOG_DELETE }}" style="float: right;" class="button" title="{{ lang('BLOG_DELETE') }}">
+		<span>{{ lang('BLOG_DELETE') }}</span> <i class="icon fa-trash-o fa-fw" aria-hidden="true"></i>
 	</a>
-<!-- ENDIF -->
-<!-- IF (S_BLOG_CAN_EDIT_USER and not S_BLOG_EDIT_LOCKED) or S_BLOG_CAN_EDIT_MOD -->
-	<a href="{U_BLOG_EDIT}" style="float: right;" class="button" title="{L_BLOG_EDIT}">
-		<span>{L_BLOG_EDIT}</span> <i class="icon fa-pencil fa-fw" aria-hidden="true"></i>
+{% endif %}
+{% if (S_BLOG_CAN_EDIT_USER and not S_BLOG_EDIT_LOCKED) or S_BLOG_CAN_EDIT_MOD %}
+	<a href="{{ U_BLOG_EDIT }}" style="float: right;" class="button" title="{{ lang('BLOG_EDIT') }}">
+		<span>{{ lang('BLOG_EDIT') }}</span> <i class="icon fa-pencil fa-fw" aria-hidden="true"></i>
 	</a>
-<!-- ENDIF -->
-<!-- IF S_BLOG_CAN_REPORT -->
-	<a href="{U_BLOG_REPORT}" style="float: right;" class="button" title="{L_BLOG_REPORT_BLOG}">
-		<span>{L_BLOG_REPORT_BLOG}</span> <i class="icon fa-exclamation fa-fw" aria-hidden="true"></i>
+{% endif %}
+{% if S_BLOG_CAN_REPORT %}
+	<a href="{{ U_BLOG_REPORT }}" style="float: right;" class="button" title="{{ lang('BLOG_REPORT_BLOG') }}">
+		<span>{{ lang('BLOG_REPORT_BLOG') }}</span> <i class="icon fa-exclamation fa-fw" aria-hidden="true"></i>
 	</a>
-<!-- ENDIF -->
+{% endif %}
 
-<input id="blog_id" hidden="hidden" value="{BLOG_ID}"/>
+<input id="blog_id" hidden="hidden" value="{{ BLOG_ID }}"/>
 
 <div itemscope itemtype="http://schema.org/BlogPosting">
-	<h2 id="blog_title" itemprop="headline">{BLOG_TITLE}</h2>
+	<h2 id="blog_title" itemprop="headline">{{ BLOG_TITLE }}</h2>
 
-	<div class="panel post blog-body-panel<!-- IF (S_BLOG_REPORTED and S_BLOG_MOD_REPORT) or (S_BLOG_UNAPPROVED and S_BLOG_MOD_APPROVE) --> reported<!-- ENDIF --> bg1">
+	<div class="panel post blog-body-panel{% if (S_BLOG_REPORTED and S_BLOG_MOD_REPORT) or (S_BLOG_UNAPPROVED and S_BLOG_MOD_APPROVE) %} reported{% endif %} bg1">
 		<div class="blog-body-top bg3">
-			<div class="blog-body-image"><img src="{BLOG_IMAGE}" alt="{BLOG_TITLE}" title="{BLOG_TITLE}" width="350" height="225" /></div>
+			<div class="blog-body-image"><img src="{{ BLOG_IMAGE }}" alt="{{ BLOG_TITLE }}" title="{{ BLOG_TITLE }}" width="350" height="225" /></div>
 			<div class="blog-body-info">
-				<span class="blog-body-author" itemprop="author">{AUTHOR_FULL}</span>
+				<span class="blog-body-author" itemprop="author">{{ AUTHOR_FULL }}</span>
 				<hr>
 				<dl class="details">
-					<dt>{L_BLOG_POSTED_ON}{L_COLON}</dt><dd itemprop="dateCreated">{BLOG_DATE}</dd>
-					<!-- IF BLOG_EDITS --><dt>{L_BLOG_EDIT_TOTAL}{L_COLON}</dt><dd>{BLOG_EDITS} ( <a href="" id="view_edits" class="hvr-icon-grow">{L_BLOG_EDIT_VIEW}</a>)</dd><!-- ENDIF -->
-					<dt>{L_BLOG_COMMENTS}{L_COLON}</dt><dd itemprop="commentCount">{COMMENTS_COUNT}</dd>
-					<!-- IF S_BLOG_RATING_ENABLED -->
-						<!-- IF S_BLOG_RATING_CAN and not S_BLOG_RATING_LOCKED --><dt>{L_BLOG_RATING_YOUR}{L_COLON}</dt><dd><a class="blog-rating" id="star-appearance" rel="score-appearance" style="text-decoration: none;"<!-- IF BLOG_USER_RATING --> data-score="{BLOG_USER_RATING}"<!-- ENDIF --> data-ajax="true"></a></dd><!-- ENDIF -->
-						<!-- IF not S_BLOG_RATING_LOCKED -->
-							<dt>{L_BLOG_RATING_AVG}{L_COLON}</dt><dd><!-- IF BLOG_RATING --><span itemscope itemtype="AggregateRating"><span itemprop="ratingValue">{BLOG_RATING}</span> <em>({BLOG_RATING_COUNT})</em></span><!-- ELSE --><span>{L_BLOG_RATING_NONE}</span><!-- ENDIF --></dd>
-						<!-- ELSE -->
-							<!-- IF BLOG_RATING --><dt>{L_BLOG_RATING_AVG}{L_COLON}</dt><dd><span itemscope itemtype="AggregateRating"><span itemprop="ratingValue">{BLOG_RATING}</span> <em>({BLOG_RATING_COUNT})</em></span></dd><!-- ENDIF -->
-						<!-- ENDIF -->
-					<!-- ENDIF -->
-					<dt>{L_BLOG_VIEWS}{L_COLON}</dt><dd>{BLOG_VIEWS}</dd>
-					<dt>{L_BLOG_CATEGORIES}{L_COLON}</dt>
+					<dt>{{ lang('BLOG_POSTED_ON') }}{{ lang('COLON') }}</dt><dd itemprop="dateCreated">{{ BLOG_DATE }}</dd>
+					{% if BLOG_EDITS %}<dt>{{ lang('BLOG_EDIT_TOTAL') }}{{ lang('COLON') }}</dt><dd>{{ BLOG_EDITS }} ( <a href="" id="view_edits" class="hvr-icon-grow">{{ lang('BLOG_EDIT_VIEW') }}</a>)</dd>{% endif %}
+					<dt>{{ lang('BLOG_COMMENTS') }}{{ lang('COLON') }}</dt><dd itemprop="commentCount">{{ COMMENTS_COUNT }}</dd>
+					{% if S_BLOG_RATING_ENABLED %}
+						{% if S_BLOG_RATING_CAN and not S_BLOG_RATING_LOCKED %}<dt>{{ lang('BLOG_RATING_YOUR') }}{{ lang('COLON') }}</dt><dd><a class="blog-rating" id="star-appearance" rel="score-appearance" style="text-decoration: none;"{% if BLOG_USER_RATING %} data-score="{{ BLOG_USER_RATING }}"{% endif %} data-ajax="true"></a></dd>{% endif %}
+						{% if not S_BLOG_RATING_LOCKED %}
+							<dt>{{ lang('BLOG_RATING_AVG') }}{{ lang('COLON') }}</dt><dd>{% if BLOG_RATING %}<span itemscope itemtype="AggregateRating"><span itemprop="ratingValue">{{ BLOG_RATING }}</span> <em>({{ BLOG_RATING_COUNT }})</em></span>{% else %}<span>{{ lang('BLOG_RATING_NONE') }}</span>{% endif %}</dd>
+						{% else %}
+							{% if BLOG_RATING %}<dt>{{ lang('BLOG_RATING_AVG') }}{{ lang('COLON') }}</dt><dd><span itemscope itemtype="AggregateRating"><span itemprop="ratingValue">{{ BLOG_RATING }}</span> <em>({{ BLOG_RATING_COUNT }})</em></span></dd>{% endif %}
+						{% endif %}
+					{% endif %}
+					<dt>{{ lang('BLOG_VIEWS') }}{{ lang('COLON') }}</dt><dd>{{ BLOG_VIEWS }}</dd>
+					<dt>{{ lang('BLOG_CATEGORIES') }}{{ lang('COLON') }}</dt>
 					<dd>
-						<!-- BEGIN blog_categories -->
-							<a class="hvr-wobble-horizontal" href="{blog_categories.U_CATEGORY}"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i> <span itemprop="articleSection">{blog_categories.CATEGORY_NAME}</span></a>
-							<!-- IF not blog_categories.IS_LAST_ROW --><br><!-- ENDIF -->
-						<!-- END blog_categories -->
+						{% for blog_categories in loops.blog_categories %}
+							<a class="hvr-wobble-horizontal" href="{{ blog_categories.U_CATEGORY }}"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i> <span itemprop="articleSection">{{ blog_categories.CATEGORY_NAME }}</span></a>
+							{% if not blog_categories.IS_LAST_ROW %}<br>{% endif %}
+						{% endfor %}
 					</dd>
 				</dl>
 			</div>
-			<div class="blog-body-desc"><h2 itemprop="headline">{BLOG_TITLE}</h2><span>“{BLOG_DESCRIPTION}”</span></div>
+			<div class="blog-body-desc"><h2 itemprop="headline">{{ BLOG_TITLE }}</h2><span>“{{ BLOG_DESCRIPTION }}”</span></div>
 		</div>
 		<div class="blog-body-text">
-			<!-- IF (S_BLOG_REPORTED and S_BLOG_MOD_REPORT) or (S_BLOG_UNAPPROVED and S_BLOG_MOD_APPROVE) --><p class="post-notice reported"><i class="icon fa-exclamation fa-fw icon-red" aria-hidden="true"></i><strong><!-- IF S_BLOG_REPORTED -->{L_BLOG_REPORTED} <a href="{U_BLOG_VIEW_REPORT}">{L_POST_REPORTED}</a><!-- ELSE -->{L_POST_UNAPPROVED}<!-- ENDIF --></strong></p><!-- ENDIF -->
-			<p itemprop="articleBody">{BLOG_TEXT}</p>
+			{% if (S_BLOG_REPORTED and S_BLOG_MOD_REPORT) or (S_BLOG_UNAPPROVED and S_BLOG_MOD_APPROVE) %}<p class="post-notice reported"><i class="icon fa-exclamation fa-fw icon-red" aria-hidden="true"></i><strong>{% if S_BLOG_REPORTED %}{{ lang('BLOG_REPORTED') }} <a href="{{ U_BLOG_VIEW_REPORT }}">{{ lang('POST_REPORTED') }}</a>{% else %}{{ lang('POST_UNAPPROVED') }}{% endif %}</strong></p>{% endif %}
+			<p itemprop="articleBody">{{ BLOG_TEXT }}</p>
 		</div>
 	</div>
 
-	<!-- IF BLOG_EDITS and (S_BLOG_CAN_EDIT_VIEW or S_BLOG_CAN_EDIT_DELETE) -->
+	{% if BLOG_EDITS and (S_BLOG_CAN_EDIT_VIEW or S_BLOG_CAN_EDIT_DELETE) %}
 		<div class="panel view-edits-popup pop">
-			<h3>{L_BLOG_EDIT_REASONS}</h3>
-			<!-- BEGIN edit_reasons -->
-				<div class="<!-- IF edit_reasons.S_ROW_COUNT is odd -->bg2<!-- ELSE -->bg3<!-- ENDIF -->">
-					<a href="{edit_reasons.U_EDIT_DELETE}" title="{L_BLOG_EDIT_DELETE}" class="button button-icon-only view-edits-delete"><i class="icon fa-trash-o fa-fw" aria-hidden="true"></i><span class="sr-only">{L_BLOG_EDIT_DELETE}</span></a>
-					{edit_reasons.USER} {L_BLOG_EDITED_ON} {edit_reasons.TIME}<br>
-					{edit_reasons.TEXT}
+			<h3>{{ lang('BLOG_EDIT_REASONS') }}</h3>
+			{% for edit_reasons in loops.edit_reasons %}
+				<div class="{% if edit_reasons.S_ROW_COUNT is odd %}bg2{% else %}bg3{% endif %}">
+					<a href="{{ edit_reasons.U_EDIT_DELETE }}" title="{{ lang('BLOG_EDIT_DELETE') }}" class="button button-icon-only view-edits-delete"><i class="icon fa-trash-o fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('BLOG_EDIT_DELETE') }}</span></a>
+					{{ edit_reasons.USER }} {{ lang('BLOG_EDITED_ON') }} {{ edit_reasons.TIME }}<br>
+					{{ edit_reasons.TEXT }}
 					<hr>
 				</div>
-			<!-- END edit_reasons -->
+			{% endfor %}
 			<a class="view-icons-close view-edits-close-extra" href="">&times;</a>
 		</div>
-	<!-- ENDIF -->
+	{% endif %}
 </div>
 
-<!-- IF not S_IS_BOT and S_COMMENTS_ENABLED and S_COMMENTS_CAN_VIEW --><!-- INCLUDE @mrgoldy_ultimateblog/ub_blog_comments.html --><!-- ENDIF -->
+{% if not S_IS_BOT and S_COMMENTS_ENABLED and S_COMMENTS_CAN_VIEW %}{% INCLUDE '@mrgoldy_ultimateblog/ub_blog_comments.html' %}{% endif %}
 
-<div class="dropdown-container dropdown-container-left dropdown-up dropdown-{S_CONTENT_FLOW_END} dropdown-button-control">
-	<span title="{L_BLOG_VIEW_PERMISSIONS}" class="button button-secondary dropdown-trigger dropdown-select">
+<div class="dropdown-container dropdown-container-left dropdown-up dropdown-{{ S_CONTENT_FLOW_END }} dropdown-button-control">
+	<span title="{{ lang('BLOG_VIEW_PERMISSIONS') }}" class="button button-secondary dropdown-trigger dropdown-select">
 		<i class="icon fa-gavel fa-fw" aria-hidden="true"></i>
-		<span class="sr-only">{L_BLOG_VIEW_PERMISSIONS}</span>
+		<span class="sr-only">{{ lang('BLOG_VIEW_PERMISSIONS') }}</span>
 		<span class="caret"><i class="icon fa-sort-down fa-fw" aria-hidden="true"></i></span>
 	</span>
 	<div class="dropdown">
 		<div class="pointer"><div class="pointer-inner"></div></div>
 		<ul class="dropdown-contents">
-			<li><!-- IF S_BLOG_CAN_EDIT_PERM -->{L_BLOG_PERM_EDIT_CAN}<!-- ELSE -->{L_BLOG_PERM_EDIT_NOT}<!-- ENDIF --></li>
-			<li><!-- IF S_BLOG_CAN_DELETE_PERM -->{L_BLOG_PERM_DELETE_CAN}<!-- ELSE -->{L_BLOG_PERM_DELETE_NOT}<!-- ENDIF --></li>
-			<!-- IF S_COMMENTS_ENABLED -->
-				<li><!-- IF S_COMMENTS_CAN_POST and not S_COMMENTS_LOCKED-->{L_BLOG_PERM_COMMENT_CAN}<!-- ELSE -->{L_BLOG_PERM_COMMENT_NOT}<!-- ENDIF --></li>
-				<li><!-- IF S_COMMENT_CAN_VIEW -->{L_BLOG_PERM_COMMENT_VIEW_CAN}<!-- ELSE -->{L_BLOG_PERM_COMMENT_VIEW_NOT}<!-- ENDIF --></li>
-			<!-- ENDIF -->
-			<li><!-- IF S_BLOG_CAN_EDIT_VIEW -->{L_BLOG_PERM_EDIT_VIEW_CAN}<!-- ELSE -->{L_BLOG_PERM_EDIT_VIEW_NOT}<!-- ENDIF --></li>
-			<!-- IF S_BLOG_RATING_ENABLED -->
-				<li><!-- IF not S_BLOG_RATING_LOCKED and S_BLOG_RATING_CAN -->{L_BLOG_PERM_RATE_CAN}<!-- ELSE -->{L_BLOG_PERM_RATE_NOT}<!-- ENDIF --></li>
-			<!-- ENDIF -->
+			<li>{% if S_BLOG_CAN_EDIT_PERM %}{{ lang('BLOG_PERM_EDIT_CAN') }}{% else %}{{ lang('BLOG_PERM_EDIT_NOT') }}{% endif %}</li>
+			<li>{% if S_BLOG_CAN_DELETE_PERM %}{{ lang('BLOG_PERM_DELETE_CAN') }}{% else %}{{ lang('BLOG_PERM_DELETE_NOT') }}{% endif %}</li>
+			{% if S_COMMENTS_ENABLED %}
+				<li>{% if S_COMMENTS_CAN_POST and not S_COMMENTS_LOCKED%}{{ lang('BLOG_PERM_COMMENT_CAN') }}{% else %}{{ lang('BLOG_PERM_COMMENT_NOT') }}{% endif %}</li>
+				<li>{% if S_COMMENT_CAN_VIEW %}{{ lang('BLOG_PERM_COMMENT_VIEW_CAN') }}{% else %}{{ lang('BLOG_PERM_COMMENT_VIEW_NOT') }}{% endif %}</li>
+			{% endif %}
+			<li>{% if S_BLOG_CAN_EDIT_VIEW %}{{ lang('BLOG_PERM_EDIT_VIEW_CAN') }}{% else %}{{ lang('BLOG_PERM_EDIT_VIEW_NOT') }}{% endif %}</li>
+			{% if S_BLOG_RATING_ENABLED %}
+				<li>{% if not S_BLOG_RATING_LOCKED and S_BLOG_RATING_CAN %}{{ lang('BLOG_PERM_RATE_CAN') }}{% else %}{{ lang('BLOG_PERM_RATE_NOT') }}{% endif %}</li>
+			{% endif %}
 		</ul>
 	</div>
 </div>
 <div class="action-bar top"></div>
 
-<!-- INCLUDEJS @mrgoldy_ultimateblog/js/ultimateblog.js -->
-<!-- IF S_BLOG_RATING_ENABLED and S_BLOG_RATING_CAN --><!-- INCLUDEJS @mrgoldy_ultimateblog/js/raty.js --><!-- ENDIF -->
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDEJS '@mrgoldy_ultimateblog/js/ultimateblog.js' %}
+{% if S_BLOG_RATING_ENABLED and S_BLOG_RATING_CAN %}{% INCLUDEJS '@mrgoldy_ultimateblog/js/raty.js' %}{% endif %}
+{% INCLUDE 'overall_footer.html' %}

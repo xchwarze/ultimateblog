@@ -1,177 +1,177 @@
-<!-- INCLUDE overall_header.html -->
-<!-- INCLUDECSS @mrgoldy_ultimateblog/ultimateblog.css -->
+{% INCLUDE 'overall_header.html' %}
+{% INCLUDECSS '@mrgoldy_ultimateblog/ultimateblog.css' %}
 
-<h1>{L_ACP_UB_OVERVIEW}</h1>
+<h1>{{ lang('ACP_UB_OVERVIEW') }}</h1>
 
-<p>{L_ACP_UB_OVERVIEW_EXPLAIN}</p>
+<p>{{ lang('ACP_UB_OVERVIEW_EXPLAIN') }}</p>
 
 
 <table class="table1 two-columns no-header" data-no-responsive-header="true">
-		<caption>{L_ACP_UB_STATISTICS}</caption>
+		<caption>{{ lang('ACP_UB_STATISTICS') }}</caption>
 		<col class="col1" /><col class="col2" /><col class="col1" /><col class="col2" />
 	<thead>
 		<tr>
-			<th>{L_STATISTIC}</th>
-			<th>{L_VALUE}</th>
-			<th>{L_STATISTIC}</th>
-			<th>{L_VALUE}</th>
+			<th>{{ lang('STATISTIC') }}</th>
+			<th>{{ lang('VALUE') }}</th>
+			<th>{{ lang('STATISTIC') }}</th>
+			<th>{{ lang('VALUE') }}</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td>Start date{L_COLON} </td>
-			<td><strong>{UB_START_DATE}</strong></td>
-			<td>User with most blogs{L_COLON} </td>
-			<td><strong>{USER_MOST_BLOGS} ({USER_MOST_BLOGS_COUNT})</strong></td>
+			<td>Start date{{ lang('COLON') }} </td>
+			<td><strong>{{ UB_START_DATE }}</strong></td>
+			<td>User with most blogs{{ lang('COLON') }} </td>
+			<td><strong>{{ USER_MOST_BLOGS }} ({{ USER_MOST_BLOGS_COUNT }})</strong></td>
 		</tr>
 		<tr>
-			<td>Uptime{L_COLON} </td>
-			<td><strong>{UB_UPTIME}</strong></td>
-			<td>User with most comments{L_COLON} </td>
-			<td><strong>{USER_MOST_COMMENTS} ({USER_MOST_COMMENTS_COUNT})</strong></td>
+			<td>Uptime{{ lang('COLON') }} </td>
+			<td><strong>{{ UB_UPTIME }}</strong></td>
+			<td>User with most comments{{ lang('COLON') }} </td>
+			<td><strong>{{ USER_MOST_COMMENTS }} ({{ USER_MOST_COMMENTS_COUNT }})</strong></td>
 		</tr>
 		<tr>
-			<td>Number of blogs{L_COLON} </td>
-			<td><strong>{BLOG_COUNT}</strong></td>
-			<td>Blog with most comments{L_COLON} </td>
-			<td><strong>{BLOG_MOST_COMMENTS_AUTHOR}'s {BLOG_MOST_COMMENTS_TITLE} ({BLOG_MOST_COMMENTS_COUNT})</strong></td>
+			<td>Number of blogs{{ lang('COLON') }} </td>
+			<td><strong>{{ BLOG_COUNT }}</strong></td>
+			<td>Blog with most comments{{ lang('COLON') }} </td>
+			<td><strong>{{ BLOG_MOST_COMMENTS_AUTHOR }}'s {{ BLOG_MOST_COMMENTS_TITLE }} ({{ BLOG_MOST_COMMENTS_COUNT }})</strong></td>
 		</tr>
 		<tr>
-			<td>Number of categories{L_COLON} </td>
-			<td><strong>{CATEGORY_COUNT}</strong></td>
-			<td>Blog with most views{L_COLON} </td>
-			<td><strong>{BLOG_MOST_VIEWS_AUTHOR}'s {BLOG_MOST_VIEWS_TITLE} ({BLOG_MOST_VIEWS_COUNT})</strong></td>
+			<td>Number of categories{{ lang('COLON') }} </td>
+			<td><strong>{{ CATEGORY_COUNT }}</strong></td>
+			<td>Blog with most views{{ lang('COLON') }} </td>
+			<td><strong>{{ BLOG_MOST_VIEWS_AUTHOR }}'s {{ BLOG_MOST_VIEWS_TITLE }} ({{ BLOG_MOST_VIEWS_COUNT }})</strong></td>
 		</tr>
 		<tr>
-			<td>Number of comments{L_COLON} </td>
-			<td><strong>{COMMENT_COUNT}</strong></td>
-			<td>Blog with best rating{L_COLON} </td>
-			<td><strong><!-- IF BLOG_BEST_RATING_TITLE -->{BLOG_BEST_RATING_AUTHOR}'s {BLOG_BEST_RATING_TITLE} ({BLOG_BEST_RATING_RATING})<!-- ELSE -->-<!-- ENDIF --></strong></td>
+			<td>Number of comments{{ lang('COLON') }} </td>
+			<td><strong>{{ COMMENT_COUNT }}</strong></td>
+			<td>Blog with best rating{{ lang('COLON') }} </td>
+			<td><strong>{% if BLOG_BEST_RATING_TITLE %}{{ BLOG_BEST_RATING_AUTHOR }}'s {{ BLOG_BEST_RATING_TITLE }} ({{ BLOG_BEST_RATING_RATING }}){% else %}-{% endif %}</strong></td>
 		</tr>
 		<tr>
-			<td>Number of blog views{L_COLON} </td>
-			<td><strong>{BLOG_VIEWS}</strong></td>
-			<td>Blog with worst rating{L_COLON} </td>
-			<td><strong><!-- IF BLOG_WORST_RATING_TITLE -->{BLOG_WORST_RATING_AUTHOR}'s {BLOG_WORST_RATING_TITLE} ({BLOG_WORST_RATING_RATING})<!-- ELSE -->-<!-- ENDIF --></strong></td>
+			<td>Number of blog views{{ lang('COLON') }} </td>
+			<td><strong>{{ BLOG_VIEWS }}</strong></td>
+			<td>Blog with worst rating{{ lang('COLON') }} </td>
+			<td><strong>{% if BLOG_WORST_RATING_TITLE %}{{ BLOG_WORST_RATING_AUTHOR }}'s {{ BLOG_WORST_RATING_TITLE }} ({{ BLOG_WORST_RATING_RATING }}){% else %}-{% endif %}</strong></td>
 		</tr>
 		<tr>
-			<td>Blogs per day{L_COLON} </td>
-			<td><strong>{BLOGS_PER_DAY}</strong></td>
+			<td>Blogs per day{{ lang('COLON') }} </td>
+			<td><strong>{{ BLOGS_PER_DAY }}</strong></td>
 			<td></td><td></td>
 		</tr>
 		<tr>
-			<td>Comments per day{L_COLON} </td>
-			<td><strong>{COMMENTS_PER_DAY}</strong></td>
+			<td>Comments per day{{ lang('COLON') }} </td>
+			<td><strong>{{ COMMENTS_PER_DAY }}</strong></td>
 			<td></td><td></td>
 		</tr>
 	</tbody>
 </table>
 
 <table class="table1 zebra-table fixed-width-table">
-	<caption>{L_ACP_USERS_LOGS} </caption>
+	<caption>{{ lang('ACP_USERS_LOGS') }} </caption>
 	<thead>
 	<tr>
-		<th style="width: 15%;">{L_USERNAME}</th>
-		<th style="width: 15%;">{L_IP}</th>
-		<th style="width: 20%;">{L_TIME}</th>
-		<th>{L_ACTION}</th>
+		<th style="width: 15%;">{{ lang('USERNAME') }}</th>
+		<th style="width: 15%;">{{ lang('IP') }}</th>
+		<th style="width: 20%;">{{ lang('TIME') }}</th>
+		<th>{{ lang('ACTION') }}</th>
 	</tr>
 	</thead>
 	<tbody>
-	<!-- IF .user_log -->
-		<!-- BEGIN user_log -->
+	{% if loops.user_log|length %}
+		{% for user_log in loops.user_log %}
 			<tr>
 				<td>
-					{user_log.USERNAME}
-					<!-- IF user_log.REPORTEE_USERNAME -->
-					<br />&raquo; {user_log.REPORTEE_USERNAME}
-					<!-- ENDIF -->
+					{{ user_log.USERNAME }}
+					{% if user_log.REPORTEE_USERNAME %}
+					<br />&raquo; {{ user_log.REPORTEE_USERNAME }}
+					{% endif %}
 				</td>
-				<td style="text-align: center;">{user_log.IP}</td>
-				<td style="text-align: center;">{user_log.DATE}</td>
-				<td>{user_log.ACTION}</td>
+				<td style="text-align: center;">{{ user_log.IP }}</td>
+				<td style="text-align: center;">{{ user_log.DATE }}</td>
+				<td>{{ user_log.ACTION }}</td>
 			</tr>
-		<!-- END user_log -->
-			<thead><tr><th colspan="4" class="ub-log-row"><span class="ub-log-link"><a href="{U_UB_LOG_USER}">&raquo; {L_ALL_ENTRIES}</a></span></th></tr><thead>
-	<!-- ELSE -->
+		{% endfor %}
+			<thead><tr><th colspan="4" class="ub-log-row"><span class="ub-log-link"><a href="{{ U_UB_LOG_USER }}">&raquo; {{ lang('ALL_ENTRIES') }}</a></span></th></tr><thead>
+	{% else %}
 		<tr><td colspan="4"><div class="errorbox">
-			<p>{L_NO_ENTRIES}</p>
+			<p>{{ lang('NO_ENTRIES') }}</p>
 		</div></td></tr>
-	<!-- ENDIF -->
+	{% endif %}
 	</tbody>
 </table>
 
 
 
 <table class="table1 zebra-table fixed-width-table">
-	<caption>{L_ACP_MOD_LOGS}</caption>
+	<caption>{{ lang('ACP_MOD_LOGS') }}</caption>
 	<thead>
 	<tr>
-		<th style="width: 15%;">{L_USERNAME}</th>
-		<th style="width: 15%;">{L_IP}</th>
-		<th style="width: 20%;">{L_TIME}</th>
-		<th>{L_ACTION}</th>
+		<th style="width: 15%;">{{ lang('USERNAME') }}</th>
+		<th style="width: 15%;">{{ lang('IP') }}</th>
+		<th style="width: 20%;">{{ lang('TIME') }}</th>
+		<th>{{ lang('ACTION') }}</th>
 	</tr>
 	</thead>
 	<tbody>
-	<!-- IF .mod_log -->
-		<!-- BEGIN mod_log -->
+	{% if loops.mod_log|length %}
+		{% for mod_log in loops.mod_log %}
 			<tr>
 				<td>
-					{mod_log.USERNAME}
-					<!-- IF log.REPORTEE_USERNAME -->
-					<br />&raquo; {mod_log.REPORTEE_USERNAME}
-					<!-- ENDIF -->
+					{{ mod_log.USERNAME }}
+					{% if log.REPORTEE_USERNAME %}
+					<br />&raquo; {{ mod_log.REPORTEE_USERNAME }}
+					{% endif %}
 				</td>
-				<td style="text-align: center;">{mod_log.IP}</td>
-				<td style="text-align: center;">{mod_log.DATE}</td>
-				<td>{mod_log.ACTION}</td>
+				<td style="text-align: center;">{{ mod_log.IP }}</td>
+				<td style="text-align: center;">{{ mod_log.DATE }}</td>
+				<td>{{ mod_log.ACTION }}</td>
 			</tr>
-		<!-- END mod_log -->
-		<thead><tr><th colspan="4" class="ub-log-row"><span class="ub-log-link"><a href="{U_UB_LOG_MOD}">&raquo; {L_ALL_ENTRIES}</a></span></th></tr><thead>
-	<!-- ELSE -->
+		{% endfor %}
+		<thead><tr><th colspan="4" class="ub-log-row"><span class="ub-log-link"><a href="{{ U_UB_LOG_MOD }}">&raquo; {{ lang('ALL_ENTRIES') }}</a></span></th></tr><thead>
+	{% else %}
 		<tr><td colspan="4"><div class="errorbox">
-			<p>{L_NO_ENTRIES}</p>
+			<p>{{ lang('NO_ENTRIES') }}</p>
 		</div></td></tr>
-	<!-- ENDIF -->
+	{% endif %}
 	</tbody>
 </table>
 
 
 
 <table class="table1 zebra-table fixed-width-table">
-	<caption>{L_ACP_ADMIN_LOGS}</caption>
+	<caption>{{ lang('ACP_ADMIN_LOGS') }}</caption>
 	<thead>
 	<tr>
-		<th style="width: 15%;">{L_USERNAME}</th>
-		<th style="width: 15%;">{L_IP}</th>
-		<th style="width: 20%;">{L_TIME}</th>
-		<th>{L_ACTION}</th>
+		<th style="width: 15%;">{{ lang('USERNAME') }}</th>
+		<th style="width: 15%;">{{ lang('IP') }}</th>
+		<th style="width: 20%;">{{ lang('TIME') }}</th>
+		<th>{{ lang('ACTION') }}</th>
 	</tr>
 	</thead>
 	<tbody>
-	<!-- IF .admin_log -->
-		<!-- BEGIN admin_log -->
+	{% if loops.admin_log|length %}
+		{% for admin_log in loops.admin_log %}
 			<tr>
 				<td>
-					{admin_log.USERNAME}
-					<!-- IF log.REPORTEE_USERNAME -->
-					<br />&raquo; {admin_log.REPORTEE_USERNAME}
-					<!-- ENDIF -->
+					{{ admin_log.USERNAME }}
+					{% if log.REPORTEE_USERNAME %}
+					<br />&raquo; {{ admin_log.REPORTEE_USERNAME }}
+					{% endif %}
 				</td>
-				<td style="text-align: center;">{admin_log.IP}</td>
-				<td style="text-align: center;">{admin_log.DATE}</td>
-				<td>{admin_log.ACTION}</td>
+				<td style="text-align: center;">{{ admin_log.IP }}</td>
+				<td style="text-align: center;">{{ admin_log.DATE }}</td>
+				<td>{{ admin_log.ACTION }}</td>
 
 			</tr>
-		<!-- END admin_log -->
-		<thead><tr><th colspan="4" class="ub-log-row"><span class="ub-log-link"><a href="{U_UB_LOG_ADMIN}">&raquo; {L_ALL_ENTRIES}</a></span></th></tr><thead>
-	<!-- ELSE -->
+		{% endfor %}
+		<thead><tr><th colspan="4" class="ub-log-row"><span class="ub-log-link"><a href="{{ U_UB_LOG_ADMIN }}">&raquo; {{ lang('ALL_ENTRIES') }}</a></span></th></tr><thead>
+	{% else %}
 		<tr><td colspan="4"><div class="errorbox">
-			<p>{L_NO_ENTRIES}</p>
+			<p>{{ lang('NO_ENTRIES') }}</p>
 		</div></td></tr>
-	<!-- ENDIF -->
+	{% endif %}
 	</tbody>
 </table>
 
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'overall_footer.html' %}

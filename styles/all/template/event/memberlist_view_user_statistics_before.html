@@ -1,3 +1,3 @@
-<!-- IF UB_BLOG_COUNT and S_ULTIMATEBLOG_ENABLED -->
-	<dt>{L_BLOGS_TOTAL}{L_COLON}</dt> <dd>{UB_BLOG_COUNT} | <a href="{U_UB_USER_BLOG_POSTS}">{L_BLOGS_TOTAL_SEARCH}</a></dd>
-<!-- ENDIF -->
+{% if UB_BLOG_COUNT and S_ULTIMATEBLOG_ENABLED %}
+	<dt>{{ lang('BLOGS_TOTAL') }}{{ lang('COLON') }}</dt> <dd>{{ UB_BLOG_COUNT }} | <a href="{{ U_UB_USER_BLOG_POSTS }}">{{ lang('BLOGS_TOTAL_SEARCH') }}</a></dd>
+{% endif %}

@@ -1,37 +1,37 @@
-<!-- INCLUDE overall_header.html -->
+{% INCLUDE 'overall_header.html' %}
 
-<!-- INCLUDECSS @mrgoldy_ultimateblog/bloglist.css -->
-<!-- INCLUDECSS @mrgoldy_ultimateblog/menu.css -->
+{% INCLUDECSS '@mrgoldy_ultimateblog/bloglist.css' %}
+{% INCLUDECSS '@mrgoldy_ultimateblog/menu.css' %}
 
-<!-- IF S_ULTIMATEBLOG_ENABLED and S_UB_ANNOUNCEMENT_ENABLED --><!-- INCLUDE @mrgoldy_ultimateblog/ub_announcement.html --><!-- ENDIF -->
+{% if S_ULTIMATEBLOG_ENABLED and S_UB_ANNOUNCEMENT_ENABLED %}{% INCLUDE '@mrgoldy_ultimateblog/ub_announcement.html' %}{% endif %}
 
 <div class="ub-menu-parent">
-	<a href="{U_BLOG_INDEX}" class="ub-menu-index" style="text-decoration: none; color: #fff;"><i class="fa fa-home fa-2x"></i></a>
-	<a href="{U_BLOG_CATEGORIES}" class="ub-menu-categories" style="text-decoration: none; color: #fff;"><i class="fa fa-tags fa-2x"></i></a>
-	<a href="{U_BLOG_ARCHIVE}" class="ub-menu-archive" style="text-decoration: none; color: #fff;"><i class="fa fa-archive fa-2x"></i></a>
+	<a href="{{ U_BLOG_INDEX }}" class="ub-menu-index" style="text-decoration: none; color: #fff;"><i class="fa fa-home fa-2x"></i></a>
+	<a href="{{ U_BLOG_CATEGORIES }}" class="ub-menu-categories" style="text-decoration: none; color: #fff;"><i class="fa fa-tags fa-2x"></i></a>
+	<a href="{{ U_BLOG_ARCHIVE }}" class="ub-menu-archive" style="text-decoration: none; color: #fff;"><i class="fa fa-archive fa-2x"></i></a>
 	<div class="ub-menu-button"><i class="fa fa-home fa-3x"></i></div>
 </div>
 
 <div class="ub-title-parent">
-	<h2>{ULTIMATEBLOG_TITLE} <i class="fa fa-angle-double-right"></i> {L_BLOG_CATEGORIES}</h2>
-	{L_BLOG_CATEGORIES_DESCRIPTION}
+	<h2>{{ ULTIMATEBLOG_TITLE }} <i class="fa fa-angle-double-right"></i> {{ lang('BLOG_CATEGORIES') }}</h2>
+	{{ lang('BLOG_CATEGORIES_DESCRIPTION') }}
 </div>
 
 <div class="blog-container">
-	<!-- BEGIN categories -->
+	{% for categories in loops.categories %}
 		<div class="panel blog-panel bg1 hvr-float-shadow">
-			<div class="blog-image"><a href="{categories.U_CATEGORY}" title="{L_BLOG_CATEGORIES_GO}"><img src="{categories.IMG}" alt="{categories.NAME}" height="225" width="350" /></a></div>
-			<a class="blog-title" href="{categories.U_CATEGORY}" title="{L_BLOG_CATEGORIES_GO}">{categories.NAME}</a>
-			<div class="blog-author">{categories.DESC}</div>
+			<div class="blog-image"><a href="{{ categories.U_CATEGORY }}" title="{{ lang('BLOG_CATEGORIES_GO') }}"><img src="{{ categories.IMG }}" alt="{{ categories.NAME }}" height="225" width="350" /></a></div>
+			<a class="blog-title" href="{{ categories.U_CATEGORY }}" title="{{ lang('BLOG_CATEGORIES_GO') }}">{{ categories.NAME }}</a>
+			<div class="blog-author">{{ categories.DESC }}</div>
 			<div class="blog-categories bg2">
 				<span><strong>
-					<!-- IF categories.S_IS_PRIVATE --><i class="fa fa-user-secret fa-fw" aria-hidden="true"></i> {L_BLOG_CATEGORIES_PRIVATE}<!-- ELSE --><i class="fa fa-user fa-fw" aria-hidden="true"></i> {L_BLOG_CATEGORIES_PUBLIC}<!-- ENDIF -->
+					{% if categories.S_IS_PRIVATE %}<i class="fa fa-user-secret fa-fw" aria-hidden="true"></i> {{ lang('BLOG_CATEGORIES_PRIVATE') }}{% else %}<i class="fa fa-user fa-fw" aria-hidden="true"></i> {{ lang('BLOG_CATEGORIES_PUBLIC') }}{% endif %}
 				</strong></span>
 			</div>
 		</div>
-	<!-- END categories -->
+	{% endfor %}
 </div>
 
-<!-- INCLUDEJS @mrgoldy_ultimateblog/js/menu.js -->
+{% INCLUDEJS '@mrgoldy_ultimateblog/js/menu.js' %}
 
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'overall_footer.html' %}

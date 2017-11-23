@@ -1,34 +1,34 @@
-<!-- INCLUDE overall_header.html -->
-<!-- INCLUDECSS @mrgoldy_ultimateblog/archive.css -->
-<!-- INCLUDECSS @mrgoldy_ultimateblog/menu.css -->
+{% INCLUDE 'overall_header.html' %}
+{% INCLUDECSS '@mrgoldy_ultimateblog/archive.css' %}
+{% INCLUDECSS '@mrgoldy_ultimateblog/menu.css' %}
 
-<!-- IF S_ULTIMATEBLOG_ENABLED and S_UB_ANNOUNCEMENT_ENABLED --><!-- INCLUDE @mrgoldy_ultimateblog/ub_announcement.html --><!-- ENDIF -->
+{% if S_ULTIMATEBLOG_ENABLED and S_UB_ANNOUNCEMENT_ENABLED %}{% INCLUDE '@mrgoldy_ultimateblog/ub_announcement.html' %}{% endif %}
 
 <div class="ub-menu-parent">
-	<a href="{U_BLOG_INDEX}" class="ub-menu-index" style="text-decoration: none; color: #fff;"><i class="fa fa-home fa-2x"></i></a>
-	<a href="{U_BLOG_CATEGORIES}" class="ub-menu-categories" style="text-decoration: none; color: #fff;"><i class="fa fa-tags fa-2x"></i></a>
-	<a href="{U_BLOG_ARCHIVE}" class="ub-menu-archive" style="text-decoration: none; color: #fff;"><i class="fa fa-archive fa-2x"></i></a>
+	<a href="{{ U_BLOG_INDEX }}" class="ub-menu-index" style="text-decoration: none; color: #fff;"><i class="fa fa-home fa-2x"></i></a>
+	<a href="{{ U_BLOG_CATEGORIES }}" class="ub-menu-categories" style="text-decoration: none; color: #fff;"><i class="fa fa-tags fa-2x"></i></a>
+	<a href="{{ U_BLOG_ARCHIVE }}" class="ub-menu-archive" style="text-decoration: none; color: #fff;"><i class="fa fa-archive fa-2x"></i></a>
 	<div class="ub-menu-button"><i class="fa fa-home fa-3x"></i></div>
 </div>
 
 <div class="ub-title-parent">
-	<h2>{ULTIMATEBLOG_TITLE} <i class="fa fa-angle-double-right"></i> {L_BLOG_ARCHIVE}</h2>
-	{L_BLOG_ARCHIVE_DESCRIPTION}
+	<h2>{{ ULTIMATEBLOG_TITLE }} <i class="fa fa-angle-double-right"></i> {{ lang('BLOG_ARCHIVE') }}</h2>
+	{{ lang('BLOG_ARCHIVE_DESCRIPTION') }}
 </div>
 
 <div class="archive">
-	<!-- BEGIN years -->
+	{% for years in loops.years %}
 		<div class="panel bg1 archive-year">
-			<h3>{years.YEAR}</h3>
+			<h3>{{ years.YEAR }}</h3>
 
-			<!-- BEGIN months -->
-				<a href="{years.months.U_ARCHIVE}" class="hvr-icon-fade"><span>{years.months.MONTH}</span></a>
-				<!-- IF not years.months.IS_LAST_ROW --><br><!-- ENDIF -->
-			<!-- END months -->
+			{% for months in years.months %}
+				<a href="{{ months.U_ARCHIVE }}" class="hvr-icon-fade"><span>{{ months.MONTH }}</span></a>
+				{% if not months.IS_LAST_ROW %}<br>{% endif %}
+			{% endfor %}
 		</div>
-	<!-- END years -->
+	{% endfor %}
 </div>
 
-<!-- INCLUDEJS @mrgoldy_ultimateblog/js/menu.js -->
+{% INCLUDEJS '@mrgoldy_ultimateblog/js/menu.js' %}
 
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'overall_footer.html' %}
