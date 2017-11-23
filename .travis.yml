@@ -39,6 +39,9 @@ branches:
     - master
     - /^\d+(\.\d+)?\.x$/
 
+before_install:
+  - chmod +x travis/prepare-phpbb.sh
+
 install:
   - travis/prepare-phpbb.sh $EXTNAME $PHPBB_BRANCH
   - cd ../../phpBB3
