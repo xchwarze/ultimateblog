@@ -10,10 +10,11 @@ To do list:
 ☐ Drag and drop image upload
 ☐ MISC: Split up language files, Check 'protected' and 'Construct', Comment everything
 ☐ MISC2: Different blog layouts, Share this blog
-☐ SEO: Show SEO per blog, Sitemap and XML Sitemap, Test SEO on Localhost
+☐ SEO: Show SEO per blog, Sitemap and XML Sitemap
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+	✔ Test SEO on Localhost @done(2017-11-27 23:01)
 	✔ Schema.org Blog EXAMPLE @done(2017-11-27 18:06) @project(To do list)
 	✔ Style files in proper folder @done(2017-11-27 18:06)
 	✔ Add prune blog and category images @done(2017-11-27 18:05)
