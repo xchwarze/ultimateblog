@@ -22,6 +22,11 @@ phpbb.addAjaxCallback('mrgoldy_ultimateblog.edit_comment', function(data) {
 });
 
 $(function() {
+	// Delete a reply, submit the form
+	$('.comment-delete').on('click', function() {
+		this.parent().submit();
+	});
+
 	// Hide any excess comments
 	$('#comments-list').each(function() {
 		if (window.location.hash && $.isNumeric(window.location.hash.substring(1))) {

@@ -311,7 +311,7 @@ class main_listener implements EventSubscriberInterface
 
 				case 'category':
 					$event['location'] = ctype_digit($params[3]) ? $this->lang->lang('UB_VIEWONLINE_CATEGORY', $this->config['ub_title'], $categories[$params[3]]['category_name']) : $this->lang->lang('UB_VIEWONLINE_CATEGORIES', $this->config['ub_title']);;
-					$event['location_url'] = ctype_digit($params[3]) ? $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $params[3])): $this->helper->route('mrgoldy_ultimateblog_categories');
+					$event['location_url'] = ctype_digit($params[3]) ? $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $params[3], 'title' => $params[4] )): $this->helper->route('mrgoldy_ultimateblog_categories');
 				break;
 
 				case 'categories':
@@ -331,7 +331,7 @@ class main_listener implements EventSubscriberInterface
 
 				case 'view':
 					$event['location'] = $this->lang->lang('UB_VIEWONLINE_BLOG', $this->config['ub_title']);
-					$event['location_url'] = ctype_digit($params[3]) ? $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $params[3])) : $this->lang->lang('UB_VIEWONLINE_INDEX', $this->config['ub_title']);
+					$event['location_url'] = ctype_digit($params[3]) ? $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $params[3], 'title' => $params[4])) : $this->lang->lang('UB_VIEWONLINE_INDEX', $this->config['ub_title']);
 				break;
 
 				case 'page':
@@ -364,10 +364,8 @@ class main_listener implements EventSubscriberInterface
 		$blog_count = $this->db->sql_fetchfield('blog_count');
 		$this->db->sql_freeresult($result);
 
-		$blog_url_params = $blog_count ? array('page' => 'user', 'uid' => (int) $user_id) : array('page' => 'index');
-
 		$template_data['UB_BLOG_COUNT'] = $blog_count;
-		$template_data['U_UB_USER_BLOG_POSTS'] = $this->helper->route('mrgoldy_ultimateblog_routing', $blog_url_params);
+		$template_data['U_UB_USER_BLOG_POSTS'] = $this->helper->route('mrgoldy_ultimateblog_user', array('user_id' => $user_id));
 
 		$event['template_data'] = $template_data;
 	}

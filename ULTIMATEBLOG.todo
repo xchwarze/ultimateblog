@@ -1,24 +1,28 @@
 To do list:
 
-☐ Announcement Text with BBCodes instead of HTML
 ☐ MCP (approve, reported)
-☐ Blog index: latest/comments/rating
-☐ ACP Overview Statistics check enabled also in SQL? And if none: -
 ☐ Notifications
-☐ subscriptions
+☐ Subscriptions
+☐ Text formatter special characters ( <, &, ", etc)
 ☐ RSS
 ☐ Search
-☐ Twig Syntax
 ☐ Blog errors better exceptions (trigger error perhaps) (no blogs in blog list)
 ☐ Drag and drop image upload
-☐ Show user's comments
-☐ Change bloglist $cats[$category_id] to $category
-☐ MISC: Split up language files, Style files in proper folder, Check 'protected' and 'Construct', Comment everything
-☐ MISC2: Different blog layouts, Blog and Category title in URL (blog/1/My-blog), Share this blog
-☐ SEO: Show SEO per blog, Sitemap and XML Sitemap, Schema.org Blog EXAMPLE, Test SEO on Localhost
+☐ MISC: Split up language files, Check 'protected' and 'Construct', Comment everything
+☐ MISC2: Different blog layouts, Share this blog
+☐ SEO: Show SEO per blog, Sitemap and XML Sitemap, Test SEO on Localhost
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+	✔ Schema.org Blog EXAMPLE @done(2017-11-27 18:06) @project(To do list)
+	✔ Style files in proper folder @done(2017-11-27 18:06)
+	✔ Add prune blog and category images @done(2017-11-27 18:05)
+	✔ Blog and Category title in URL (blog/1/My-blog) @done(2017-11-27 16:14)
+	✔ Blog index: latest/comments/rating @done(2017-11-27 15:45)
+	✔ ACP Overview Statistics check enabled also in SQL? And if none: - @done(2017-11-25 16:53)
+	✔ Change bloglist $cats[$category_id] to $category @done(2017-11-24 11:44)
+	✔ Twig Syntax @done(2017-11-23 15:27)
+	✔ Announcement Text with BBCodes instead of HTML @done(2017-11-23 13:30)
 	✔ Blog images @done(2017-11-23 13:22)
 	✔ Category images @done(2017-11-23 13:22)
 	✔ Check friends array not empty @done(2017-11-23 13:22)

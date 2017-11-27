@@ -19,53 +19,71 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td>Start date{{ lang('COLON') }} </td>
+			<td>Start date{{ lang('COLON') }}</td>
 			<td><strong>{{ UB_START_DATE }}</strong></td>
-			<td>User with most blogs{{ lang('COLON') }} </td>
+			<td>User with most blogs{{ lang('COLON') }}</td>
 			<td><strong>{{ USER_MOST_BLOGS }} ({{ USER_MOST_BLOGS_COUNT }})</strong></td>
 		</tr>
 		<tr>
-			<td>Uptime{{ lang('COLON') }} </td>
+			<td>Uptime{{ lang('COLON') }}</td>
 			<td><strong>{{ UB_UPTIME }}</strong></td>
-			<td>User with most comments{{ lang('COLON') }} </td>
-			<td><strong>{{ USER_MOST_COMMENTS }} ({{ USER_MOST_COMMENTS_COUNT }})</strong></td>
+			<td>User with most comments{{ lang('COLON') }}</td>
+			<td>{% if S_COMMENTS_ENABLED %}<strong>{{ USER_MOST_COMMENTS }} ({{ USER_MOST_COMMENTS_COUNT }})</strong>{% else %}{{ lang('DISABLED') }}{% endif %}</td>
 		</tr>
 		<tr>
-			<td>Number of blogs{{ lang('COLON') }} </td>
+			<td>Number of blogs{{ lang('COLON') }}</td>
 			<td><strong>{{ BLOG_COUNT }}</strong></td>
-			<td>Blog with most comments{{ lang('COLON') }} </td>
-			<td><strong>{{ BLOG_MOST_COMMENTS_AUTHOR }}'s {{ BLOG_MOST_COMMENTS_TITLE }} ({{ BLOG_MOST_COMMENTS_COUNT }})</strong></td>
+			<td>Blog with most comments{{ lang('COLON') }}</td>
+			<td>{% if S_COMMENTS_ENABLED %}<strong>{{ BLOG_MOST_COMMENTS_AUTHOR }}'s {{ BLOG_MOST_COMMENTS_TITLE }} ({{ BLOG_MOST_COMMENTS_COUNT }})</strong>{% else %}{{ lang('DISABLED') }}{% endif %}</td>
 		</tr>
 		<tr>
-			<td>Number of categories{{ lang('COLON') }} </td>
+			<td>Number of categories{{ lang('COLON') }}</td>
 			<td><strong>{{ CATEGORY_COUNT }}</strong></td>
-			<td>Blog with most views{{ lang('COLON') }} </td>
+			<td>Blog with most views{{ lang('COLON') }}</td>
 			<td><strong>{{ BLOG_MOST_VIEWS_AUTHOR }}'s {{ BLOG_MOST_VIEWS_TITLE }} ({{ BLOG_MOST_VIEWS_COUNT }})</strong></td>
 		</tr>
 		<tr>
-			<td>Number of comments{{ lang('COLON') }} </td>
-			<td><strong>{{ COMMENT_COUNT }}</strong></td>
-			<td>Blog with best rating{{ lang('COLON') }} </td>
-			<td><strong>{% if BLOG_BEST_RATING_TITLE %}{{ BLOG_BEST_RATING_AUTHOR }}'s {{ BLOG_BEST_RATING_TITLE }} ({{ BLOG_BEST_RATING_RATING }}){% else %}-{% endif %}</strong></td>
+			<td>Number of comments{{ lang('COLON') }}</td>
+			<td>{% if S_COMMENTS_ENABLED %}<strong>{{ COMMENT_COUNT }}</strong>{% else %}{{ lang('DISABLED') }}{% endif %}</td>
+			<td>Blog with best rating{{ lang('COLON') }}</td>
+			<td>{% if S_RATING_ENABLED %}<strong>{% if BLOG_BEST_RATING_TITLE %}{{ BLOG_BEST_RATING_AUTHOR }}'s {{ BLOG_BEST_RATING_TITLE }} ({{ BLOG_BEST_RATING_RATING }}){% else %}-{% endif %}</strong>{% else %}{{ lang('DISABLED') }}{% endif %}</td>
 		</tr>
 		<tr>
 			<td>Number of blog views{{ lang('COLON') }} </td>
 			<td><strong>{{ BLOG_VIEWS }}</strong></td>
 			<td>Blog with worst rating{{ lang('COLON') }} </td>
-			<td><strong>{% if BLOG_WORST_RATING_TITLE %}{{ BLOG_WORST_RATING_AUTHOR }}'s {{ BLOG_WORST_RATING_TITLE }} ({{ BLOG_WORST_RATING_RATING }}){% else %}-{% endif %}</strong></td>
+			<td>{% if S_RATING_ENABLED %}<strong>{% if BLOG_WORST_RATING_TITLE %}{{ BLOG_WORST_RATING_AUTHOR }}'s {{ BLOG_WORST_RATING_TITLE }} ({{ BLOG_WORST_RATING_RATING }}){% else %}-{% endif %}</strong>{% else %}{{ lang('DISABLED') }}{% endif %}</td>
 		</tr>
 		<tr>
-			<td>Blogs per day{{ lang('COLON') }} </td>
+			<td>Blogs per day{{ lang('COLON') }}</td>
 			<td><strong>{{ BLOGS_PER_DAY }}</strong></td>
 			<td></td><td></td>
 		</tr>
 		<tr>
-			<td>Comments per day{{ lang('COLON') }} </td>
-			<td><strong>{{ COMMENTS_PER_DAY }}</strong></td>
+			<td>Comments per day{{ lang('COLON') }}</td>
+			<td>{% if S_COMMENTS_ENABLED %}<strong>{{ COMMENTS_PER_DAY }}</strong>{% else %}{{ lang('DISABLED') }}{% endif %}</td>
 			<td></td><td></td>
 		</tr>
 	</tbody>
 </table>
+
+<fieldset>
+	<legend>{{ lang('ACP_UB_PURGE_IMAGES') }}</legend>
+
+	<form id="action_purge_blog_form" method="post" action="{U_ACTION}" data-ajax="true">
+		<dl>
+			<dt><label for="action_purge_blog">{{ lang('ACP_UB_PURGE_IMAGES_BLOG') }}</label><br /><span>{{ lang('ACP_UB_PURGE_IMAGES_BLOG_EXPLAIN') }}</span></dt>
+			<dd><input type="hidden" name="action" value="purgeblog" /><input class="button2" type="submit" id="action_purge_blog" name="action_purge_blog" value="{L_RUN}" /></dd>
+		</dl>
+	</form>
+
+	<form id="action_purge_category_form" method="post" action="{U_ACTION}" data-ajax="true">
+		<dl>
+			<dt><label for="action_purge_category">{{ lang('ACP_UB_PURGE_IMAGES_CATEGORY') }}</label><br /><span>{{ lang('ACP_UB_PURGE_IMAGES_CATEGORY_EXPLAIN') }}</span></dt>
+			<dd><input type="hidden" name="action" value="purgecategory" /><input class="button2" type="submit" id="action_purge_category" name="action_purge_category" value="{L_RUN}" /></dd>
+		</dl>
+	</form>
+</fieldset>
 
 <table class="table1 zebra-table fixed-width-table">
 	<caption>{{ lang('ACP_USERS_LOGS') }} </caption>

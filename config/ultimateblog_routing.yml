@@ -5,8 +5,8 @@ mrgoldy_ultimateblog_indexpage:
         page: \d+
 
 mrgoldy_ultimateblog_view:
-    pattern: /view/{blog_id}
-    defaults: { _controller: mrgoldy.ultimateblog.controller.blog:display }
+    pattern: /view/{blog_id}/{title}
+    defaults: { _controller: mrgoldy.ultimateblog.controller.blog:display, title: '' }
     requirements:
         blog_id: \d+
 
@@ -40,8 +40,8 @@ mrgoldy_ultimateblog_categoriespage:
         page: \d+
 
 mrgoldy_ultimateblog_category:
-    pattern: /category/{category_id}
-    defaults: { _controller: mrgoldy.ultimateblog.controller.bloglist:category, page: 1 }
+    pattern: /category/{category_id}/{title}
+    defaults: { _controller: mrgoldy.ultimateblog.controller.bloglist:category, page: 1, title: '' }
     requirements:
         category_id: \d+
 

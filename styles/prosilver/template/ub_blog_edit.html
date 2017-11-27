@@ -1,7 +1,9 @@
 {% INCLUDE 'overall_header.html' %}
-{% INCLUDECSS '@mrgoldy_ultimateblog/blogbody.css' %}
 
-{% if S_ULTIMATEBLOG_ENABLED and S_UB_ANNOUNCEMENT_ENABLED %}{% INCLUDE '@mrgoldy_ultimateblog/ub_announcement.html' %}{% endif %}
+{% INCLUDECSS '@mrgoldy_ultimateblog/blogbody.css' %}
+{% INCLUDECSS '@mrgoldy_ultimateblog/menu.css' %}
+
+{% INCLUDE '@mrgoldy_ultimateblog/ub_header.html' %}
 
 <h1 class="blog-name">{{ lang('BLOG') }}</h1>
 <h2 class="blog-title">{% if S_BLOG_ADD %}{{ lang('BLOG_ADD') }}{% else %}{{ lang('BLOG_EDIT') }}{% endif %}</h2>
@@ -148,5 +150,7 @@
 		</div>
 	</div>
 </form>
+
+{% INCLUDEJS '@mrgoldy_ultimateblog/js/menu.js' %}
 
 {% INCLUDE 'overall_footer.html' %}

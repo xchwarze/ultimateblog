@@ -44,7 +44,7 @@ class main_module
 			case 'overview':
 				$this->tpl_name = 'overview';
 				$this->page_title = $lang->lang('ACP_UB_OVERVIEW');
-				$overview_controller->ub_overview();
+				$overview_controller->ub_overview($id, $mode, $action);
 			break;
 
 			case 'settings':

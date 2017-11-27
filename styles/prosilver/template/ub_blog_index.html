@@ -1,21 +1,46 @@
 {% INCLUDE 'overall_header.html' %}
+
 {% INCLUDECSS '@mrgoldy_ultimateblog/bloglist.css' %}
 {% INCLUDECSS '@mrgoldy_ultimateblog/menu.css' %}
 
-{% if S_ULTIMATEBLOG_ENABLED and S_UB_ANNOUNCEMENT_ENABLED %}{% INCLUDE '@mrgoldy_ultimateblog/ub_announcement.html' %}{% endif %}
+{% INCLUDE '@mrgoldy_ultimateblog/ub_header.html' %}
 
-<div class="ub-menu-parent">
-	<a href="{{ U_BLOG_INDEX }}" class="ub-menu-index" style="text-decoration: none; color: #fff;"><i class="fa fa-home fa-2x"></i></a>
-	<a href="{{ U_BLOG_CATEGORIES }}" class="ub-menu-categories" style="text-decoration: none; color: #fff;"><i class="fa fa-tags fa-2x"></i></a>
-	<a href="{{ U_BLOG_ARCHIVE }}" class="ub-menu-archive" style="text-decoration: none; color: #fff;"><i class="fa fa-archive fa-2x"></i></a>
-	<div class="ub-menu-button"><i class="fa fa-home fa-3x"></i></div>
+<div class="blog-header">
+	<h1 class="blog-header-title">{{ UB_TITLE }}<span class="blog-header-title-main"><i class="fa {{ UB_FA_ICON }} blog-header-title-icon-before" aria-hidden="true"></i>{% if CATEGORY_TITLE %}{{ CATEGORY_TITLE }}{% elseif ARCHIVE_TITLE %}{{ ARCHIVE_TITLE }}{% else %}{{ lang('BLOG_INDEX') }}{% endif %}<i class="fa {{ UB_FA_ICON }} blog-header-title-icon-after" aria-hidden="true"></i></span></h1>
+	<h2 class="blog-header-description">
+		{% if CATEGORY_DESCRIPTION %}{{ CATEGORY_DESCRIPTION }}{% endif %}
+		{% if ARCHIVE_DESCRIPTION %}{{ ARCHIVE_DESCRIPTION }}{% endif %}
+	</h2>
 </div>
 
-<div class="ub-title-parent">
-	<h2>{{ ULTIMATEBLOG_TITLE }} <i class="fa fa-angle-double-right"></i> {% if CATEGORY_TITLE %}{{ CATEGORY_TITLE }}{% else %}{{ lang('BLOG_INDEX') }}{% endif %}</h2>
-	{% if CATEGORY_DESCRIPTION %}{{ CATEGORY_DESCRIPTION }}{% endif %}
-	{% if ARCHIVE_DESCRIPTION %}{{ ARCHIVE_DESCRIPTION }}{% endif %}
-</div>
+{% if S_BLOG_CUSTOM_INDEX %}
+	{% INCLUDE '@mrgoldy_ultimateblog/ub_blog_index_custom.html' %}
+{% else %}
+	<div class="blog-container">
+		{% for blogs in loops.blogs %}
+			<div class="panel blog-panel{% if (blogs.S_IS_UNAPPROVED and S_BLOG_MOD_APPROVE) or (blogs.S_IS_REPORTED and S_BLOG_MOD_REPORT) %} reported{% endif %} bg1 hvr-float-shadow">
+				<div class="blog-image"><a href="{{ blogs.U_BLOG }}" title="{{ lang('BLOG_READ_FULL') }}"><img src="{{ blogs.IMAGE }}" alt="{{ blogs.TITLE }}" width="350" height="225" /></a></div>
+				<div class="blog-author">{{ blogs.AUTHOR }}</div>
+				<a class="blog-title" href="{{ blogs.U_BLOG }}" title="{{ lang('BLOG_READ_FULL') }}">{{ blogs.TITLE }}</a>
+				<div class="{% if (blogs.S_IS_UNAPPROVED and S_BLOG_MOD_APPROVE) or (blogs.S_IS_REPORTED and S_BLOG_MOD_REPORT) %}blog-categories-not-approved{% else %}blog-categories{% endif %} bg2">
+					<span>
+						{% if blogs.S_IS_REPORTED or blogs.S_IS_UNAPPROVED %}
+							{% if blogs.S_IS_REPORTED %}
+								<strong>{{ lang('BLOG_REPORTED') }}</strong>
+							{% else %}
+								<strong>{{ lang('BLOG_UNAPPROVED') }}</strong>
+							{% endif %}
+						{% else %}
+							{% for cats in blogs.cats %}
+								{% if cats.S_CURRENT_CATEGORY %}<strong>{% endif %}<a href="{{ cats.U_BLOG_CATEGORY }}">{{ cats.BLOG_CATEGORY_NAME }}</a>{% if cats.S_CURRENT_CATEGORY %}</strong>{% endif %}{% if not cats.S_LAST_ROW %}, {% endif %}
+							{% endfor %}
+						{% endif %}
+					</span>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endif %}
 
 {% if S_BLOG_CAN_ADD %}
 	{% if S_BLOG_CATEGORY and S_BLOG_CATEGORY_PRIVATE %}
@@ -30,31 +55,6 @@
 		</a>
 	{% endif %}
 {% endif %}
-
-<div class="blog-container">
-	{% for blogs in loops.blogs %}
-		<div class="panel blog-panel{% if (blogs.S_IS_UNAPPROVED and S_BLOG_MOD_APPROVE) or (blogs.S_IS_REPORTED and S_BLOG_MOD_REPORT) %} reported{% endif %} bg1 hvr-float-shadow">
-			<div class="blog-image"><a href="{{ blogs.U_BLOG }}" title="{{ lang('BLOG_READ_FULL') }}"><img src="{{ blogs.IMAGE }}" alt="{{ blogs.TITLE }}" width="350" height="225" /></a></div>
-			<div class="blog-author">{{ blogs.AUTHOR }}</div>
-			<a class="blog-title" href="{{ blogs.U_BLOG }}" title="{{ lang('BLOG_READ_FULL') }}">{{ blogs.TITLE }}</a>
-			<div class="{% if (blogs.S_IS_UNAPPROVED and S_BLOG_MOD_APPROVE) or (blogs.S_IS_REPORTED and S_BLOG_MOD_REPORT) %}blog-categories-not-approved{% else %}blog-categories{% endif %} bg2">
-				<span>
-					{% if blogs.S_IS_REPORTED or blogs.S_IS_UNAPPROVED %}
-						{% if blogs.S_IS_REPORTED %}
-							<strong>{{ lang('BLOG_REPORTED') }}</strong>
-						{% else %}
-							<strong>{{ lang('BLOG_UNAPPROVED') }}</strong>
-						{% endif %}
-					{% else %}
-						{% for cats in blogs.cats %}
-							{% if cats.S_CURRENT_CATEGORY %}<strong>{% endif %}<a href="{{ cats.U_BLOG_CATEGORY }}">{{ cats.BLOG_CATEGORY_NAME }}</a>{% if cats.S_CURRENT_CATEGORY %}</strong>{% endif %}{% if not cats.S_LAST_ROW %}, {% endif %}
-						{% endfor %}
-					{% endif %}
-				</span>
-			</div>
-		</div>
-	{% endfor %}
-</div>
 
 <div class="dropdown-container dropdown-container-left dropdown-up dropdown-{{ S_CONTENT_FLOW_END }} dropdown-button-control">
 	<span title="{{ lang('BLOG_VIEW_PERMISSIONS') }}" class="button button-secondary dropdown-trigger dropdown-select">

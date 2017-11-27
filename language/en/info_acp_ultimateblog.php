@@ -117,9 +117,9 @@ $lang = array_merge($lang, array(
 
 	'ACP_UB_INVALID_HASH'		=> 'Error: invalid hash',
 
-	'ACP_UB_LOG_BLOG_ADDED'				=> '<strong>Added an Ultimate Blog blog</strong><br>» %s',
-	'ACP_UB_LOG_BLOG_DELETED'			=> '<strong>Deleted an Ultimate Blog blog</strong><br>» %s',
-	'ACP_UB_LOG_BLOG_EDITED'			=> '<strong>Edited an Ultimate Blog blog</strong><br>» %s',
+	'ACP_UB_LOG_BLOG_ADDED'				=> '<strong>Added an Ultimate Blog blog</strong><br>» %s', // Please leave the 'Ultimate Blog' part
+	'ACP_UB_LOG_BLOG_DELETED'			=> '<strong>Deleted an Ultimate Blog blog</strong><br>» %s', // Of each log sentence in place
+	'ACP_UB_LOG_BLOG_EDITED'			=> '<strong>Edited an Ultimate Blog blog</strong><br>» %s', // It used to filter all log entries in the overview page
 	'ACP_UB_LOG_BLOG_EDIT_DELETED'		=> '<strong>Deleted an Ultimate Blog edit reason</strong><br>» Blog: “%3$s” - Edit: %1$s: %2$s',
 	'ACP_UB_LOG_BLOG_RATED'				=> '<strong>Rated an Ultimate Blog (%2$s stars)</strong><br>» %1$s',
 	'ACP_UB_LOG_BLOG_REPORTED'			=> '<strong>Reported an Ultimate Blog blog</strong>',
@@ -131,11 +131,23 @@ $lang = array_merge($lang, array(
 	'ACP_UB_LOG_COMMENT_EDITED'			=> '<strong>Edited an Ultimate Blog comment</strong>',
 	'ACP_UB_LOG_COMMENT_REPORTED'		=> '<strong>Reported an Ultimate Blog comment</strong>',
 	'ACP_UB_LOG_REPORT_CLOSED'			=> '<strong>Closed an Ultimate Blog report</strong>',
+	'ACP_UB_LOG_PURGE_IMAGES_BLOG'		=> '<strong>Purged Ultimate Blog blog images</strong>',
+	'ACP_UB_LOG_PURGE_IMAGES_CATEGORY'	=> '<strong>Purged Ultimate Blog category images</strong>',
 	'ACP_UB_LOG_REPORT_DELETED'			=> '<strong>Deleted an Ultimate Blog report</strong>',
 	'ACP_UB_LOG_SETTINGS'				=> '<strong>Edited Ultimate Blog settings</strong>',
 
 	'ACP_UB_OVERVIEW'				=> 'Ultimate Blog Overview',
 	'ACP_UB_OVERVIEW_EXPLAIN'		=> 'This screen will give you a quick overview of all the various statistics of your Ultimate Blog extension, aswell as some useful functions.',
+
+	'ACP_UB_PURGE_IMAGES'					=> 'Purge Ultimate Blog images',
+	'ACP_UB_PURGE_IMAGES_BLOG'				=> 'Purge blog images',
+	'ACP_UB_PURGE_IMAGES_BLOG_CONFIRM'		=> 'Are you sure you wish to purge the blog images?',
+	'ACP_UB_PURGE_IMAGES_BLOG_EXPLAIN'		=> 'Purge all blog images that are not in use. When adding new blog images, old images are automatically deleted. This option is here to get rid of those which felt through the cracks.',
+	'ACP_UB_PURGE_IMAGES_BLOG_SUCCESS'		=> 'Blog images successfully purged.',
+	'ACP_UB_PURGE_IMAGES_CATEGORY'			=> 'Purge category images',
+	'ACP_UB_PURGE_IMAGES_CATEGORY_CONFIRM'	=> 'Are you sure you wish to purge the category images?',
+	'ACP_UB_PURGE_IMAGES_CATEGORY_EXPLAIN'	=> 'Purge all category images that are not in use. When adding new category images, old images are automatically deleted. This option is here to get rid of those which felt through the cracks.',
+	'ACP_UB_PURGE_IMAGES_CATEGORY_SUCCESS'	=> 'Category images successfully purged.',
 
 	'ACP_UB_SETTINGS'					=> 'Ultimate Blog Settings',
 	'ACP_UB_SETTINGS_CHANGED'			=> 'The Ultimate Blog settings have successfully been saved.',

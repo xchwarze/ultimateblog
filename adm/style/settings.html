@@ -144,7 +144,7 @@
 							<label for="ub_{{ blocks_not_used.NAME }}_data">Category:</label>
 							<select name="ub_{{ blocks_not_used.NAME }}_data">
 								{% for cats in blocks_not_used.cats %}
-									<option name="ub_{{ blocks_not_used.NAME }}_data" val="{{ cats.ID }}">{{ cats.NAME }}</option>
+									<option name="ub_{{ blocks_not_used.NAME }}_data" value="{{ cats.ID }}">{{ cats.NAME }}</option>
 								{% endfor %}
 							</select>
 						{% endif %}
@@ -166,10 +166,11 @@
 							<label for="ub_{{ blocks_used.NAME }}_limit">Show amount:</label>
 							<input name="ub_{{ blocks_used.NAME }}_limit" type="number" class="ub-index-limit" min="1" value="{{ blocks_used.LIMIT }}" />
 							{% if blocks_used.IS_CAT %}
+                                <br>
 								<label for="ub_{{ blocks_used.NAME }}_data">Category:</label>
 								<select name="ub_{{ blocks_used.NAME }}_data">
 									{% for cats in blocks_used.cats %}
-										<option name="ub_{{ blocks_used.NAME }}_data" val="{{ cats.ID }}">{{ cats.NAME }}</option>
+										<option name="ub_{{ blocks_used.NAME }}_data" value="{{ cats.ID }}">{{ cats.NAME }}</option>
 									{% endfor %}
 								</select>
 							{% endif %}
@@ -182,7 +183,7 @@
 					{% endfor %}
 				</div>
 			</div>
-			<input type="text" id="ub_index_order" name="ub_index_order" value="{{ UB_CUSTOM_INDEX_ORDER }}" />
+			<input type="text" id="ub_index_order" name="ub_index_order" value="{{ UB_CUSTOM_INDEX_ORDER }}" style="clear: left;  display: none;"/>
 		</dd>
 	</dl>
 </fieldset>

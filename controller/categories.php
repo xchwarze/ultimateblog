@@ -91,7 +91,7 @@ class categories
 				'IMG'	=> $this->path_helper->get_web_root_path() . $this->config['ub_image_cat_dir'] . '/' . $category['category_image'],
 
 				'S_IS_PRIVATE'	=> $category['is_private'],
-				'U_CATEGORY'	=> $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $category['category_id'])),
+				'U_CATEGORY'	=> $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $category['category_id'], 'title' => urlencode($category['category_name']))),
 			));
 		}
 

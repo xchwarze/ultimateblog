@@ -169,6 +169,7 @@ class blog
 		$category_ids = explode(',', $blog['categories']);
 		$blog_categories = $this->func->category_list($category_ids);
 		$edit_reasons = $this->func->edit_list((int) $blog_id);
+		$last_modified = '';
 		$edit_count = 0;
 
 		# Set up categories template block variables
@@ -177,7 +178,7 @@ class blog
 			$this->template->assign_block_vars('blog_categories', array(
 				'CATEGORY_ID'	=> $blog_category['category_id'],
 				'CATEGORY_NAME'	=> $blog_category['category_name'],
-				'U_CATEGORY'	=> $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $blog_category['category_id'])),
+				'U_CATEGORY'	=> $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $blog_category['category_id'], 'title' => urlencode($blog_category['category_name']))),
 			));
 		}
 
@@ -186,6 +187,12 @@ class blog
 		{
 			foreach ($edit_reasons as $edit_reason)
 			{
+				# Set up last modified date, so only when count is still at 0, as edits are ordered by time DESC.
+				if ($edit_count == 0)
+				{
+					$last_modified = $this->user->format_date($edit_reason['edit_time'], 'Y-m-d') . 'T' . $this->user->format_date($edit_reason['edit_time'], 'H:i:s') . 'Z';
+				}
+
 				# Increase count
 				$edit_count++;
 
@@ -202,21 +209,29 @@ class blog
 		# Set up template variables
 		$this->template->assign_vars(array(
 			'AUTHOR_FULL'			=> get_username_string('full', $blog['user_id'], $blog['username'], $blog['user_colour']),
+			'AUTHOR_NAME'			=> get_username_string('no_profile', $blog['user_id'], $blog['username'], $blog['user_colour']),
+			'AUTHOR_URL'			=> get_username_string('profile', $blog['user_id'], $blog['username'], $blog['user_colour']),
 
-			'BLOG_ID'				=> $blog['blog_id'],
-			'BLOG_DATE'				=> $this->user->format_date($blog['blog_date']),
-			'BLOG_DESCRIPTION'		=> $blog['blog_description'],
-			'BLOG_EDITS'			=> $edit_count,
-			'BLOG_IMAGE'			=> $this->path_helper->get_web_root_path() . $this->config['ub_image_dir'] . '/' . $blog['blog_image'],
-			'BLOG_RATING'			=> isset($blog['blog_rating']) ? round($blog['blog_rating'], 2) : false,
-			'BLOG_RATING_COUNT'		=> $this->lang->lang('BLOG_RATING_COUNT', (int) $blog['rating_count']),
-			'BLOG_TEXT'				=> $this->renderer->render($blog['blog_text']),
-			'BLOG_TITLE'			=> $blog['blog_title'],
-			'BLOG_USER_AVATAR'		=> phpbb_get_user_avatar($this->user->data),
-			'BLOG_USER_RATING'		=> isset($blog['user_rating']) ? $blog['blog_rating'] : false,
-			'BLOG_VIEWS'			=> $blog['blog_views'],
+			'BLOG_ID'					=> $blog['blog_id'],
+			'BLOG_DATE'					=> $this->user->format_date($blog['blog_date']),
+			'BLOG_DATE_META'			=> $this->user->format_date($blog['blog_date'], 'Y-m-d') . 'T' . $this->user->format_date($blog['blog_date'], 'H:i:s') . 'Z',
+			'BLOG_DATE_SHORT'			=> $this->user->format_date($blog['blog_date'], 'j M Y'),
+			'BLOG_DESCRIPTION'			=> $blog['blog_description'],
+			'BLOG_EDITS'				=> $edit_count,
+			'BLOG_EDIT_META'			=> $edit_count > 0 ? $last_modified : $this->user->format_date($blog['blog_date'], 'Y-m-d') . 'T' . $this->user->format_date($blog['blog_date'], 'H:i:s') . 'Z',
+			'BLOG_IMAGE'				=> $this->path_helper->get_web_root_path() . $this->config['ub_image_dir'] . '/' . $blog['blog_image'],
+			'BLOG_LOGO_META'			=> generate_board_url() . 'images/site_logo.gif',
+			'BLOG_RATING'				=> isset($blog['blog_rating']) ? round($blog['blog_rating'], 2) : false,
+			'BLOG_RATING_COUNT'			=> $blog['rating_count'],
+			'BLOG_RATING_COUNT_TEXT'	=> $this->lang->lang('BLOG_RATING_COUNT', (int) $blog['rating_count']),
+			'BLOG_TEXT'					=> $this->renderer->render($blog['blog_text']),
+			'BLOG_TITLE'				=> $blog['blog_title'],
+			'BLOG_USER_AVATAR'			=> phpbb_get_user_avatar($this->user->data),
+			'BLOG_USER_RATING'			=> isset($blog['user_rating']) ? $blog['blog_rating'] : false,
+			'BLOG_VIEWS'				=> $blog['blog_views'],
+			'BLOG_VIEWS_TEXT'			=> $this->lang->lang('VIEWED_COUNTS', $blog['blog_views']),
 
-			'COMMENTS_COUNT'		=> $blog['comment_count'] ? $blog['comment_count'] : 0,
+			'COMMENTS_COUNT'			=> $blog['comment_count'] ? $blog['comment_count'] : 0,
 
 			'S_BLOG_CAN_DELETE'			=> ($this->auth->acl_get('u_ub_delete') && $blog['user_id'] == $this->user->data['user_id']) || $this->auth->acl_get('m_ub_delete') ? true : false,
 			'S_BLOG_CANDELETE_PERM'		=> $this->auth->acl_get('u_ub_delete'),
@@ -244,11 +259,14 @@ class blog
 
 			'S_ULTIMATEBLOG_ENABLED'	=> $this->config['ub_enable'],
 
+			'U_BLOG_ARCHIVE'		=> $this->helper->route('mrgoldy_ultimateblog_archives'),
+			'U_BLOG_CATEGORIES'		=> $this->helper->route('mrgoldy_ultimateblog_categories'),
 			'U_BLOG_DELETE'			=> $this->helper->route('mrgoldy_ultimateblog_posting', array('mode' => 'delete', 'blog_id' => (int) $blog_id)),
 			'U_BLOG_EDIT'			=> $this->helper->route('mrgoldy_ultimateblog_posting', array('mode' => 'edit', 'blog_id' => (int) $blog_id)),
 			'U_BLOG_RATING'			=> $this->helper->route('mrgoldy_ultimateblog_misc', array('blog_id' => (int) $blog_id, 'mode' => 'rate')),
 			'U_BLOG_REPORT'			=> $this->helper->route('mrgoldy_ultimateblog_report', array('blog_id' => (int) $blog_id, 'mode' => 'blog', 'id' => (int) $blog_id)),
 			'U_BLOG_VIEW_REPORT'	=> append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}?i=-mrgoldy-ultimateblog-mcp-report_module&amp;mode=ub_blog_reports_details&amp;blog_id={$blog_id}"),
+			'U_BLOG_URL'			=> $this->helper->get_current_url(),
 
 			'U_COMMENT_ADD'		=> $this->helper->route('mrgoldy_ultimateblog_misc', array('blog_id' => (int) $blog_id, 'mode' => 'comment', 'action' => 'add', 'pid' => (int) 0)),
 		));
@@ -260,7 +278,7 @@ class blog
 		));
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $blog['blog_title'],
-			'U_VIEW_FORUM'	=> $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog['blog_id'])),
+			'U_VIEW_FORUM'	=> $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog['blog_id'], 'title' => urlencode($blog['blog_title']))),
 		));
 
 		return $this->helper->render('ub_blog_body.html', $this->config['ub_title'] . ' - ' . $blog['blog_title']);

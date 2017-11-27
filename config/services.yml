@@ -76,8 +76,8 @@ services:
             - '@template'
             - '@user'
             - '%core.root_path%'
-            - '%mrgoldy.ultimateblog.tables.ub_categories'
-            - '%mrgoldy.ultimateblog.tables.ub_index'
+            - '%mrgoldy.ultimateblog.tables.ub_categories%'
+            - '%mrgoldy.ultimateblog.tables.ub_index%'
 
     mrgoldy.ultimateblog.controller.admin.overview:
         class: mrgoldy\ultimateblog\controller\admin_overview
@@ -90,7 +90,6 @@ services:
             - '@template'
             - '@user'
             - '%core.php_ext%'
-            - '%core.adm_relative_path%'
             - '%core.root_path%'
             - '%mrgoldy.ultimateblog.tables.ub_blogs%'
             - '%mrgoldy.ultimateblog.tables.ub_categories%'
@@ -205,6 +204,7 @@ services:
             - '%mrgoldy.ultimateblog.tables.ub_blog_category%'
             - '%mrgoldy.ultimateblog.tables.ub_comments%'
             - '%mrgoldy.ultimateblog.tables.ub_edits%'
+            - '%mrgoldy.ultimateblog.tables.ub_index%'
             - '%mrgoldy.ultimateblog.tables.ub_ratings%'
 
     mrgoldy.ultimateblog.notification.type.demo:

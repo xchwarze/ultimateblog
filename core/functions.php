@@ -53,6 +53,9 @@ class functions
 	/** @var string Ultimate Blog edit reasons table */
 	protected $ub_edits_table;
 
+	/** @var string Ultimate Blog index table */
+	protected $ub_index_table;
+
 	/** @var string Ultimate Blog ratings table */
 	protected $ub_ratings_table;
 
@@ -71,10 +74,11 @@ class functions
 	* @param string								$ub_blog_category_table
 	* @param string								$ub_comments_table
 	* @param string								$ub_edits_table
+	* @param string								$ub_index_table
 	* @param string								$ub_ratings_table
 	*/
 
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, $php_ext, $phpbb_root_path, $ub_blogs_table, $ub_categories_table, $ub_blog_category_table, $ub_comments_table, $ub_edits_table, $ub_ratings_table)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, $php_ext, $phpbb_root_path, $ub_blogs_table, $ub_categories_table, $ub_blog_category_table, $ub_comments_table, $ub_edits_table, $ub_index_table, $ub_ratings_table)
 	{
 		$this->auth		= $auth;
 		$this->config	= $config;
@@ -88,6 +92,7 @@ class functions
 		$this->ub_blog_category_table	= $ub_blog_category_table;
 		$this->ub_comments_table		= $ub_comments_table;
 		$this->ub_edits_table			= $ub_edits_table;
+		$this->ub_index_table			= $ub_index_table;
 		$this->ub_ratings_table			= $ub_ratings_table;
 	}
 
@@ -98,20 +103,20 @@ class functions
 	{
 		if (!$this->config['ub_enable'])
 		{
-			throw new \phpbb\exception\http_exception(404, 'Dit moet je nog aanpassen');
+			throw new \phpbb\exception\http_exception(404, $this->user->lang('BLOG_ERROR_DISABLED'));
 		}
 
 		# Check for permission to read the Ultimate Blogs
 		if (!$this->auth->acl_get('u_ub_view'))
 		{
-			throw new \phpbb\exception\http_exception(403, 'Dit moet je nog aanpassen');
+			throw new \phpbb\exception\http_exception(403, $this->user->lang('BLOG_ERROR_CANT_VIEW'));
 		}
 
 		$this->template->assign_var('U_MCP', ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->phpbb_root_path}mcp.$this->php_ext", 'i=main&amp;mode=front', true, $this->user->session_id) : '');
 	}
 
 	/**
-	 * @return mixed
+	 * @return array
 	 */
 	public function archive_list()
 	{
@@ -175,7 +180,7 @@ class functions
 	/**
 	 * @param $blog_id
 	 * @param $user_id
-	 * @return mixed
+	 * @return array
 	 */
 	public function blog_data($blog_id, $user_id)
 	{
@@ -225,10 +230,10 @@ class functions
 	# data contains information depending on the mode: nothing - category id - month and year - user id (resp.)
 	/**
 	 * @param     $mode
-	 * @param     $limit
-	 * @param     $start
+	 * @param int $limit
+	 * @param int $start
 	 * @param int $data
-	 * @return mixed
+	 * @return array
 	 */
 	public function blog_list($mode, $limit, $start, $data = 0)
 	{
@@ -295,6 +300,112 @@ class functions
 		$this->db->sql_freeresult($result);
 
 		return $blog;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function blog_index()
+	{
+		$sql_array = array(
+			'SELECT'    => 'i.block_name, i.block_limit, i.block_data, c.category_name',
+			'FROM'      => array($this->ub_index_table => 'i'),
+			'LEFT_JOIN' => array(
+				array(
+					'FROM'  => array($this->ub_categories_table	=> 'c'),
+					'ON'    => 'i.block_data = c.category_id
+								AND (i.block_id = 1
+									OR i.block_id = 2
+									OR i.block_id = 3)',
+				),
+			),
+			'ORDER_BY'	=> 'i.block_order DESC',
+			'WHERE'		=> 'i.block_order != 0',
+		);
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query($sql);
+		$rowset = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+
+		return $rowset;
+	}
+
+	/**
+	 * @param     $mode (category1, category2, category3, latest, comments, rating, views)
+	 * @param int $limit
+	 * @param int $category_id
+	 * @param int $rating_threshold
+	 * @return array
+	 */
+	public function blog_index_list($mode, $limit, $category_id = 0, $rating_threshold = 0)
+	{
+		$sql_array = array(
+		    'SELECT'    => 'b.blog_id, b.blog_title, b.blog_approved, b.blog_reported, b.blog_image, u.user_id, u.username, u.user_colour, GROUP_CONCAT(distinct bc.category_id) as categories',
+
+		    'FROM'      => array(
+				$this->ub_blogs_table => 'b',
+				USERS_TABLE => 'u'
+			),
+
+		    'LEFT_JOIN' => array(
+		        array(
+		            'FROM'  => array($this->ub_blog_category_table	=> 'bc'),
+		            'ON'    => 'b.blog_id = bc.blog_id',
+		        ),
+				array(
+					'FROM'	=> array(ZEBRA_TABLE => 'z'),
+					'ON'	=> 'b.author_id = z.user_id AND z.friend = 1',
+				),
+		    ),
+
+			'GROUP_BY'	=> 'b.blog_id',
+			'WHERE'		=> 'b.author_id = u.user_id',
+		);
+
+		switch ($mode)
+		{
+			case 'category1':
+			case 'category2':
+			case 'category3':
+				$sql_array['ORDER_BY'] = 'b.blog_date DESC';
+				$sql_array['WHERE'] .= ' AND bc.category_id = ' . (int) $category_id;
+			break;
+
+			case 'latest':
+				$sql_array['ORDER_BY'] = 'b.blog_date DESC';
+			break;
+
+			case 'comments':
+				$sql_array['LEFT_JOIN'][] = array('FROM' => array($this->ub_comments_table => 'c'), 'ON' => 'c.blog_id = b.blog_id');
+				$sql_array['ORDER_BY'] = 'c.comment_time DESC, b.blog_date DESC';
+				$sql_array['GROUP_BY'] .= ', c.blog_id';
+			break;
+
+			case 'rating':
+				$sql_array['SELECT'] .= ', AVG(r.rating) as blog_rating';
+				$sql_array['LEFT_JOIN'][] = array('FROM' => array($this->ub_ratings_table => 'r'), 'ON' => 'r.blog_id = b.blog_id');
+				$sql_array['GROUP_BY'] .= ', r.blog_id';
+				$sql_array['HAVING'] = 'COUNT(r.user_id) >= ' . (int) $rating_threshold;
+			break;
+
+			case 'views':
+				$sql_array['ORDER_BY'] = 'b.blog_views DESC, b.blog_date DESC';
+			break;
+		}
+		$sql_array['WHERE'] .= !$this->auth->acl_get('m_ub_approve') ? ' AND (b.blog_approved = 1 OR b.author_id = ' . (int) $this->user->data['user_id'] . ')' : '';
+
+		if (!$this->auth->acl_get('m_ub_view_friends_only'))
+		{
+			$sql_array['WHERE'] .= ' AND ((b.friends_only = 1 AND (b.author_id = ' . (int) $this->user->data['user_id'] . ' OR z.zebra_id = ' . (int) $this->user->data['user_id'] . ')) OR b.friends_only = 0)';
+		}
+
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$mode === 'rating' ? $sql .= ' HAVING COUNT(r.user_id) >= ' . (int) $rating_threshold . ' ORDER BY blog_rating DESC, b.blog_date DESC' : '';
+		$result = $this->db->sql_query_limit($sql, $limit);
+		$rowset = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+
+		return $rowset;
 	}
 
 	/**
@@ -489,7 +600,8 @@ class functions
 		$sql = 'SELECT e.*, u.user_id, u.username, u.user_colour
 				FROM ' . $this->ub_edits_table . ' e
 				LEFT JOIN ' . USERS_TABLE . ' u ON u.user_id = e.editor_id
-				WHERE blog_id = ' . (int) $blog_id;
+				WHERE e.blog_id = ' . (int) $blog_id . '
+				ORDER BY e.edit_time DESC';
 		$result = $this->db->sql_query($sql);
 		$rowset = $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);

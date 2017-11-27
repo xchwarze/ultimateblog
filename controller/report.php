@@ -117,7 +117,7 @@ class report
 		$redirect_url = $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog_id));
 
 		# Has the report been cancelled?
-		if (!empty($cancel))
+		if ($cancel)
 		{
 			return new RedirectResponse($redirect_url, 302);
 		}
@@ -139,7 +139,7 @@ class report
 		if ($already_reported)
 		{
 			$message = $this->lang->lang('BLOG_REPORT_ALREADY_' . strtoupper($mode));
-			$message .= '<br><br><a href="' . $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog_id)) . '">' . $this->lang->lang('BLOG_REPORT_RETURN') . '</a>';
+			$message .= '<br><br><a href="' . $redirect_url . '">' . $this->lang->lang('BLOG_REPORT_RETURN') . '</a>';
 			return $this->helper->message($message);
 		}
 
@@ -148,7 +148,7 @@ class report
 		if (!$exists)
 		{
 			$message = $this->lang->lang('BLOG_REPORT_NO_' . strtoupper($mode));
-			$message .= '<br><br><a href="' . $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog_id)) . '">' . $this->lang->lang('BLOG_REPORT_RETURN') . '</a>';
+			$message .= '<br><br><a href="' . $redirect_url . '">' . $this->lang->lang('BLOG_REPORT_RETURN') . '</a>';
 			throw new \phpbb\exception\http_exception(403, $message);
 		}
 
@@ -197,7 +197,7 @@ class report
 			$this->helper->assign_meta_refresh_var(3, $redirect_url);
 			$message = $this->lang->lang('BLOG_REPORT_SUCCESS_' . strtoupper($mode));
 			$message .= !empty($user_notify) ? '<br>' . $this->lang->lang('BLOG_REPORT_NOTIFY') : '';
-			$message .= '<br><br><a href="' . $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog_id)) . '">' . $this->lang->lang('BLOG_REPORT_RETURN') . '</a>';
+			$message .= '<br><br><a href="' . $redirect_url . '">' . $this->lang->lang('BLOG_REPORT_RETURN') . '</a>';
 			return $this->helper->message($message);
 		}
 

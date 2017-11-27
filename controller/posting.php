@@ -166,25 +166,6 @@ class posting
 			throw new \phpbb\exception\http_exception(404, $this->lang->lang('BLOG_ERROR_NO_BLOG'));
 		}
 
-		# Check for cancel
-		if ($cancel)
-		{
-			if ($edit || $delete)
-			{
-				$redirect_url = $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog_id));
-			}
-			elseif (!empty($category_id))
-			{
-				$redirect_url = $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $category_id));
-			}
-			else
-			{
-				$redirect_url = $this->helper->route('mrgoldy_ultimateblog_index');
-			}
-
-			return new RedirectResponse ($redirect_url, 302);
-		}
-
 		# Set up a list of category id's
 		if ($preview || $submit)
 		{
@@ -216,6 +197,25 @@ class posting
 				'S_CURRENT_CATEGORY'	=> in_array($category['category_id'], $current_categories),
 				'S_IS_PRIVATE'			=> $category['is_private'],
 			));
+		}
+
+		# Check for cancel
+		if ($cancel)
+		{
+			if ($edit || $delete)
+			{
+				$redirect_url = $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog_id, 'title' => urlencode($blog_to_edit['blog_title'])));
+			}
+			elseif (!empty($category_id))
+			{
+				$redirect_url = $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $category_id, 'title' => urlencode($categories[$category_id]['category_name'])));
+			}
+			else
+			{
+				$redirect_url = $this->helper->route('mrgoldy_ultimateblog_index');
+			}
+
+			return new RedirectResponse ($redirect_url, 302);
 		}
 
 		# Check permissions
@@ -407,7 +407,7 @@ class posting
 			$this->log->add('user', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_UB_LOG_BLOG_' . strtoupper($mode) . 'ED', time(), array($blog_to_update['blog_title'], 'reportee_id' => (int) $this->user->data['user_id']));
 
 			# Confirmation message
-			$blog_url = $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog_id));
+			$blog_url = $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog_id, 'title' => urlencode($blog_to_update['blog_title'])));
 			trigger_error($this->lang->lang('BLOG_' . strtoupper($mode) . 'ED', $blog_to_update['blog_title'], $blog_url));
 		}
 
@@ -467,14 +467,14 @@ class posting
 		{
 			$this->template->assign_block_vars('navlinks', array(
 				'FORUM_NAME'	=> $blog_to_edit['blog_title'],
-				'U_VIEW_FORUM'	=> $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog_id)),
+				'U_VIEW_FORUM'	=> $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog_id, 'title' => urlencode($blog_to_edit['blog_title']))),
 			));
 		}
 		elseif (!empty($category_id))
 		{
 			$this->template->assign_block_vars('navlinks', array(
 				'FORUM_NAME'	=> $categories[$category_id]['category_name'],
-				'U_VIEW_FORUM'	=> $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $category_id)),
+				'U_VIEW_FORUM'	=> $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $category_id, 'title' => urlencode($categories[$category_id]['category_name']))),
 			));
 		}
 
@@ -532,7 +532,7 @@ class posting
 				$this->log->add('mod', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_UB_LOG_BLOG_EDIT_DELETED', time(), array($edit_array['edit_user'], $edit_array['edit_text'], $edit_array['blog_title']));
 
 				# Return to the blog view
-				redirect($this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog_id)));
+				redirect($this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog_id, 'title' => urlencode($edit_array['blog_title']))));
 			break;
 
 			case 'comment':
@@ -578,7 +578,18 @@ class posting
 					break;
 
 					case 'delete':
-						$author_id = $this->request->variable('aid', 0);
+					if ($this->request->is_ajax())
+					{
+						if (confirm_box(true))
+						{
+							trigger_error('BYE');
+						}
+						else
+						{
+							confirm_box(false, 'Hi');
+						}
+					}
+						/*$author_id = $this->request->variable('aid', 0);
 						$comment_id = $this->request->variable('cid', 0);
 
 						if (!$this->auth->acl_get('m_ub_delete') && (!$this->auth->acl_get('u_ub_comment_delete') || $this->user->data['user_id'] != $author_id))
@@ -604,9 +615,9 @@ class posting
 							}
 							else
 							{
-								confirm_box(false, $this->lang->lang('BLOG_COMMENTS_DELETE_CONFIRM') . (!empty($reply_count) ? '<br>'. $this->lang->lang('BLOG_COMMENTS_DELETE_REPLIES') : ''), '', 'confirm_body.html', $this->helper->route('mrgoldy_ultimateblog_misc', array('blog_id' => (int) $blog_id, 'mode' => 'comment', 'action' => 'delete', 'aid' => (int) $author_id, 'cid' => (int) $comment_id)));
+								confirm_box(false, $this->user->lang('BLOG_COMMENTS_DELETE_CONFIRM') . (!empty($reply_count) ? '<br>'. $this->lang->lang('BLOG_COMMENTS_DELETE_REPLIES') : ''), '', 'confirm_body.html', $this->helper->route('mrgoldy_ultimateblog_misc', array('blog_id' => (int) $blog_id, 'mode' => 'comment', 'action' => 'delete', 'aid' => (int) $author_id, 'cid' => (int) $comment_id)));
 							}
-						}
+						}*/
 					break;
 
 					case 'edit':

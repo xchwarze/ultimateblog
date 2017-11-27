@@ -435,7 +435,7 @@ class mcp
 			'U_BLOG_DELETE'		=> $this->helper->route('mrgoldy_ultimateblog_posting', array('mode' => 'delete', 'blog_id' => (int) $report['blog_id'])),
 			'U_BLOG_EDIT'		=> $this->helper->route('mrgoldy_ultimateblog_posting', array('mode' => 'edit', 'blog_id' => (int) $report['blog_id'])),
 			'U_LOOKUP_IP'		=> $this->auth->acl_getf_global('m_info') ? $this->u_action . '&amp;report_id=' . $report_id . '&amp;lookup=' . $report['author_user_ip'] . '#ip' : '',
-			'U_VIEW_BLOG'		=> $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $report['blog_id'])),
+			'U_VIEW_BLOG'		=> $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $report['blog_id'], 'title' => urlencode($report['blog_title']))),
 			'U_VIEW_COMMENT'	=> $type === 'comment' ? $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $report['blog_id'])) . '#' . (int) $report['comment_id'] : '',
 			'U_VIEW_UB'			=> $this->helper->route('mrgoldy_ultimateblog_index'),
 		));
@@ -552,7 +552,7 @@ class mcp
 					'REPORT_ID'		=> $report['report_id'],
 					'REPORT_TIME'	=> $this->user->format_date($report['report_time']),
 
-					'U_VIEW_BLOG'			=> $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $report['blog_id'])),
+					'U_VIEW_BLOG'			=> $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $report['blog_id'], 'title' => urlencode($report['blog_title']))),
 					'U_VIEW_DETAILS'		=> append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}?i=-mrgoldy-ultimateblog-mcp-report_module&amp;mode=ub_{$type}_reports_details&amp;report_id={$report['report_id']}"),
 				));
 			}

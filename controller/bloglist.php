@@ -104,32 +104,119 @@ class bloglist
 		# Check if Ultimate Blog is enabled and if the user has the 'view' permission
 		$this->func->ub_status();
 
-		# Set start variable
-		$start = $this->set_start($page);
+		if (!$this->config['ub_custom_index'])
+		{
+			# Set start variable
+			$start = $this->set_start($page);
 
-		# Get a list of blogs and categories
-		$blogs = $this->func->blog_list('index', $this->config['ub_blogs_per_page'], $start);
-		$cats = $this->func->category_list();
+			# Get a list of blogs and categories
+			$blogs = $this->func->blog_list('index', $this->config['ub_blogs_per_page'], $start);
+			$cats = $this->func->category_list();
 
-		# Set up blog list
-		$this->setup_blog_list($blogs['list'], $cats);
+			# Set up blog list
+			$this->setup_blog_list($blogs['list'], $cats);
 
-		# Start pagination
-		$this->pagination->generate_template_pagination(
-			array(
-				'routes' => array(
-					'mrgoldy_ultimateblog_index',
-					'mrgoldy_ultimateblog_indexpage',
-				),
-				'params' => array(),
-			), 'pagination', 'page', $blogs['count'], $this->config['ub_blogs_per_page'], $start);
+			# Start pagination
+			$this->pagination->generate_template_pagination(
+				array(
+					'routes' => array(
+						'mrgoldy_ultimateblog_index',
+						'mrgoldy_ultimateblog_indexpage',
+					),
+					'params' => array(),
+				), 'pagination', 'page', $blogs['count'], $this->config['ub_blogs_per_page'], $start);
+
+			# Set up additional template variables
+			$this->template->assign_vars(array(
+				'PAGE_NUMBER'	=> $this->pagination->on_page($blogs['count'], $this->config['ub_blogs_per_page'], $start),
+				'TOTAL_BLOGS'	=> $this->lang->lang('BLOG_COUNT', (int) $blogs['count']),
+			));
+		}
+		else
+		{
+			$cats = $this->func->category_list();
+			$rowset = $this->func->blog_index();
+
+			foreach($rowset as $row)
+			{
+				$block_title = '';
+				# Per index panel we grab the blog list
+				# 1: Specific category | 2: Specific category | 3: Specific category | 4: Latest | 5: Comments | 6: Rating | 7: Views
+				switch ($row['block_name'])
+				{
+					case 'category1':
+					case 'category2':
+					case 'category3':
+						$block_title = $row['category_name'];
+						$blogs = $this->func->blog_index_list($row['block_name'], $row['block_limit'], $row['block_data'], 0);
+					break;
+
+					case 'latest':
+						$block_title = $this->lang->lang('BLOG_INDEX_LATEST');
+						$blogs = $this->func->blog_index_list($row['block_name'], $row['block_limit'], 0, 0);
+					break;
+
+					case 'comments':
+						$block_title = $this->lang->lang('BLOG_INDEX_COMMENTED');
+						$blogs = $this->func->blog_index_list($row['block_name'], $row['block_limit'], 0, 0);
+					break;
+
+					case 'rating':
+						$block_title = $this->lang->lang('BLOG_INDEX_RATED');
+						$blogs = $this->func->blog_index_list($row['block_name'], $row['block_limit'], 0, $row['block_data']);
+					break;
+
+					case 'views':
+						$block_title = $this->lang->lang('BLOG_INDEX_VIEWED');
+						$blogs = $this->func->blog_index_list($row['block_name'], $row['block_limit'], 0, 0);
+					break;
+				}
+
+				$this->template->assign_block_vars('index_blocks', array(
+					'TITLE'		=> $block_title,
+				));
+
+				foreach ($blogs as $blog)
+				{
+					# Assign the blog template block variables
+					$this->template->assign_block_vars('index_blocks.blogs', array(
+						'AUTHOR'	=> get_username_string('full', $blog['user_id'], $blog['username'], $blog['user_colour']),
+						'ID'		=> $blog['blog_id'],
+						'IMAGE'		=> $this->path_helper->get_web_root_path() . $this->config['ub_image_dir'] . '/' . $blog['blog_image'],
+						'TITLE'		=> $blog['blog_title'],
+
+						'S_IS_AUTHOR'		=> ($this->user->data['user_id'] == $blog['user_id']) ? true : false,
+						'S_IS_REPORTED'		=> $blog['blog_reported'],
+						'S_IS_UNAPPROVED'	=> !$blog['blog_approved'],
+
+						'U_BLOG'		=> $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog['blog_id'], 'title' => urlencode($blog['blog_title']))),
+					));
+
+					# Explode the category list for this blog
+					$cat_ids = explode(',', $blog['categories']);
+
+					# Iterate over all the categories for this blog
+					foreach($cat_ids as $cat_id)
+					{
+						# Assign the blog categories template block variables
+						$this->template->assign_block_vars('index_blocks.blogs.cats', array(
+							'BLOG_CATEGORY_NAME'	=> $cats[$cat_id]['category_name'],
+
+							'U_BLOG_CATEGORY'		=> $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $cat_id, 'title' => urlencode($cats[$cat_id]['category_name']))),
+						));
+					}
+				}
+			}
+
+			# Setup_blog_list function is not called from the custom index, so call the template function from here specifically.
+			$this->setup_bloglist_template();
+		}
 
 		# Set up additional template variables
 		$this->template->assign_vars(array(
-			'PAGE_NUMBER'	=> $this->pagination->on_page($blogs['count'], $this->config['ub_blogs_per_page'], $start),
-			'TOTAL_BLOGS'	=> $this->lang->lang('BLOG_COUNT', (int) $blogs['count']),
-			'S_BLOG_INDEX'	=> true,
-			'U_BLOG_ADD'	=> $this->helper->route('mrgoldy_ultimateblog_posting', array('mode' => 'add')),
+			'S_BLOG_INDEX'			=> true,
+			'S_BLOG_CUSTOM_INDEX'	=> $this->config['ub_custom_index'],
+			'U_BLOG_ADD'			=> $this->helper->route('mrgoldy_ultimateblog_posting', array('mode' => 'add')),
 		));
 
 		return $this->helper->render('ub_blog_index.html', $this->config['ub_title']);
@@ -148,8 +235,9 @@ class bloglist
 		# Get a list of blogs and categories
 		$blogs = $this->func->blog_list('category', $this->config['ub_blogs_per_page'], $start, (int) $category_id);
 		$cats = $this->func->category_list();
+		$category_row = $cats[$category_id];
 
-		if (!$cats[$category_id]['category_name'])
+		if (!$category_row['category_name'])
 		{
 			throw new \phpbb\exception\http_exception(404, $this->lang->lang('BLOG_ERROR_NO_CATEGORY'));
 		}
@@ -168,26 +256,26 @@ class bloglist
 
 		# Set up additional template variables
 		$this->template->assign_vars(array(
-			'CATEGORY_DESCRIPTION'			=> $this->renderer->render($cats[$category_id]['category_description']),
-			'CATEGORY_DESCRIPTION_META'		=> $this->utils->clean_formatting($cats[$category_id]['category_description']),
-			'CATEGORY_TITLE'				=> $cats[$category_id]['category_name'],
+			'CATEGORY_DESCRIPTION'			=> $this->renderer->render($category_row['category_description']),
+			'CATEGORY_DESCRIPTION_META'		=> $this->utils->clean_formatting($category_row['category_description']),
+			'CATEGORY_TITLE'				=> $category_row['category_name'],
 			'PAGE_NUMBER'					=> $this->pagination->on_page($blogs['count'], $this->config['ub_blogs_per_page'], $start),
 			'TOTAL_BLOGS'					=> $this->lang->lang('BLOG_COUNT', (int) $blogs['count']),
 
 			'S_BLOG_CATEGORY'				=> true,
 			'S_BLOG_CATEGORY_POST_PRIVATE'	=> $this->auth->acl_get('u_ub_post_private'),
-			'S_BLOG_CATEGORY_PRIVATE'		=> $cats[$category_id]['is_private'],
+			'S_BLOG_CATEGORY_PRIVATE'		=> $category_row['is_private'],
 
 			'U_BLOG_ADD'					=> $this->helper->route('mrgoldy_ultimateblog_posting', array('mode' => 'add', 'cid' => (int) $category_id)),
 		));
 
 		# Breadcrumbs
 		$this->template->assign_block_vars('navlinks', array(
-			'FORUM_NAME'	=> $cats[$category_id]['category_name'],
-			'U_VIEW_FORUM'	=> $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $category_id)),
+			'FORUM_NAME'	=> $category_row['category_name'],
+			'U_VIEW_FORUM'	=> $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $category_id, 'title' => urlencode($category_row['category_name']))),
 		));
 
-		return $this->helper->render('ub_blog_index.html', $this->config['ub_title'] . ' - ' .  $cats[$category_id]['category_name']);
+		return $this->helper->render('ub_blog_index.html', $this->config['ub_title'] . ' - ' .  $category_row['category_name']);
 	}
 
 	/**
@@ -309,7 +397,7 @@ class bloglist
 				'S_IS_REPORTED'		=> $blog['blog_reported'],
 				'S_IS_UNAPPROVED'	=> !$blog['blog_approved'],
 
-				'U_BLOG'		=> $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog['blog_id'])),
+				'U_BLOG'		=> $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog['blog_id'], 'title' => urlencode($blog['blog_title']))),
 			));
 
 			# Explode the category list for this blog
@@ -324,15 +412,18 @@ class bloglist
 
 					'S_CURRENT_CATEGORY'	=> $category_id == $cat_id ? true : false,
 
-					'U_BLOG_CATEGORY'		=> $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $cat_id)),
+					'U_BLOG_CATEGORY'		=> $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $cat_id, 'title' => urlencode($cats[$cat_id]['category_name']))),
 				));
 			}
 		}
 
+		$this->setup_bloglist_template();
+	}
+
+	private function setup_bloglist_template()
+	{
 		# Set up template variables
 		$this->template->assign_vars(array(
-			'ULTIMATEBLOG_TITLE'	=> $this->config['ub_title'],
-
 			'S_BLOG_CAN_ADD'		=> $this->auth->acl_get('u_ub_post'),
 			'S_BLOG_CAN_COMMENT'	=> $this->auth->acl_get('u_ub_comment'),
 			'S_BLOG_CAN_COMMENT_VIEW' => $this->auth->acl_get('u_ub_comment_view'),
@@ -346,8 +437,6 @@ class bloglist
 			'S_BLOG_MOD_APPROVE'	=> $this->auth->acl_get('m_ub_approve'),
 			'S_BLOG_MOD_REPORT'		=> $this->auth->acl_get('m_ub_report'),
 			'S_BLOG_RATING_ENABLED'	=> $this->config['ub_enable_rating'],
-
-			'S_ULTIMATEBLOG_ENABLED'	=> $this->config['ub_enable'],
 
 			'U_BLOG_ARCHIVE'	=> $this->helper->route('mrgoldy_ultimateblog_archives'),
 			'U_BLOG_CATEGORIES'	=> $this->helper->route('mrgoldy_ultimateblog_categories'),

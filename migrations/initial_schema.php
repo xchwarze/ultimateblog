@@ -211,6 +211,9 @@ class initial_schema extends \phpbb\db\migration\container_aware_migration
 			array('permission.add', array('a_ub_settings')),
 			array('permission.add', array('a_ub_categories')),
 
+			# Add view permission for the Guests group
+			array('permission.permission_set', array('GUESTS', 'u_u_view', 'group')),
+
 			# Insert sample data for Ultimate Blog
 			array('custom', array(array($this, 'insert_sample_data'))),
 
@@ -390,6 +393,7 @@ class initial_schema extends \phpbb\db\migration\container_aware_migration
 				'blog_id'				=> 1,
 				'blog_date'				=> time(),
 				'blog_description'		=> 'This is a descriptive piece of text summarising everything in this blog. Enjoy using Ultimate Blog!',
+				'blog_image'			=> 'ub_image.png',
 				'blog_text'				=> '<r>This is an example blog in your phpBB3 Extension: <B><s>[b]</s>Ultimate Blog<e>[/b]</e></B>.<br/>
 <br/>
 Everything seems to be working. You may delete this blog if you like and continue to set up your Ultimate Blog extension. During the installation of this extension a category and blog post have been made. Which you are read right now. These were to made to show you the overall look and options of the extension.<br/>
@@ -418,12 +422,15 @@ Hope you like the Ultimate Blog extension and: Have fun!</r>',
 				'category_id'			=> 1,
 				'category_name'			=> 'Your first Ultimate Blog category',
 				'category_description'	=> 'A description of your first Ultimate Blog category.',
+				'category_image'		=> 'ub_cat_image.png',
 				'bbcode_bitfield'		=> '',
 				'bbcode_uid'			=> '',
 				'enable_bbcode'			=> 1,
 				'enable_smilies'		=> 1,
 				'enable_magic_url'		=> 1,
 				'is_private'			=> 0,
+				'left_id'				=> 1,
+				'right_id'				=> 2,
 			),
 		);
 
