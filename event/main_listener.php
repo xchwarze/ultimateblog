@@ -310,7 +310,7 @@ class main_listener implements EventSubscriberInterface
 				break;
 
 				case 'category':
-					$event['location'] = ctype_digit($params[3]) ? $this->lang->lang('UB_VIEWONLINE_CATEGORY', $this->config['ub_title'], $categories[$params[3]]['category_name']) : $this->lang->lang('UB_VIEWONLINE_CATEGORIES', $this->config['ub_title']);;
+					$event['location'] = ctype_digit($params[3]) ? $this->lang->lang('UB_VIEWONLINE_CATEGORY', $this->config['ub_title'], $categories[$params[3]]['category_name']) : $this->lang->lang('UB_VIEWONLINE_CATEGORIES', $this->config['ub_title']);
 					$event['location_url'] = ctype_digit($params[3]) ? $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $params[3], 'title' => $params[4] )): $this->helper->route('mrgoldy_ultimateblog_categories');
 				break;
 

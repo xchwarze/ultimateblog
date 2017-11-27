@@ -367,7 +367,7 @@ class mcp
 			$sql_array = array(
 				'SELECT'	=> 'c.comment_id, c.comment_time, c.comment_text, c.comment_approved, c.comment_reported, u.user_id, u.username, u.user_colour',
 				'FROM'		=> array($this->ub_comments_table => 'c',
-				 					USERS_TABLE => 'u'),
+									USERS_TABLE => 'u'),
 				'WHERE'		=> 'c.user_id = u.user_id AND c.comment_id = ',
 			);
 			$sql_array['WHERE'] .= $report['parent_id'] == 0 ? (int) $report['comment_id'] : (int) $report['parent_id'];

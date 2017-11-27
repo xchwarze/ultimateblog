@@ -489,7 +489,8 @@ class admin_overview
 	 * @param bool $full
 	 * @return string
 	 */
-	public function time_elapsed_string($datetime, $full = false) {
+	public function time_elapsed_string($datetime, $full = false)
+	{
 		$now = $this->user->create_datetime();
 		$ago = $this->user->create_datetime('@' . $datetime);
 		$diff = $now->diff($ago);
@@ -523,7 +524,7 @@ class admin_overview
 		{
 			$string = array_slice($string, 0, 1);
 		}
-		
+
 		return implode(', ', $string);
 	}
 }

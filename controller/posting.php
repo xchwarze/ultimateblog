@@ -126,7 +126,7 @@ class posting
 	 * @param     $mode
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function handle($blog_id = 0, $mode)
+	public function handle($mode, $blog_id = 0)
 	{
 		# Check Ultimate Blog status, add language, smilies and BBCodes
 		$this->func->ub_status();
@@ -633,7 +633,7 @@ class posting
 								throw new \phpbb\exception\http_exception(403, $this->lang->lang('BLOG_ERROR_CANT_COMMENT_EDIT'));
 							}
 
-							return new \Symfony\Component\HttpFoundation\JsonResponse(array(
+							return new JsonResponse(array(
 								'author_id'		=> (int) $comment_row['user_id'],
 								'comment_id'	=> (int) $comment_id,
 								'comment_text'	=> $this->utils->unparse($comment_row['comment_text']),
