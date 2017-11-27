@@ -64,7 +64,7 @@ class archives
 			$archive[$year_key][] = $month_value;
 		});
 
-		foreach($archive as $year => $months)
+		foreach ($archive as $year => $months)
 		{
 			$this->template->assign_block_vars('years', array(
 				'YEAR'	=> $year,

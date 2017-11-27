@@ -72,7 +72,7 @@ class report
 	 * @param string                                                  $ub_comments_table Ultimate Blog comments table
 	 * @param string                                                  $ub_reports_table  Ultimate Blog reports table
 	 * @internal param \report\reason\report_reason_list_provider $uiprovider Report reason list provider
-	 * @access   public
+	 * @access	public
 	 */
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\language\language $lang, \phpbb\log\log $log, \phpbb\request\request_interface $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\report\report_reason_list_provider $ui_provider, $ub_blogs_table, $ub_comments_table, $ub_reports_table)
 	{

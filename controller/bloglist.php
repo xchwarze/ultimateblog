@@ -137,7 +137,7 @@ class bloglist
 			$cats = $this->func->category_list();
 			$rowset = $this->func->blog_index();
 
-			foreach($rowset as $row)
+			foreach ($rowset as $row)
 			{
 				$block_title = '';
 				# Per index panel we grab the blog list
@@ -196,7 +196,7 @@ class bloglist
 					$cat_ids = explode(',', $blog['categories']);
 
 					# Iterate over all the categories for this blog
-					foreach($cat_ids as $cat_id)
+					foreach ($cat_ids as $cat_id)
 					{
 						# Assign the blog categories template block variables
 						$this->template->assign_block_vars('index_blocks.blogs.cats', array(
@@ -275,7 +275,7 @@ class bloglist
 			'U_VIEW_FORUM'	=> $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $category_id, 'title' => urlencode($category_row['category_name']))),
 		));
 
-		return $this->helper->render('ub_blog_index.html', $this->config['ub_title'] . ' - ' .  $category_row['category_name']);
+		return $this->helper->render('ub_blog_index.html', $this->config['ub_title'] . ' - ' . $category_row['category_name']);
 	}
 
 	/**
@@ -306,13 +306,13 @@ class bloglist
 		$date_text = $this->user->format_date($blogs['list'][0]['blog_date'], 'F Y');
 
 		$this->pagination->generate_template_pagination(
-		    array(
-		        'routes' => array(
-		            'mrgoldy_ultimateblog_archive',
-		            'mrgoldy_ultimateblog_archivepage',
-		        ),
-		        'params' => array('year' => (int) $year, 'month' => (int) $month),
-		    ), 'pagination', 'page', $blogs['count'], $this->config['ub_blogs_per_page'], $start);
+			array(
+				'routes' => array(
+					'mrgoldy_ultimateblog_archive',
+					'mrgoldy_ultimateblog_archivepage',
+				),
+				'params' => array('year' => (int) $year, 'month' => (int) $month),
+			), 'pagination', 'page', $blogs['count'], $this->config['ub_blogs_per_page'], $start);
 
 		# Set up additional template variables
 		$this->template->assign_vars(array(
@@ -404,7 +404,7 @@ class bloglist
 			$cat_ids = explode(',', $blog['categories']);
 
 			# Iterate over all the categories for this blog
-			foreach($cat_ids as $cat_id)
+			foreach ($cat_ids as $cat_id)
 			{
 				# Assign the blog categories template block variables
 				$this->template->assign_block_vars('blogs.cats', array(

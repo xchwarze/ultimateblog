@@ -97,7 +97,7 @@ class posting
 	 * @param string                               $phpbb_root_path phpBB root path
 	 * @param \mrgoldy\ultimateblog\core\functions $func            Ultimate Blog functions
 	 * @internal param \phpbb\files\factory $files Files factory
-	 * @access   public
+	 * @access	public
 	 */
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\files\factory $files_factory, \phpbb\filesystem\filesystem $filesystem, \phpbb\controller\helper $helper, \phpbb\language\language $lang, \phpbb\log\log $log, \phpbb\pagination $pagination, \phpbb\textformatter\s9e\parser $parser, \phpbb\path_helper $path_helper, \phpbb\textformatter\s9e\renderer $renderer, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\textformatter\s9e\utils $utils, $php_ext, $phpbb_root_path, $func)
 	{
@@ -171,7 +171,7 @@ class posting
 		{
 			$current_categories = $this->request->variable('blog_categories', array(0));
 		}
-		elseif ($edit)
+		else if ($edit)
 		{
 			$current_categories = explode(',', $blog_to_edit['categories']);
 		}
@@ -206,7 +206,7 @@ class posting
 			{
 				$redirect_url = $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog_id, 'title' => urlencode($blog_to_edit['blog_title'])));
 			}
-			elseif (!empty($category_id))
+			else if (!empty($category_id))
 			{
 				$redirect_url = $this->helper->route('mrgoldy_ultimateblog_category', array('category_id' => (int) $category_id, 'title' => urlencode($categories[$category_id]['category_name'])));
 			}
@@ -470,7 +470,7 @@ class posting
 				'U_VIEW_FORUM'	=> $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog_id, 'title' => urlencode($blog_to_edit['blog_title']))),
 			));
 		}
-		elseif (!empty($category_id))
+		else if (!empty($category_id))
 		{
 			$this->template->assign_block_vars('navlinks', array(
 				'FORUM_NAME'	=> $categories[$category_id]['category_name'],

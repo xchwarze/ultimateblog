@@ -10,16 +10,16 @@
  */
 
 function require(name) {
-  var module = require.modules[name];
-  if (!module) throw new Error('failed to require "' + name + '"');
+	var module = require.modules[name];
+	if (!module) throw new Error('failed to require "' + name + '"');
 
-  if (!('exports' in module) && typeof module.definition === 'function') {
-    module.client = module.component = true;
-    module.definition.call(this, module.exports = {}, module);
-    delete module.definition;
-  }
+	if (!('exports' in module) && typeof module.definition === 'function') {
+		module.client = module.component = true;
+		module.definition.call(this, module.exports = {}, module);
+		delete module.definition;
+	}
 
-  return module.exports;
+	return module.exports;
 }
 
 /**
@@ -33,25 +33,25 @@ require.loader = 'component';
  */
 require.helper = {};
 require.helper.semVerSort = function(a, b) {
-  var aArray = a.version.split('.');
-  var bArray = b.version.split('.');
-  for (var i=0; i<aArray.length; ++i) {
-    var aInt = parseInt(aArray[i], 10);
-    var bInt = parseInt(bArray[i], 10);
-    if (aInt === bInt) {
-      var aLex = aArray[i].substr((""+aInt).length);
-      var bLex = bArray[i].substr((""+bInt).length);
-      if (aLex === '' && bLex !== '') return 1;
-      if (aLex !== '' && bLex === '') return -1;
-      if (aLex !== '' && bLex !== '') return aLex > bLex ? 1 : -1;
-      continue;
-    } else if (aInt > bInt) {
-      return 1;
-    } else {
-      return -1;
-    }
-  }
-  return 0;
+	var aArray = a.version.split('.');
+	var bArray = b.version.split('.');
+	for (var i=0; i<aArray.length; ++i) {
+		var aInt = parseInt(aArray[i], 10);
+		var bInt = parseInt(bArray[i], 10);
+		if (aInt === bInt) {
+			var aLex = aArray[i].substr((""+aInt).length);
+			var bLex = bArray[i].substr((""+bInt).length);
+			if (aLex === '' && bLex !== '') return 1;
+			if (aLex !== '' && bLex === '') return -1;
+			if (aLex !== '' && bLex !== '') return aLex > bLex ? 1 : -1;
+			continue;
+		} else if (aInt > bInt) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+	return 0;
 }
 
 /**
@@ -64,45 +64,46 @@ require.helper.semVerSort = function(a, b) {
  *                               otherwise it returns the epxorted module
  */
 require.latest = function (name, returnPath) {
-  function showError(name) {
-    throw new Error('failed to find latest module of "' + name + '"');
-  }
-  // only remotes with semvers, ignore local files conataining a '/'
-  var versionRegexp = /(.*)~(.*)@v?(\d+\.\d+\.\d+[^\/]*)$/;
-  var remoteRegexp = /(.*)~(.*)/;
-  if (!remoteRegexp.test(name)) showError(name);
-  var moduleNames = Object.keys(require.modules);
-  var semVerCandidates = [];
-  var otherCandidates = []; // for instance: name of the git branch
-  for (var i=0; i<moduleNames.length; i++) {
-    var moduleName = moduleNames[i];
-    if (new RegExp(name + '@').test(moduleName)) {
-        var version = moduleName.substr(name.length+1);
-        var semVerMatch = versionRegexp.exec(moduleName);
-        if (semVerMatch != null) {
-          semVerCandidates.push({version: version, name: moduleName});
-        } else {
-          otherCandidates.push({version: version, name: moduleName});
-        }
-    }
-  }
-  if (semVerCandidates.concat(otherCandidates).length === 0) {
-    showError(name);
-  }
-  if (semVerCandidates.length > 0) {
-    var module = semVerCandidates.sort(require.helper.semVerSort).pop().name;
-    if (returnPath === true) {
-      return module;
-    }
-    return require(module);
-  }
-  // if the build contains more than one branch of the same module
-  // you should not use this funciton
-  var module = otherCandidates.sort(function(a, b) {return a.name > b.name})[0].name;
-  if (returnPath === true) {
-    return module;
-  }
-  return require(module);
+	function showError(name) {
+		throw new Error('failed to find latest module of "' + name + '"');
+	}
+	// only remotes with semvers, ignore local files conataining a '/'
+	var versionRegexp = /(.*)~(.*)@v?(\d+\.\d+\.\d+[^\/]*)$/;
+	var remoteRegexp = /(.*)~(.*)/;
+	if (!remoteRegexp.test(name)) showError(name);
+	var moduleNames = Object.keys(require.modules);
+	var semVerCandidates = [];
+	var otherCandidates = []; // for instance: name of the git branch
+	for (var i=0; i<moduleNames.length; i++) {
+		var moduleName = moduleNames[i];
+		if (new RegExp(name + '@').test(moduleName)) {
+			var version = moduleName.substr(name.length+1);
+			var semVerMatch = versionRegexp.exec(moduleName);
+			if (semVerMatch != null) {
+				semVerCandidates.push({version: version, name: moduleName});
+			} else {
+				otherCandidates.push({version: version, name: moduleName});
+			}
+		}
+	}
+	if (semVerCandidates.concat(otherCandidates).length === 0) {
+		showError(name);
+	}
+	if (semVerCandidates.length > 0) {
+		var module = semVerCandidates.sort(require.helper.semVerSort).pop().name;
+		if (returnPath === true) {
+		return module;
+	}
+		return require(module);
+	}
+
+	// if the build contains more than one branch of the same module
+	// you should not use this funciton
+	var module = otherCandidates.sort(function(a, b) {return a.name > b.name})[0].name;
+	if (returnPath === true) {
+		return module;
+	}
+	return require(module);
 }
 
 /**
@@ -120,9 +121,9 @@ require.modules = {};
  */
 
 require.register = function (name, definition) {
-  require.modules[name] = {
-    definition: definition
-  };
+	require.modules[name] = {
+		definition: definition
+	};
 };
 
 /**
@@ -134,9 +135,9 @@ require.register = function (name, definition) {
  */
 
 require.define = function (name, exports) {
-  require.modules[name] = {
-    exports: exports
-  };
+	require.modules[name] = {
+		exports: exports
+	};
 };
 require.register("abpetkov~transitionize@0.0.3", function (exports, module) {
 
@@ -197,7 +198,7 @@ Transitionize.prototype.init = function() {
   var transitions = [];
 
   for (var key in this.props) {
-    transitions.push(key + ' ' + this.props[key]);
+	transitions.push(key + ' ' + this.props[key]);
   }
 
   this.element.style.transition = transitions.join(', ');
@@ -1001,7 +1002,7 @@ require.register("component~indexof@0.0.3", function (exports, module) {
 module.exports = function(arr, obj){
   if (arr.indexOf) return arr.indexOf(obj);
   for (var i = 0; i < arr.length; ++i) {
-    if (arr[i] === obj) return i;
+	if (arr[i] === obj) return i;
   }
   return -1;
 };
@@ -1062,8 +1063,8 @@ function ClassList(el) {
 ClassList.prototype.add = function(name){
   // classList
   if (this.list) {
-    this.list.add(name);
-    return this;
+	this.list.add(name);
+	return this;
   }
 
   // fallback
@@ -1086,13 +1087,13 @@ ClassList.prototype.add = function(name){
 
 ClassList.prototype.remove = function(name){
   if ('[object RegExp]' == toString.call(name)) {
-    return this.removeMatching(name);
+	return this.removeMatching(name);
   }
 
   // classList
   if (this.list) {
-    this.list.remove(name);
-    return this;
+	this.list.remove(name);
+	return this;
   }
 
   // fallback
@@ -1114,9 +1115,9 @@ ClassList.prototype.remove = function(name){
 ClassList.prototype.removeMatching = function(re){
   var arr = this.array();
   for (var i = 0; i < arr.length; i++) {
-    if (re.test(arr[i])) {
-      this.remove(arr[i]);
-    }
+	if (re.test(arr[i])) {
+	  this.remove(arr[i]);
+	}
   }
   return this;
 };
@@ -1136,29 +1137,29 @@ ClassList.prototype.removeMatching = function(re){
 ClassList.prototype.toggle = function(name, force){
   // classList
   if (this.list) {
-    if ("undefined" !== typeof force) {
-      if (force !== this.list.toggle(name, force)) {
-        this.list.toggle(name); // toggle again to correct
-      }
-    } else {
-      this.list.toggle(name);
-    }
-    return this;
+	if ("undefined" !== typeof force) {
+	  if (force !== this.list.toggle(name, force)) {
+		this.list.toggle(name); // toggle again to correct
+	  }
+	} else {
+	  this.list.toggle(name);
+	}
+	return this;
   }
 
   // fallback
   if ("undefined" !== typeof force) {
-    if (!force) {
-      this.remove(name);
-    } else {
-      this.add(name);
-    }
+	if (!force) {
+	  this.remove(name);
+	} else {
+	  this.add(name);
+	}
   } else {
-    if (this.has(name)) {
-      this.remove(name);
-    } else {
-      this.add(name);
-    }
+	if (this.has(name)) {
+	  this.remove(name);
+	} else {
+	  this.add(name);
+	}
   }
 
   return this;
@@ -1189,16 +1190,16 @@ ClassList.prototype.array = function(){
 ClassList.prototype.has =
 ClassList.prototype.contains = function(name){
   return this.list
-    ? this.list.contains(name)
-    : !! ~index(this.array(), name);
+	? this.list.contains(name)
+	: !! ~index(this.array(), name);
 };
 
 });
 
 require.register("component~event@0.1.4", function (exports, module) {
 var bind = window.addEventListener ? 'addEventListener' : 'attachEvent',
-    unbind = window.removeEventListener ? 'removeEventListener' : 'detachEvent',
-    prefix = bind !== 'addEventListener' ? 'on' : '';
+	unbind = window.removeEventListener ? 'removeEventListener' : 'detachEvent',
+	prefix = bind !== 'addEventListener' ? 'on' : '';
 
 /**
  * Bind `el` event `type` to `fn`.
@@ -1301,7 +1302,7 @@ function match(el, selector) {
   if (vendor) return vendor.call(el, selector);
   var nodes = query.all(selector, el.parentNode);
   for (var i = 0; i < nodes.length; ++i) {
-    if (nodes[i] == el) return true;
+	if (nodes[i] == el) return true;
   }
   return false;
 }
@@ -1319,13 +1320,13 @@ module.exports = function (element, selector, checkYoSelf, root) {
   // Make sure `element !== document` and `element != null`
   // otherwise we get an illegal invocation
   while ((element = element.parentNode) && element !== document) {
-    if (matches(element, selector))
-      return element
-    // After `matches` on the edge case that
-    // the selector matches the root
-    // (when the root is not the document)
-    if (element === root)
-      return
+	if (matches(element, selector))
+	  return element
+	// After `matches` on the edge case that
+	// the selector matches the root
+	// (when the root is not the document)
+	if (element === root)
+	  return
   }
 }
 
@@ -1355,9 +1356,9 @@ var closest = require('component~closest@0.1.4')
 
 exports.bind = function(el, selector, type, fn, capture){
   return event.bind(el, type, function(e){
-    var target = e.target || e.srcElement;
-    e.delegateTarget = closest(target, selector, true, el);
-    if (e.delegateTarget) fn.call(el, e);
+	var target = e.target || e.srcElement;
+	e.delegateTarget = closest(target, selector, true, el);
+	if (e.delegateTarget) fn.call(el, e);
   }, capture);
 };
 
@@ -1456,15 +1457,15 @@ Events.prototype.bind = function(event, method){
 
   // callback
   function cb(){
-    var a = [].slice.call(arguments).concat(args);
-    obj[method].apply(obj, a);
+	var a = [].slice.call(arguments).concat(args);
+	obj[method].apply(obj, a);
   }
 
   // bind
   if (e.selector) {
-    cb = delegate.bind(el, e.selector, name, cb);
+	cb = delegate.bind(el, e.selector, name, cb);
   } else {
-    events.bind(el, name, cb);
+	events.bind(el, name, cb);
   }
 
   // subscription for unbinding
@@ -1519,7 +1520,7 @@ Events.prototype.unbind = function(event, method){
 
 Events.prototype.unbindAll = function(){
   for (var event in this._events) {
-    this.unbindAllOf(event);
+	this.unbindAllOf(event);
   }
 };
 
@@ -1535,7 +1536,7 @@ Events.prototype.unbindAllOf = function(event){
   if (!bindings) return;
 
   for (var method in bindings) {
-    this.unbind(event, method);
+	this.unbind(event, method);
   }
 };
 
@@ -1550,8 +1551,8 @@ Events.prototype.unbindAllOf = function(event){
 function parse(event) {
   var parts = event.split(/ +/);
   return {
-    name: parts.shift(),
-    selector: parts.join(' ')
+	name: parts.shift(),
+	selector: parts.join(' ')
   }
 }
 
@@ -1593,7 +1594,7 @@ module.exports = Switchery;
  */
 
 var defaults = {
-    color             : '#64bd63'
+	color             : '#64bd63'
   , secondaryColor    : '#dfdfdf'
   , jackColor         : '#fff'
   , jackSecondaryColor: null
@@ -1619,9 +1620,9 @@ function Switchery(element, options) {
   this.options = options || {};
 
   for (var i in defaults) {
-    if (this.options[i] == null) {
-      this.options[i] = defaults[i];
-    }
+	if (this.options[i] == null) {
+	  this.options[i] = defaults[i];
+	}
   }
 
   if (this.element != null && this.element.type == 'checkbox') this.init();
@@ -1687,28 +1688,28 @@ Switchery.prototype.insertAfter = function(reference, target) {
 
 Switchery.prototype.setPosition = function (clicked) {
   var checked = this.isChecked()
-    , switcher = this.switcher
-    , jack = this.jack;
+	, switcher = this.switcher
+	, jack = this.jack;
 
   if (clicked && checked) checked = false;
   else if (clicked && !checked) checked = true;
 
   if (checked === true) {
-    this.element.checked = true;
+	this.element.checked = true;
 
-    if (window.getComputedStyle) jack.style.left = parseInt(window.getComputedStyle(switcher).width) - parseInt(window.getComputedStyle(jack).width) + 'px';
-    else jack.style.left = parseInt(switcher.currentStyle['width']) - parseInt(jack.currentStyle['width']) + 'px';
+	if (window.getComputedStyle) jack.style.left = parseInt(window.getComputedStyle(switcher).width) - parseInt(window.getComputedStyle(jack).width) + 'px';
+	else jack.style.left = parseInt(switcher.currentStyle['width']) - parseInt(jack.currentStyle['width']) + 'px';
 
-    if (this.options.color) this.colorize();
-    this.setSpeed();
+	if (this.options.color) this.colorize();
+	this.setSpeed();
   } else {
-    jack.style.left = 0;
-    this.element.checked = false;
-    this.switcher.style.boxShadow = 'inset 0 0 0 0 ' + this.options.secondaryColor;
-    this.switcher.style.borderColor = this.options.secondaryColor;
-    this.switcher.style.backgroundColor = (this.options.secondaryColor !== defaults.secondaryColor) ? this.options.secondaryColor : '#fff';
-    this.jack.style.backgroundColor = (this.options.jackSecondaryColor !== this.options.jackColor) ? this.options.jackSecondaryColor : this.options.jackColor;
-    this.setSpeed();
+	jack.style.left = 0;
+	this.element.checked = false;
+	this.switcher.style.boxShadow = 'inset 0 0 0 0 ' + this.options.secondaryColor;
+	this.switcher.style.borderColor = this.options.secondaryColor;
+	this.switcher.style.backgroundColor = (this.options.secondaryColor !== defaults.secondaryColor) ? this.options.secondaryColor : '#fff';
+	this.jack.style.backgroundColor = (this.options.jackSecondaryColor !== this.options.jackColor) ? this.options.jackSecondaryColor : this.options.jackColor;
+	this.setSpeed();
   }
 };
 
@@ -1720,22 +1721,22 @@ Switchery.prototype.setPosition = function (clicked) {
 
 Switchery.prototype.setSpeed = function() {
   var switcherProp = {}
-    , jackProp = {
-        'background-color': this.options.speed
-      , 'left': this.options.speed.replace(/[a-z]/, '') / 2 + 's'
-    };
+	, jackProp = {
+		'background-color': this.options.speed
+	  , 'left': this.options.speed.replace(/[a-z]/, '') / 2 + 's'
+	};
 
   if (this.isChecked()) {
-    switcherProp = {
-        'border': this.options.speed
-      , 'box-shadow': this.options.speed
-      , 'background-color': this.options.speed.replace(/[a-z]/, '') * 3 + 's'
-    };
+	switcherProp = {
+		'border': this.options.speed
+	  , 'box-shadow': this.options.speed
+	  , 'background-color': this.options.speed.replace(/[a-z]/, '') * 3 + 's'
+	};
   } else {
-    switcherProp = {
-        'border': this.options.speed
-      , 'box-shadow': this.options.speed
-    };
+	switcherProp = {
+		'border': this.options.speed
+	  , 'box-shadow': this.options.speed
+	};
   }
 
   transitionize(this.switcher, switcherProp);
@@ -1750,19 +1751,19 @@ Switchery.prototype.setSpeed = function() {
 
 Switchery.prototype.setSize = function() {
   var small = 'switchery-small'
-    , normal = 'switchery-default'
-    , large = 'switchery-large';
+	, normal = 'switchery-default'
+	, large = 'switchery-large';
 
   switch (this.options.size) {
-    case 'small':
-      classes(this.switcher).add(small)
-      break;
-    case 'large':
-      classes(this.switcher).add(large)
-      break;
-    default:
-      classes(this.switcher).add(normal)
-      break;
+	case 'small':
+	  classes(this.switcher).add(small)
+	  break;
+	case 'large':
+	  classes(this.switcher).add(large)
+	  break;
+	default:
+	  classes(this.switcher).add(normal)
+	  break;
   }
 };
 
@@ -1790,11 +1791,11 @@ Switchery.prototype.colorize = function() {
 
 Switchery.prototype.handleOnchange = function(state) {
   if (document.dispatchEvent) {
-    var event = document.createEvent('HTMLEvents');
-    event.initEvent('change', true, true);
-    this.element.dispatchEvent(event);
+	var event = document.createEvent('HTMLEvents');
+	event.initEvent('change', true, true);
+	this.element.dispatchEvent(event);
   } else {
-    this.element.fireEvent('onchange');
+	this.element.fireEvent('onchange');
   }
 };
 
@@ -1807,16 +1808,16 @@ Switchery.prototype.handleOnchange = function(state) {
 
 Switchery.prototype.handleChange = function() {
   var self = this
-    , el = this.element;
+	, el = this.element;
 
   if (el.addEventListener) {
-    el.addEventListener('change', function() {
-      self.setPosition();
-    });
+	el.addEventListener('change', function() {
+	  self.setPosition();
+	});
   } else {
-    el.attachEvent('onchange', function() {
-      self.setPosition();
-    });
+	el.attachEvent('onchange', function() {
+	  self.setPosition();
+	});
   }
 };
 
@@ -1841,7 +1842,7 @@ Switchery.prototype.handleClick = function() {
 
 Switchery.prototype.bindClick = function() {
   var parent = this.element.parentNode.tagName.toLowerCase()
-    , labelParent = (parent === 'label') ? false : true;
+	, labelParent = (parent === 'label') ? false : true;
 
   this.setPosition(labelParent);
   this.handleOnchange(this.element.checked);

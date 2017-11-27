@@ -463,9 +463,9 @@ class mcp
 	{
 		# Set up a report list
 		$sql_array = array(
-			'SELECT'    => 'r.report_id, r.blog_id, r.comment_id, r.report_time as report_time, b.blog_title, r.user_id as reporter_user_id, u1.username as reporter_username, u1.user_colour as reporter_user_colour, u2.user_id as author_user_id, u2.username as author_username, u2.user_colour as author_user_colour',
+			'SELECT'	=> 'r.report_id, r.blog_id, r.comment_id, r.report_time as report_time, b.blog_title, r.user_id as reporter_user_id, u1.username as reporter_username, u1.user_colour as reporter_user_colour, u2.user_id as author_user_id, u2.username as author_username, u2.user_colour as author_user_colour',
 
-			'FROM'      => array(
+			'FROM'		=> array(
 				$this->ub_reports_table => 'r',
 				$this->ub_blogs_table => 'b',
 				USERS_TABLE => 'u1',
@@ -568,7 +568,7 @@ class mcp
 	 */
 	private function update_reports($id, $mode, $report_id_list, $action, $type)
 	{
-		$redirect_url =  $this->u_action . ($mode === 'ub_blog_reports_details' || $mode === 'ub_comment_reports_details' ? '&amp;report_id=' . (int) $report_id_list[0] : '');
+		$redirect_url = $this->u_action . ($mode === 'ub_blog_reports_details' || $mode === 'ub_comment_reports_details' ? '&amp;report_id=' . (int) $report_id_list[0] : '');
 		if (empty($report_id_list))
 		{
 			trigger_error($this->lang->lang('MCP_UB_REPORTS_IDS_EMPTY') . '<br><br>' . $this->lang->lang('RETURN_REPORTS', '<a href="'. $redirect_url . '">', '</a>'));

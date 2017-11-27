@@ -5410,7 +5410,7 @@ var widgetsMenu = $.widget( "ui.menu", {
 	},
 
 	// With no arguments, closes the currently active menu - if nothing is active
-	// it closes all menus.  If passed an argument, it will search for menus BELOW
+	// it closes all menus. If passed an argument, it will search for menus BELOW
 	_close: function( startMenu ) {
 		if ( !startMenu ) {
 			startMenu = this.active ? this.active.parent() : this.element;
@@ -6187,7 +6187,7 @@ $.widget( "ui.autocomplete", {
 		var editable = element.prop( "contentEditable" );
 
 		if ( editable === "inherit" ) {
-		  return this._isContentEditable( element.parent() );
+			return this._isContentEditable( element.parent() );
 		}
 
 		return editable === "true";
@@ -7211,9 +7211,9 @@ function datepicker_getZindex( elem ) {
 	return 0;
 }
 /* Date picker manager.
-   Use the singleton instance of this class, $.datepicker, to interact with the date picker.
-   Settings for (groups of) date pickers are maintained in an instance object,
-   allowing multiple different settings on the same page. */
+Use the singleton instance of this class, $.datepicker, to interact with the date picker.
+Settings for (groups of) date pickers are maintained in an instance object,
+allowing multiple different settings on the same page. */
 
 function Datepicker() {
 	this._curInst = null; // The current instance in use
@@ -7318,7 +7318,7 @@ $.extend( Datepicker.prototype, {
 	},
 
 	/* Override the default settings for all instances of the date picker.
-	 * @param  settings  object - the new settings to use as defaults (anonymous object)
+	 * @param	settings	object - the new settings to use as defaults (anonymous object)
 	 * @return the manager object
 	 */
 	setDefaults: function( settings ) {
@@ -7327,8 +7327,8 @@ $.extend( Datepicker.prototype, {
 	},
 
 	/* Attach the date picker to a jQuery selection.
-	 * @param  target	element - the target input field or division or span
-	 * @param  settings  object - the new settings to use for this date picker instance (anonymous)
+	 * @param	target		element - the target input field or division or span
+	 * @param	settings	object - the new settings to use for this date picker instance (anonymous)
 	 */
 	_attachDatepicker: function( target, settings ) {
 		var nodeName, inline, inst;
@@ -8212,7 +8212,7 @@ $.extend( Datepicker.prototype, {
 
 		onSelect = this._get( inst, "onSelect" );
 		if ( onSelect ) {
-			onSelect.apply( ( inst.input ? inst.input[ 0 ] : null ), [ dateStr, inst ] );  // trigger custom callback
+			onSelect.apply( ( inst.input ? inst.input[ 0 ] : null ), [ dateStr, inst ] );	// trigger custom callback
 		} else if ( inst.input ) {
 			inst.input.trigger( "change" ); // fire the change event
 		}
@@ -8954,7 +8954,7 @@ $.extend( Datepicker.prototype, {
 
 							// or defaultDate is current printedDate and defaultDate is selectedDate
 							" " + this._dayOverClass : "" ) + // highlight selected day
-							( unselectable ? " " + this._unselectableClass + " ui-state-disabled" : "" ) +  // highlight unselectable days
+							( unselectable ? " " + this._unselectableClass + " ui-state-disabled" : "" ) +	// highlight unselectable days
 							( otherMonth && !showOtherMonths ? "" : " " + daySettings[ 1 ] + // highlight custom dates
 							( printDate.getTime() === currentDate.getTime() ? " " + this._currentClass : "" ) + // highlight selected day
 							( printDate.getTime() === today.getTime() ? " ui-datepicker-today" : "" ) ) + "'" + // highlight today (if different)
@@ -9220,9 +9220,9 @@ function datepicker_extendRemove( target, props ) {
 }
 
 /* Invoke the datepicker functionality.
-   @param  options  string - a command, optionally followed by additional parameters or
-					Object - settings for attaching new datepicker functionality
-   @return  jQuery object */
+@param	options  string - a command, optionally followed by additional parameters or
+		Object - settings for attaching new datepicker functionality
+@return  jQuery object */
 $.fn.datepicker = function( options ) {
 
 	/* Verify an empty collection wasn't passed - Fixes #6976 */
@@ -10526,7 +10526,7 @@ $.ui.plugin.add( "draggable", "scroll", {
 			i.overflowOffset = i.scrollParentNotHidden.offset();
 		}
 	},
-	drag: function( event, ui, i  ) {
+	drag: function( event, ui, i ) {
 
 		var o = i.options,
 			scrolled = false,
@@ -11205,7 +11205,7 @@ $.widget( "ui.resizable", $.ui.mouse, {
 			soffsetw = ista ? 0 : that.sizeDiff.width;
 
 			s = {
-				width: ( that.helper.width()  - soffsetw ),
+				width: ( that.helper.width() - soffsetw ),
 				height: ( that.helper.height() - soffseth )
 			};
 			left = ( parseFloat( that.element.css( "left" ) ) +
@@ -13685,17 +13685,17 @@ var widgetsSelectable = $.widget( "ui.selectable", $.ui.mouse, {
 				return;
 			}
 
-			offset.left   = selectee.left   + that.elementPos.left;
-			offset.right  = selectee.right  + that.elementPos.left;
-			offset.top    = selectee.top    + that.elementPos.top;
+			offset.left		= selectee.left + that.elementPos.left;
+			offset.right	= selectee.right + that.elementPos.left;
+			offset.top		= selectee.top + that.elementPos.top;
 			offset.bottom = selectee.bottom + that.elementPos.top;
 
 			if ( options.tolerance === "touch" ) {
 				hit = ( !( offset.left > x2 || offset.right < x1 || offset.top > y2 ||
-                    offset.bottom < y1 ) );
+					offset.bottom < y1 ) );
 			} else if ( options.tolerance === "fit" ) {
 				hit = ( offset.left > x1 && offset.right < x2 && offset.top > y1 &&
-                    offset.bottom < y2 );
+					offset.bottom < y2 );
 			}
 
 			if ( hit ) {
@@ -14782,7 +14782,7 @@ var widgetsSlider = $.widget( "ui.slider", $.ui.mouse, {
 			currentValue = this.values( index );
 
 			if ( this.options.values.length === 2 && this.options.range === true ) {
-				newVal =  index === 0 ? Math.min( otherVal, newVal ) : Math.max( otherVal, newVal );
+				newVal = index === 0 ? Math.min( otherVal, newVal ) : Math.max( otherVal, newVal );
 			}
 
 			newValues[ index ] = newVal;

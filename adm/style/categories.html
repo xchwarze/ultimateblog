@@ -128,8 +128,8 @@
 				<td class="folder">
 						<span class="fa-stack fa-2x"{% if categories.S_IS_PRIVATE %} title="{{ lang('ACP_UB_CATEGORY_PRIVATE') }}"{% endif %}>
 						<i class="fa fa-circle-thin fa-stack-2x"></i>
-					  	{% if categories.S_IS_PRIVATE %}
-					  		<i class="fa fa-user-secret fa-stack-1x"></i>
+						{% if categories.S_IS_PRIVATE %}
+							<i class="fa fa-user-secret fa-stack-1x"></i>
 						{% else %}
 							<i class="fa fa-user fa-stack-1x"></i>
 						{% endif %}

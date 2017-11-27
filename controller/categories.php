@@ -53,7 +53,7 @@ class categories
 	 * @param \phpbb\textformatter\s9e\renderer    $renderer
 	 * @param \phpbb\template\template             $template    Template object
 	 * @internal param $ \phpbb\textformatter/s9e/renderer        $renderer        Renderer object
-	 * @access   public
+	 * @access	public
 	 */
 	public function __construct(\phpbb\config\config $config, $func, \phpbb\controller\helper $helper, \phpbb\language\language $lang, \phpbb\pagination $pagination, \phpbb\path_helper $path_helper, \phpbb\textformatter\s9e\renderer $renderer, \phpbb\template\template $template)
 	{

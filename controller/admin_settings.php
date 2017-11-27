@@ -171,7 +171,7 @@ class admin_settings
 				}
 
 				# Set the new settings
-				foreach($settings as $setting)
+				foreach ($settings as $setting)
 				{
 					$this->config->set($setting, $this->request->variable($setting, 0));
 				}
@@ -207,7 +207,7 @@ class admin_settings
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			if($row['block_order'] == 0)
+			if ($row['block_order'] == 0)
 			{
 				$block_part = 'blocks_not_used';
 			}
@@ -239,7 +239,7 @@ class admin_settings
 
 		$font_awesome_icons = $this->get_font_awesome_icons();
 
-		foreach($font_awesome_icons as $font_awesome_icon)
+		foreach ($font_awesome_icons as $font_awesome_icon)
 		{
 			$this->template->assign_block_vars('ub_fa_icons', array(
 				'TITLE'	=> $font_awesome_icon,

@@ -88,7 +88,7 @@ class main_listener implements EventSubscriberInterface
 		$this->lang			= $lang;
 		$this->template 	= $template;
 		$this->user			= $user;
-		$this->php_ext  	= $php_ext;
+		$this->php_ext		= $php_ext;
 		$this->phpbb_root_path		= $phpbb_root_path;
 		$this->ub_blogs_table		= $ub_blogs_table;
 		$this->ub_categories_table	= $ub_categories_table;

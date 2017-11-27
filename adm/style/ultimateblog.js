@@ -9,15 +9,15 @@ $(function() {
 	$('.ub-index-used').sortable({
 		connectWith: '.ub-index-not-used',
 		receive: function(event, ui){
-          $('#ub_index_order').val($(this).sortable('toArray', {attribute: 'data-block-id'}));
-        }
+			$('#ub_index_order').val($(this).sortable('toArray', {attribute: 'data-block-id'}));
+		}
 	}).disableSelection();
 
 	$('.ub-index-not-used').sortable({
 		connectWith: '.ub-index-used',
 		receive: function (event, ui){
-        	$('#ub_index_order').val($(ui.sender).sortable('toArray', {attribute: 'data-block-id'}));
-        }
+			$('#ub_index_order').val($(ui.sender).sortable('toArray', {attribute: 'data-block-id'}));
+		}
 	}).disableSelection();
 
 	// Set up switch (on/off) elements

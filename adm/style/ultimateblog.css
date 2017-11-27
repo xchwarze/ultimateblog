@@ -9,23 +9,23 @@
 }
 
 .ub-fa-icon {
-  background-color: #fff;
-  border: 1px solid #999999;
-  border-radius: 3px;
-  cursor: default;
-  display: none;
-  padding-left: 5px;
-  margin-top: 15px;
-  position:absolute;
-  z-index: 50;
-  max-width: 700px;
-  width: 90%;
-  top: 50%;
-  left: 50%;
-  text-align: center;
-  -webkit-transform: translate(-60%, -25%);
-  transform: translate(-60%, -25%);
-  box-shadow: 0px 2px 6px rgba(0,0,0,1);
+	background-color: #fff;
+	border: 1px solid #999999;
+	border-radius: 3px;
+	cursor: default;
+	display: none;
+	padding-left: 5px;
+	margin-top: 15px;
+	position:absolute;
+	z-index: 50;
+	max-width: 700px;
+	width: 90%;
+	top: 50%;
+	left: 50%;
+	text-align: center;
+	-webkit-transform: translate(-60%, -25%);
+	transform: translate(-60%, -25%);
+	box-shadow: 0px 2px 6px rgba(0,0,0,1);
 }
 
 .ub-fa-icon-button {
@@ -57,25 +57,25 @@
 }
 
 .ub-fa-icon-close-extra {
-    width:25px;
-    height:25px;
-    padding-top:4px;
-    display:inline-block;
-    position:absolute;
-    top:0px;
-    right:0px;
-    transition:ease 0.25s all;
-    -webkit-transform:translate(50%, -50%);
-    transform:translate(50%, -50%);
-    background:rgba(0,0,0,0.8);
-    font-family:Arial, Sans-Serif;
-    font-size:18px;
-    text-align:center;
-    line-height:100%;
-    color:#fff;
+	width:25px;
+	height:25px;
+	padding-top:4px;
+	display:inline-block;
+	position:absolute;
+	top:0px;
+	right:0px;
+	transition:ease 0.25s all;
+	-webkit-transform:translate(50%, -50%);
+	transform:translate(50%, -50%);
+	background:rgba(0,0,0,0.8);
+	font-family:Arial, Sans-Serif;
+	font-size:18px;
+	text-align:center;
+	line-height:100%;
+	color:#fff;
 }
 
 .ub-fa-icon-close-extra:hover {
-    background:rgba(0,0,0,1);
-    text-decoration:none;
+	background:rgba(0,0,0,1);
+	text-decoration:none;
 }

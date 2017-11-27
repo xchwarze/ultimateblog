@@ -119,11 +119,11 @@ class admin_categories
 	{
 		# Select all categories
 		$sql_array = array(
-		    'SELECT'	=> 'c.*, COUNT(distinct bc.blog_id) as count',
+			'SELECT'	=> 'c.*, COUNT(distinct bc.blog_id) as count',
 
-			'FROM'      => array(
-         		$this->ub_categories_table  => 'c',
-     		),
+			'FROM'		=> array(
+				$this->ub_categories_table => 'c',
+			),
 
 			'LEFT_JOIN'	=> array(
 				array(
@@ -133,7 +133,7 @@ class admin_categories
 			),
 
 			'GROUP_BY'	=> 'bc.category_id, c.category_id',
-		    'ORDER_BY'	=> 'c.left_id ASC',
+			'ORDER_BY'	=> 'c.left_id ASC',
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
@@ -157,7 +157,7 @@ class admin_categories
 
 		// Set output vars for display in the template
 		$this->template->assign_vars(array(
-			'U_ACTION'       => "{$this->u_action}",
+			'U_ACTION'		=> "{$this->u_action}",
 		));
 	}
 
@@ -325,7 +325,7 @@ class admin_categories
 				# Send confirmation message.
 				trigger_error($this->lang->lang('ACP_UB_CATEGORY_ADDED') . adm_back_link("{$this->u_action}"));
 			}
-			elseif ($status == 'edit')
+			else if ($status == 'edit')
 			{
 				$sql = 'UPDATE ' . $this->ub_categories_table . '
 						SET ' . $this->db->sql_build_array('UPDATE', $data) . '
@@ -491,7 +491,7 @@ class admin_categories
 						$this->db->sql_freeresult($result);
 
 						# Delete the blog entries that are only in this category.
-						$sql = 'DELETE FROM  ' . $this->ub_blogs_table . '
+						$sql = 'DELETE FROM ' . $this->ub_blogs_table . '
 								WHERE ' . $this->db->sql_in_set('blog_id', $blogs_to_delete);
 						$this->db->sql_query($sql);
 					}
@@ -499,7 +499,7 @@ class admin_categories
 					# Set up confirmation message
 					$confirmation_message = $this->lang->lang('ACP_UB_CATEGORY_DELETED_DELETE', $i, $blog_titles_list);
 				}
-				elseif ($delete_action == 'move')
+				else if ($delete_action == 'move')
 				{
 					$blogs_to_move = array_diff($old_cat, $new_cat);
 					$i = count($blogs_to_move);

@@ -163,7 +163,7 @@ class admin_overview
 					$this->filesystem->remove($this->phpbb_root_path . $this->config['ub_image_cat_dir'] . '/' . $delete_image);
 				break;
 
-				case  'blog':
+				case 'blog':
 					$this->filesystem->remove($this->phpbb_root_path . $this->config['ub_image_dir'] . '/' . $delete_image);
 				break;
 			}
@@ -186,7 +186,7 @@ class admin_overview
 			if ($this->request->is_ajax())
 			{
 				if (confirm_box(true))
-			    {
+				{
 					switch ($action)
 					{
 						case 'purgeblog':
@@ -211,9 +211,9 @@ class admin_overview
 							trigger_error('ACP_UB_PURGE_IMAGES_CATEGORY_SUCCESS');
 						break;
 					}
-			    }
-			    else
-			    {
+				}
+				else
+				{
 					switch ($action)
 					{
 						case 'purgeblog':
@@ -225,14 +225,14 @@ class admin_overview
 						break;
 					}
 
-			        # Display mode
-			        confirm_box(false, $confirm_lang, build_hidden_fields(array(
+					# Display mode
+					confirm_box(false, $confirm_lang, build_hidden_fields(array(
 						'i'			=> $id,
 						'mode'		=> $mode,
 						'action'	=> $action,
-			            )
-			        ));
-			    }
+						)
+					));
+				}
 			}
 		}
 
@@ -357,15 +357,15 @@ class admin_overview
 				'SELECT'	=> 'b.author_id, u.username, u.user_colour, b.blog_title, COUNT(c.comment_id) as count',
 				'FROM'		=> array($this->ub_blogs_table => 'b',
 									USERS_TABLE => 'u'),
-			    'LEFT_JOIN' => array(
-				        array(
-				            'FROM'  => array($this->ub_comments_table => 'c'),
-				            'ON'    => 'b.blog_id = c.blog_id'
-				        )
-				    ),
+				'LEFT_JOIN' => array(
+						array(
+							'FROM'	=> array($this->ub_comments_table => 'c'),
+							'ON'	=> 'b.blog_id = c.blog_id'
+						)
+					),
 				'WHERE'		=> 'b.author_id = u.user_id',
-			    'GROUP_BY'	=> 'c.blog_id',
-			    'ORDER_BY'	=> 'count DESC'
+				'GROUP_BY'	=> 'c.blog_id',
+				'ORDER_BY'	=> 'count DESC'
 				);
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query_limit($sql, 1);
@@ -397,19 +397,19 @@ class admin_overview
 		{
 			# Blog with best rating
 			$sql_array = array(
-			    'SELECT'    => 'u.user_id, u.username, u.user_colour, b.blog_title, AVG(r.rating) as rating',
-			    'FROM'      => array($this->ub_blogs_table  => 'b',
+				'SELECT'	=> 'u.user_id, u.username, u.user_colour, b.blog_title, AVG(r.rating) as rating',
+				'FROM'		=> array($this->ub_blogs_table	=> 'b',
 									USERS_TABLE => 'u'
 								),
-			    'LEFT_JOIN' => array(
-			        array(
-			            'FROM'  => array($this->ub_ratings_table => 'r'),
-			            'ON'    => 'b.blog_id = r.blog_id'
-			        )
-			    ),
+				'LEFT_JOIN' => array(
+					array(
+						'FROM'	=> array($this->ub_ratings_table => 'r'),
+						'ON'	=> 'b.blog_id = r.blog_id'
+					)
+				),
 				'WHERE'			=> 'b.author_id = u.user_id',
-			    'GROUP_BY'		=> 'r.blog_id',
-			    'ORDER_BY'  	=> 'rating DESC'
+				'GROUP_BY'		=> 'r.blog_id',
+				'ORDER_BY'		=> 'rating DESC'
 			);
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query_limit($sql, 1);
@@ -490,31 +490,40 @@ class admin_overview
 	 * @return string
 	 */
 	public function time_elapsed_string($datetime, $full = false) {
-	    $now = $this->user->create_datetime();
-	    $ago = $this->user->create_datetime('@' . $datetime);
-	    $diff = $now->diff($ago);
+		$now = $this->user->create_datetime();
+		$ago = $this->user->create_datetime('@' . $datetime);
+		$diff = $now->diff($ago);
 
-	    $diff->w = floor($diff->d / 7);
-	    $diff->d -= $diff->w * 7;
+		$diff->w = floor($diff->d / 7);
+		$diff->d -= $diff->w * 7;
 
-	    $string = array(
-	        'y' => 'year',
-	        'm' => 'month',
-	        'w' => 'week',
-	        'd' => 'day',
-	        'h' => 'hour',
-	        'i' => 'minute',
-	        's' => 'second',
-	    );
-	    foreach ($string as $k => &$v) {
-	        if ($diff->$k) {
-	            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-	        } else {
-	            unset($string[$k]);
-	        }
-	    }
+		$string = array(
+			'y' => 'year',
+			'm' => 'month',
+			'w' => 'week',
+			'd' => 'day',
+			'h' => 'hour',
+			'i' => 'minute',
+			's' => 'second',
+		);
 
-	    if (!$full) $string = array_slice($string, 0, 1);
-	    return implode(', ', $string);
+		foreach ($string as $k => &$v)
+		{
+			if ($diff->$k)
+			{
+				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+			}
+			else
+			{
+				unset($string[$k]);
+			}
+		}
+
+		if (!$full)
+		{
+			$string = array_slice($string, 0, 1);
+		}
+		
+		return implode(', ', $string);
 	}
 }

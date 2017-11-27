@@ -10,8 +10,6 @@
 
 namespace mrgoldy\ultimateblog\migrations;
 
-use \phpbb\db\migration\container_aware_migration;
-
 /**
  * Class initial_schema
  *
@@ -68,7 +66,7 @@ class initial_schema extends \phpbb\db\migration\container_aware_migration
 					),
 				),
 
-				$this->table_prefix . 'ub_categories'	=>  array(
+				$this->table_prefix . 'ub_categories'	=>	array(
 					'COLUMNS'		=> array(
 						'category_id'			=> array('UINT', null, 'auto_increment'),
 						'left_id'				=> array('UINT', 0),

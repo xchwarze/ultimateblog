@@ -107,29 +107,29 @@ $(function() {
 
 	// Set up blog rating
 	$('.blog-rating').each(function () {
-	    $(this).raty({
-	        number: 5,
+		$(this).raty({
+			number: 5,
 			hints: [null, null, null, null, null],
-	        starType: 'i',
-	        starOff: 'fa fa-star-o',
-	        starOn: 'fa fa-star',
+			starType: 'i',
+			starOff: 'fa fa-star-o',
+			starOn: 'fa fa-star',
 			score: function() {
-			    return $(this).attr('data-score');
+				return $(this).attr('data-score');
 			},
 			click: function (score, evt) {
-	            $.ajax({
-	                type: 'post',
-	                url: blogRatingURL,
-	                data: {
-	                    score: score,
+				$.ajax({
+					type: 'post',
+					url: blogRatingURL,
+					data: {
+						score: score,
 						bid: $('#blog_id').val(),
-	                },
-	                dataType: 'json'
-	            });
+					},
+					dataType: 'json'
+				});
 				$('.blog-rating').raty('score', score);
-	            return false;
-	        }
-	    });
+				return false;
+			}
+		});
 	});
 });
 

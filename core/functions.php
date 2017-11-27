@@ -238,24 +238,24 @@ class functions
 	public function blog_list($mode, $limit, $start, $data = 0)
 	{
 		$sql_array = array(
-		    'SELECT'    => 'b.blog_id, b.blog_title, b.blog_approved, b.blog_reported, b.blog_date, b.friends_only, b.blog_image, u.user_id, u.username, u.user_colour, GROUP_CONCAT(bc.category_id) as categories, GROUP_CONCAT(distinct z.user_id) as friends',
+			'SELECT'	=> 'b.blog_id, b.blog_title, b.blog_approved, b.blog_reported, b.blog_date, b.friends_only, b.blog_image, u.user_id, u.username, u.user_colour, GROUP_CONCAT(bc.category_id) as categories, GROUP_CONCAT(distinct z.user_id) as friends',
 
-		    'FROM'      => array(
+			'FROM'		=> array(
 				$this->ub_blogs_table => 'b',
 				USERS_TABLE => 'u'
 			),
 
-		    'LEFT_JOIN' => array(
-		        array(
-		            'FROM'  => array($this->ub_blog_category_table	=> 'bc'),
-		            'ON'    => 'b.blog_id = bc.blog_id',
-		        ),
+			'LEFT_JOIN' => array(
+				array(
+					'FROM'	=> array($this->ub_blog_category_table	=> 'bc'),
+					'ON'	=> 'b.blog_id = bc.blog_id',
+				),
 				array(
 					'FROM'	=> array(ZEBRA_TABLE => 'z'),
 					'ON'	=> 'b.author_id = z.user_id
 								AND z.friend = 1',
 				),
-		    ),
+			),
 
 			'GROUP_BY'	=> 'b.blog_id',
 			'ORDER_BY'	=> 'b.blog_date DESC',
@@ -268,12 +268,12 @@ class functions
 			$sql_array['WHERE'] .= ' AND b.blog_id = bc2.blog_id
 									AND bc2.category_id = ' . (int) $data;
 		}
-		elseif ($mode == 'archive')
+		else if ($mode == 'archive')
 		{
-			$sql_array['WHERE'] .= ' AND  MONTH(FROM_UNIXTIME(b.blog_date)) = ' . (int) $data['month'] . '
+			$sql_array['WHERE'] .= ' AND MONTH(FROM_UNIXTIME(b.blog_date)) = ' . (int) $data['month'] . '
 									AND YEAR(FROM_UNIXTIME(b.blog_date)) = ' . (int) $data['year'];
 		}
-		elseif ($mode == 'user')
+		else if ($mode == 'user')
 		{
 			$sql_array['WHERE'] .= ' AND b.author_id = ' . (int) $this->user->data['user_id'];
 		}
@@ -308,12 +308,12 @@ class functions
 	public function blog_index()
 	{
 		$sql_array = array(
-			'SELECT'    => 'i.block_name, i.block_limit, i.block_data, c.category_name',
-			'FROM'      => array($this->ub_index_table => 'i'),
+			'SELECT'	=> 'i.block_name, i.block_limit, i.block_data, c.category_name',
+			'FROM'	=> array($this->ub_index_table => 'i'),
 			'LEFT_JOIN' => array(
 				array(
-					'FROM'  => array($this->ub_categories_table	=> 'c'),
-					'ON'    => 'i.block_data = c.category_id
+					'FROM'	=> array($this->ub_categories_table	=> 'c'),
+					'ON'	=> 'i.block_data = c.category_id
 								AND (i.block_id = 1
 									OR i.block_id = 2
 									OR i.block_id = 3)',
@@ -340,23 +340,23 @@ class functions
 	public function blog_index_list($mode, $limit, $category_id = 0, $rating_threshold = 0)
 	{
 		$sql_array = array(
-		    'SELECT'    => 'b.blog_id, b.blog_title, b.blog_approved, b.blog_reported, b.blog_image, u.user_id, u.username, u.user_colour, GROUP_CONCAT(distinct bc.category_id) as categories',
+			'SELECT'	=> 'b.blog_id, b.blog_title, b.blog_approved, b.blog_reported, b.blog_image, u.user_id, u.username, u.user_colour, GROUP_CONCAT(distinct bc.category_id) as categories',
 
-		    'FROM'      => array(
+			'FROM'	=> array(
 				$this->ub_blogs_table => 'b',
 				USERS_TABLE => 'u'
 			),
 
-		    'LEFT_JOIN' => array(
-		        array(
-		            'FROM'  => array($this->ub_blog_category_table	=> 'bc'),
-		            'ON'    => 'b.blog_id = bc.blog_id',
-		        ),
+			'LEFT_JOIN' => array(
+				array(
+					'FROM'	=> array($this->ub_blog_category_table	=> 'bc'),
+					'ON'	=> 'b.blog_id = bc.blog_id',
+				),
 				array(
 					'FROM'	=> array(ZEBRA_TABLE => 'z'),
 					'ON'	=> 'b.author_id = z.user_id AND z.friend = 1',
 				),
-		    ),
+			),
 
 			'GROUP_BY'	=> 'b.blog_id',
 			'WHERE'		=> 'b.author_id = u.user_id',
@@ -528,10 +528,10 @@ class functions
 
 			foreach ($category_ids as $category_id)
 			{
-			    $sql_array[] = array(
+				$sql_array[] = array(
 					'blog_id'		=> (int) $blog_id,
-			        'category_id'	=> (int) $category_id,
-			    );
+					'category_id'	=> (int) $category_id,
+				);
 			}
 
 			$this->db->sql_multi_insert($this->ub_blog_category_table, $sql_array);
@@ -546,7 +546,7 @@ class functions
 	{
 		if (!empty($category_ids))
 		{
-			$sql = 'DELETE FROM  ' . $this->ub_blog_category_table . '
+			$sql = 'DELETE FROM ' . $this->ub_blog_category_table . '
 					WHERE ' . $this->db->sql_in_set('category_id', $category_ids) . '
 						AND blog_id = ' . (int) $blog_id;
 			$this->db->sql_query($sql);
@@ -654,7 +654,7 @@ class functions
 		# Check if user has a current ranking for this blog
 		$sql = 'SELECT r.rating, b.blog_title
 				FROM ' . $this->ub_ratings_table . ' r
-		 		JOIN ' . $this->ub_blogs_table . ' b
+				JOIN ' . $this->ub_blogs_table . ' b
 				WHERE r.blog_id = b.blog_id
 					AND r.blog_id = ' . (int) $blog_id . '
 					AND r.user_id = ' . (int) $user_id;
@@ -670,7 +670,7 @@ class functions
 
 			$rating_added = true;
 		}
-		elseif ($rating['rating'] != $score)
+		else if ($rating['rating'] != $score)
 		{
 			# User has already rated this blog
 			# Check if current rating is different than stored rating
