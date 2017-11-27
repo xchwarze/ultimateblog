@@ -1,7 +1,7 @@
 {
     "name": "mrgoldy/ultimateblog",
     "type": "phpbb-extension",
-    "description": "Ultimate Blog extension for phpBB 3.2",
+    "description": "Ultimate Blog extension for phpBB 3.2.x",
     "version": "1.0.0",
     "time": "2017-10-27",
     "keywords": ["phpbb", "extension", "mrgoldy", "ultimate", "blog"],
