@@ -19,7 +19,7 @@ To be assigned
 
 Wiki link? [[Name of Wiki Page|WikiLink]]
 
-Issues link? [Issues](issues)
+Issues link? [Issues](./../../issues)
 
 ## Development
 
