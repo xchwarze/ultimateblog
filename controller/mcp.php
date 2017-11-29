@@ -597,7 +597,6 @@ class mcp
 			$redirect_url = $this->u_action;
 		}
 
-
 		if (empty($report_id_list))
 		{
 			trigger_error($this->lang->lang('MCP_UB_REPORTS_IDS_EMPTY') . '<br><br>' . $this->lang->lang('RETURN_REPORTS', '<a href="'. $redirect_url . '">', '</a>'));
