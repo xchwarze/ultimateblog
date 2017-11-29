@@ -36,7 +36,7 @@
 								<span class="sr-only">{{ lang('BLOG_COMMENTS_LINK') }}</span> <i class="icon fa-hashtag fa-fw"></i>
 							</a>
 							{% if comments.S_CAN_DELETE %}
-								<a href="{{ comments.U_DELETE }}" class="comment-action" title="{{ lang('BLOG_COMMENTS_DELETE') }}" data-ajax="true">
+								<a href="{{ comments.U_DELETE }}" class="comment-action" title="{{ lang('BLOG_COMMENTS_DELETE') }}" data-ajax="mrgoldy_ultimateblog.reload" data-refresh="true">
 									<span class="sr-only">{{ lang('BLOG_COMMENTS_DELETE') }}</span> <i class="icon fa-trash fa-fw"></i>
 								</a>
 							{% endif %}

@@ -19,13 +19,13 @@
 	<div class="blog-details-group">
 		<div class="blog-details-button"><i class="icon fa-user fa-fw" aria-hidden="true"></i> {{ AUTHOR_FULL }}</div>
 		<div class="blog-details-button yellow"><i class="icon fa-calendar fa-fw"></i> {{ BLOG_DATE_SHORT }}</div>
-		<a class="blog-details-button blue" href="#comments"><i class="icon fa-comment fa-fw"></i> {{ COMMENTS_COUNT }} <span>Comments</span></a>
-		<div class="blog-details-button red"><i class="icon fa-star fa-fw"></i> {{ BLOG_RATING }} <span>Rating</span></div>
-		<div class="blog-details-button green"><i class="icon fa-eye fa-fw"></i> {{ BLOG_VIEWS }} <span>Views</span></div>
+		<a class="blog-details-button blue" href="#comments"><i class="icon fa-comment fa-fw"></i> {{ COMMENTS_COUNT }} <span>{{ lang('BLOG_COMMENTS') }}</span></a>
+		<div class="blog-details-button red"><i class="icon fa-star fa-fw"></i> {{ BLOG_RATING }} <span>{{ lang('BLOG_RATING_AVG') }}</span></div>
+		<div class="blog-details-button green"><i class="icon fa-eye fa-fw"></i> {{ BLOG_VIEWS }} <span>{{ lang('VIEWED') }}</span></div>
 		<div class="blog-details-button orange dropdown-container dropdown-container-left dropdown-button-control">
 			<div class="dropdown-trigger dropdown-select">
 				<i class="icon fa-tags fa-fw"></i>
-				<span class="dropdown-trigger dropdown-select">Categories</span>
+				<span class="dropdown-trigger dropdown-select">{{ lang('BLOG_CATEGORIES') }}</span>
 			</div>
 			<div class="dropdown">
 				<div class="pointer"><div class="pointer-inner"></div></div>

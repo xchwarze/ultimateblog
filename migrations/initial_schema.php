@@ -169,11 +169,15 @@ class initial_schema extends \phpbb\db\migration\container_aware_migration
 			array('config.add', array('ub_enable_friends_only', 1)),
 			array('config.add', array('ub_enable_rating', 1)),
 			array('config.add', array('ub_enable_rss', 1)),
+			array('config.add', array('ub_enable_rss_cats', 1)),
+			array('config.add', array('ub_enable_rss_limit', 10)),
+			array('config.add', array('ub_enable_rss_stats', 1)),
 			array('config.add', array('ub_enable_subscriptions', 1)),
 			array('config.add', array('ub_fa_icon', 'fa-book')),
 			array('config.add', array('ub_image_dir', 'images/blog')),
 			array('config.add', array('ub_image_cat_dir', 'images/blog/categories')),
 			array('config.add', array('ub_image_size', '15')),
+			array('config.add', array('ub_notification_id', 0)),
 			array('config.add', array('ub_start_date', time())),
 			array('config.add', array('ub_title', 'Ultimate Blog')),
 			array('config_text.add', array('ub_announcement_text', '<h3>Announcement</h3><p>This is an announcement message that will be displayed troughout the entire <strong>Ultimate Blog</strong> extension.<br>It will be shown on all pages related to this extension.<br><strong><span style="text-decoration: underline;">NOTE</span>:</strong> You have to use <em>HTML</em> and <strong>not</strong> <em>BBCodes</em>!</p>')),
@@ -193,6 +197,7 @@ class initial_schema extends \phpbb\db\migration\container_aware_migration
 			array('permission.add', array('u_ub_comment_view')),
 			array('permission.add', array('u_ub_rate')),
 			array('permission.add', array('u_ub_report')),
+			array('permission.add', array('u_ub_rss_view')),
 
 			array('permission.add', array('m_ub_edit')),
 			array('permission.add', array('m_ub_delete')),
@@ -250,6 +255,7 @@ class initial_schema extends \phpbb\db\migration\container_aware_migration
 			$data[] = array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_ub_comment_view'));
 			$data[] = array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_ub_rate'));
 			$data[] = array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_ub_report'));
+			$data[] = array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_ub_rss_view'));
 		}
 
 		if ($this->role_exists('ROLE_USER_FULL'))
@@ -267,6 +273,7 @@ class initial_schema extends \phpbb\db\migration\container_aware_migration
 			$data[] = array('permission.permission_set', array('ROLE_USER_FULL', 'u_ub_comment_view'));
 			$data[] = array('permission.permission_set', array('ROLE_USER_FULL', 'u_ub_rate'));
 			$data[] = array('permission.permission_set', array('ROLE_USER_FULL', 'u_ub_report'));
+			$data[] = array('permission.permission_set', array('ROLE_USER_FULL', 'u_ub_rss_view'));
 		}
 
 		if ($this->role_exists('ROLE_MOD_STANDARD'))

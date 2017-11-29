@@ -132,9 +132,9 @@ class blog
 				'S_REPORTED'	=> $parent['comment_reported'],
 				'S_UNAPPROVED'	=> !$parent['comment_approved'],
 
-				'U_DELETE'		=> $this->helper->route('mrgoldy_ultimateblog_misc', array('blog_id' => (int) $blog_id, 'mode' => 'comment', 'action' => 'delete', 'aid' => (int) $parent['user_id'], 'cid' => (int) $parent['comment_id'])),
+				'U_DELETE'		=> $this->helper->route('mrgoldy_ultimateblog_misc', array('blog_id' => (int) $blog_id, 'mode' => 'comment', 'action' => 'delete', 'cid' => (int) $parent['comment_id'], 'aid' => (int) $parent['user_id'])),
 				'U_EDIT'		=> $this->helper->route('mrgoldy_ultimateblog_misc', array('blog_id' => (int) $blog_id, 'mode' => 'comment', 'action' => 'edit', 'cid' => (int) $parent['comment_id'])),
-				'U_REPLY'		=> $this->helper->route('mrgoldy_ultimateblog_misc', array('blog_id' => (int) $blog_id, 'mode' => 'comment', 'action' => 'add', 'pid' => (int) $parent['comment_id'])),
+				'U_REPLY'		=> $this->helper->route('mrgoldy_ultimateblog_misc', array('blog_id' => (int) $blog_id, 'mode' => 'comment', 'action' => 'add', 'pid' => (int) $parent['comment_id'], 'paid' => (int) $parent['user_id'])),
 				'U_REPORT'		=> $this->helper->route('mrgoldy_ultimateblog_report', array('blog_id' => (int) $blog_id, 'mode' => 'comment', 'id' => (int) $parent['comment_id'])),
 				'U_REPORT_VIEW'	=> append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}?i=-mrgoldy-ultimateblog-mcp-report_module&amp;mode=ub_comment_reports_details&amp;comment_id={$parent['comment_id']}"),
 			));

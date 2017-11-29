@@ -56,7 +56,7 @@ $lang = array_merge($lang, array(
 		1 => 'The selected report has been closed successfully.',
 		2 => 'The selected reports have been closed successfully.',
 	),
-	'MCP_UB_REPORTS_DELETED_SUCCES'		=> array(
+	'MCP_UB_REPORTS_DELETED_SUCCESS'		=> array(
 		1 => 'The select report has been deleted successfully.',
 		2 => 'The selected reports have been deleted successfully.',
 	),

@@ -33,6 +33,8 @@ $lang = array_merge($lang, array(
 	'BLOG_ARCHIVE_DESCRIPTION_DATE'	=> 'All blogs posted in the month of %1$s %2$s.', // %1$s is month (October), %2$s is year (2049)
 	'BLOG_AUTHOR'			=> 'author',
 
+	'BLOG_BLOG_CATEGORY'			=> 'Blog category',
+
 	'BLOG_CATEGORIES'				=> 'Categories',
 	'BLOG_CATEGORIES_DESCRIPTION'	=> 'A list of categories in which blogs are posted. Click on a category to view all blogs for that specific blogs.',
 	'BLOG_CATEGORIES_GO'			=> 'Go to category',
@@ -101,6 +103,8 @@ $lang = array_merge($lang, array(
 	'BLOG_LOCK_COMMENTS'		=> 'Prevent commenting',
 	'BLOG_LOCK_RATING'			=> 'Prevent rating',
 
+	'BLOG_NEW'					=> 'New blogs',
+
 	'BLOG_PERM_ADD_CAN'				=> 'You <strong>can</strong> post new blogs',
 	'BLOG_PERM_ADD_NOT'				=> 'You <strong>cannot</strong> post new blogs',
 	'BLOG_PERM_COMMENT_CAN'			=> 'You <strong>can</strong> comment on blogs',
@@ -145,6 +149,15 @@ $lang = array_merge($lang, array(
 
 	'BLOG_VIEW_PERMISSIONS'	=> 'View your permissions',
 	'BLOG_VIEWS'			=> 'Views',
+
+	'UB_NOTIFICATION_BLOG_DELETED'		=> '<strong>Blog deleted</strong> by %1$s:<br>"%2$s"', // 1: Deleter name | 2: Blog title
+	'UB_NOTIFICATION_BLOG_EDITED'		=> '<strong>Blog edited</strong> by %1$s:<br>"%2$s"', // 1: Editor name | 2: Blog title
+	'UB_NOTIFICATION_BLOG_REPORT'		=> '<strong>Blog report closed</strong> by %1$s for:<br>"%2$s"', // 1: Moderator name | 2: Blog title
+	'UB_NOTIFICATION_COMMENT_ADDED'		=> '<strong>Comment added</strong> by %1$s for:<br>"%2$s"', // 1: Author name | 2: Blog title
+	'UB_NOTIFICATION_COMMENT_DELETED'	=> '<strong>Comment deleted</strong> by %1$s for:<br>"%2$s"', // 1: Deleter name | 2: Blog title
+	'UB_NOTIFICATION_COMMENT_EDITED'	=> '<strong>Comment edited</strong> by %1$s for:<br>"%2$s"', // 1: Editor name | 2: Blog title
+	'UB_NOTIFICATION_COMMENT_REPORT'	=> '<strong>Comment report closed</strong> by %1$s for:<br>"%2$s"', // 1: Moderator name | 2: Blog title
+	'UB_NOTIFICATION_DEFAULT'			=> 'Notification for Ultimate Blog', // Should never get this.
 
 	'UB_VIEWONLINE_ARCHIVE'		=> 'Viewing the %1$s archive for %3$s %2$s', // 1: Ultimate Blog title | 2: Numeric year (eg. 2017) | 3: Textual month (eg. January)
 	'UB_VIEWONLINE_ARCHIVES'	=> 'Viewing the %s archives',

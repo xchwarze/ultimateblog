@@ -32,7 +32,9 @@ services:
             - '@controller.helper'
             - '@language'
             - '@log'
+            - '@notification_manager'
             - '@pagination'
+            - '@text_formatter.renderer'
             - '@request'
             - '@template'
             - '@user'
@@ -150,6 +152,25 @@ services:
             - '@text_formatter.renderer'
             - '@template'
 
+    mrgoldy.ultimateblog.controller.feed:
+        class: mrgoldy\ultimateblog\controller\feed
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@controller.helper'
+            - '@dbal.conn'
+            - '@feed.helper'
+            - '@symfony_request'
+            - '@template.twig.environment'
+            - '@user'
+            - '%core.php_ext%'
+            - '%mrgoldy.ultimateblog.tables.ub_blogs%'
+            - '%mrgoldy.ultimateblog.tables.ub_categories%'
+            - '%mrgoldy.ultimateblog.tables.ub_blog_category%'
+            - '%mrgoldy.ultimateblog.tables.ub_comments%'
+            - '%mrgoldy.ultimateblog.tables.ub_edits%'
+            - '%mrgoldy.ultimateblog.tables.ub_ratings%'
+
     mrgoldy.ultimateblog.controller.posting:
         class: mrgoldy\ultimateblog\controller\posting
         arguments:
@@ -160,6 +181,7 @@ services:
             - '@controller.helper'
             - '@language'
             - '@log'
+            - '@notification_manager'
             - '@pagination'
             - '@text_formatter.parser'
             - '@path_helper'
@@ -207,22 +229,13 @@ services:
             - '%mrgoldy.ultimateblog.tables.ub_index%'
             - '%mrgoldy.ultimateblog.tables.ub_ratings%'
 
-    mrgoldy.ultimateblog.notification.type.demo:
-        class: mrgoldy\ultimateblog\notification\type\demo
-        scope: prototype # scope MUST be prototype for this to work!
-        arguments:
-            - '@user_loader'
-            - '@dbal.conn'
-            - '@cache.driver'
-            - '@user'
-            - '@auth'
-            - '@config'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%tables.notification_types%'
-            - '%tables.notifications%'
-            - '%tables.user_notifications%'
+    mrgoldy.ultimateblog.notification.type.ultimateblog:
+        class: mrgoldy\ultimateblog\notification\type\ultimateblog
+        shared: false # service MUST not be shared  for this to work!
+        parent: notification.type.base
         calls:
             - [set_controller_helper, ['@controller.helper']]
+            - [set_user_loader, ['@user_loader']]
+            - [set_blogs_table, ['%mrgoldy.ultimateblog.tables.ub_blogs%']]
         tags:
             - { name: notification.type }

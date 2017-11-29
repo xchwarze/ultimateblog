@@ -263,6 +263,8 @@ class bloglist
 			'TOTAL_BLOGS'					=> $this->lang->lang('BLOG_COUNT', (int) $blogs['count']),
 
 			'S_BLOG_CATEGORY'				=> true,
+			'S_BLOG_CATEGORY_ID'			=> $category_row['category_id'],
+			'S_BLOG_CATEGORY_MODE'			=> 'category', # Required for ATOM feed 
 			'S_BLOG_CATEGORY_POST_PRIVATE'	=> $this->auth->acl_get('u_ub_post_private'),
 			'S_BLOG_CATEGORY_PRIVATE'		=> $category_row['is_private'],
 

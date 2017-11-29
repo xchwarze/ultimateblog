@@ -18,19 +18,11 @@ namespace mrgoldy\ultimateblog\migrations;
 class install_mcp_module extends \phpbb\db\migration\migration
 {
 	/**
-	 *
-	 */
-	public function effectively_installed()
-	{
-
-	}
-
-	/**
 	 * @return array
 	 */
 	static public function depends_on()
 	{
-		return array('\phpbb\db\migration\data\v31x\v314');
+		return array('\mrgoldy\ultimateblog\migrations\initial_schema');
 	}
 
 	/**

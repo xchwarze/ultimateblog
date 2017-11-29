@@ -1,19 +1,23 @@
 To do list:
 
 ☐ MCP (approve, reported)
-☐ Notifications
 ☐ Subscriptions
+☐ Notifications for (x Ratings, x Views, x Comments)
 ☐ Text formatter special characters ( <, &, ", etc)
-☐ RSS
 ☐ Search
 ☐ Blog errors better exceptions (trigger error perhaps) (no blogs in blog list)
 ☐ Drag and drop image upload
+☐ Disabling extension failing, MODULE CAN NOT BE REMOVED
 ☐ MISC: Split up language files, Check 'protected' and 'Construct', Comment everything
 ☐ MISC2: Different blog layouts, Share this blog
-☐ SEO: Show SEO per blog, Sitemap and XML Sitemap
+☐ SEO: Show SEO per blog
+☐ GITHUB: Releases, Wiki, Branches (Master and Development)
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+	✔ Feed @done(2017-11-29 00:11)
+	✔ Notifications @done(2017-11-28 17:34)
+	✔ Report update redirect url @done(2017-11-28 17:38)
 	✔ Test SEO on Localhost @done(2017-11-27 23:01)
 	✔ Schema.org Blog EXAMPLE @done(2017-11-27 18:06) @project(To do list)
 	✔ Style files in proper folder @done(2017-11-27 18:06)
@@ -28,7 +32,6 @@ Archive:
 	✔ Category images @done(2017-11-23 13:22)
 	✔ Check friends array not empty @done(2017-11-23 13:22)
 	✔ Check zebra tables on Enable Friends Only @done(2017-11-23 13:22)
-	✔ Breadcrumbs remove 'Board Index' @done(2017-11-23 13:22)
 	✔ Posting.php REDO: $preview? : $edit? : $add? @done(2017-11-23 13:22)
 	✔ Hide 'change author' on $add @done(2017-11-23 13:22)
 	✔ Disable smilies in blogs not working @done(2017-11-23 13:22)

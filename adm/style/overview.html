@@ -70,14 +70,14 @@
 <fieldset>
 	<legend>{{ lang('ACP_UB_PURGE_IMAGES') }}</legend>
 
-	<form id="action_purge_blog_form" method="post" action="{U_ACTION}" data-ajax="true">
+	<form id="action_purge_blog_form" method="post" action="{{ U_ACTION }}" data-ajax="true">
 		<dl>
 			<dt><label for="action_purge_blog">{{ lang('ACP_UB_PURGE_IMAGES_BLOG') }}</label><br /><span>{{ lang('ACP_UB_PURGE_IMAGES_BLOG_EXPLAIN') }}</span></dt>
 			<dd><input type="hidden" name="action" value="purgeblog" /><input class="button2" type="submit" id="action_purge_blog" name="action_purge_blog" value="{L_RUN}" /></dd>
 		</dl>
 	</form>
 
-	<form id="action_purge_category_form" method="post" action="{U_ACTION}" data-ajax="true">
+	<form id="action_purge_category_form" method="post" action="{{ U_ACTION }}" data-ajax="true">
 		<dl>
 			<dt><label for="action_purge_category">{{ lang('ACP_UB_PURGE_IMAGES_CATEGORY') }}</label><br /><span>{{ lang('ACP_UB_PURGE_IMAGES_CATEGORY_EXPLAIN') }}</span></dt>
 			<dd><input type="hidden" name="action" value="purgecategory" /><input class="button2" type="submit" id="action_purge_category" name="action_purge_category" value="{L_RUN}" /></dd>

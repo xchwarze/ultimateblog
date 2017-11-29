@@ -137,8 +137,11 @@ class main_listener implements EventSubscriberInterface
 			'UB_FA_ICON'				=> $this->config['ub_fa_icon'],
 			'UB_TITLE'					=> $this->config['ub_title'],
 
-			'S_UB_ANNOUNCEMENT_ENABLED'	=> $this->config['ub_enable_announcement'],
-			'S_ULTIMATEBLOG_ENABLED'	=> $this->config['ub_enable'],
+			'S_UB_ANNOUNCEMENT_ENABLED'		=> $this->config['ub_enable_announcement'],
+			'S_UB_FEED_ENABLED'				=> $this->config['ub_enable_rss'],
+			'S_UB_FEED_CATEGORIES_ENABLED'	=> $this->config['ub_enable_rss_cats'],
+			'S_UB_FEED_VIEW'				=> $this->auth->acl_get('u_ub_view') && $this->auth->acl_get('u_ub_rss_view'),
+			'S_ULTIMATEBLOG_ENABLED'		=> $this->config['ub_enable'],
 
 			'U_BLOG_INDEX'				=> $this->helper->route('mrgoldy_ultimateblog_index'),
 		));
@@ -399,6 +402,7 @@ class main_listener implements EventSubscriberInterface
 		$permissions['u_ub_comment_view']		= array('lang' => 'ACL_U_UB_COMMENT_VIEW', 'cat' => 'ultimateblog');
 		$permissions['u_ub_rate']				= array('lang' => 'ACL_U_UB_RATE', 'cat' => 'ultimateblog');
 		$permissions['u_ub_report']				= array('lang' => 'ACL_U_UB_REPORT', 'cat' => 'ultimateblog');
+		$permissions['u_ub_rss_view']			= array('lang' => 'ACL_U_UB_RSS_VIEW', 'cat' => 'ultimateblog');
 
 		$permissions['m_ub_edit']				= array('lang' => 'ACL_M_UB_EDIT', 'cat' => 'ultimateblog');
 		$permissions['m_ub_delete']				= array('lang' => 'ACL_M_UB_DELETE', 'cat' => 'ultimateblog');

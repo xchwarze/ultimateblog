@@ -101,6 +101,7 @@ class functions
 	 */
 	public function ub_status()
 	{
+		# Check if the Ultimate Blog extension is enabled
 		if (!$this->config['ub_enable'])
 		{
 			throw new \phpbb\exception\http_exception(404, $this->user->lang('BLOG_ERROR_DISABLED'));

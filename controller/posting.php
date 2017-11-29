@@ -10,7 +10,6 @@
 
 namespace mrgoldy\ultimateblog\controller;
 
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -39,8 +38,11 @@ class posting
 	/** @var \phpbb\language\language */
 	protected $lang;
 
-	/** @var phpbb\log\log */
+	/** @var \phpbb\log\log */
 	protected $log;
+
+	/** @var \phpbb\notification\manager */
+	protected $notification_manager;
 
 	/** @var \phpbb\pagination */
 	protected $pagination;
@@ -99,26 +101,27 @@ class posting
 	 * @internal param \phpbb\files\factory $files Files factory
 	 * @access	public
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\files\factory $files_factory, \phpbb\filesystem\filesystem $filesystem, \phpbb\controller\helper $helper, \phpbb\language\language $lang, \phpbb\log\log $log, \phpbb\pagination $pagination, \phpbb\textformatter\s9e\parser $parser, \phpbb\path_helper $path_helper, \phpbb\textformatter\s9e\renderer $renderer, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\textformatter\s9e\utils $utils, $php_ext, $phpbb_root_path, $func)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\files\factory $files_factory, \phpbb\filesystem\filesystem $filesystem, \phpbb\controller\helper $helper, \phpbb\language\language $lang, \phpbb\log\log $log, \phpbb\notification\manager $notification_manager, \phpbb\pagination $pagination, \phpbb\textformatter\s9e\parser $parser, \phpbb\path_helper $path_helper, \phpbb\textformatter\s9e\renderer $renderer, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\textformatter\s9e\utils $utils, $php_ext, $phpbb_root_path, $func)
 	{
-		$this->auth				= $auth;
-		$this->config			= $config;
-		$this->files_factory	= $files_factory;
-		$this->filesystem		= $filesystem;
-		$this->helper			= $helper;
-		$this->lang				= $lang;
-		$this->log				= $log;
-		$this->pagination		= $pagination;
-		$this->parser			= $parser;
-		$this->path_helper		= $path_helper;
-		$this->renderer			= $renderer;
-		$this->request			= $request;
-		$this->template			= $template;
-		$this->user				= $user;
-		$this->utils			= $utils;
-		$this->php_ext			= $php_ext;
-		$this->phpbb_root_path	= $phpbb_root_path;
-		$this->func				= $func;
+		$this->auth					= $auth;
+		$this->config				= $config;
+		$this->files_factory		= $files_factory;
+		$this->filesystem			= $filesystem;
+		$this->helper				= $helper;
+		$this->lang					= $lang;
+		$this->log					= $log;
+		$this->notification_manager	= $notification_manager;
+		$this->pagination			= $pagination;
+		$this->parser				= $parser;
+		$this->path_helper			= $path_helper;
+		$this->renderer				= $renderer;
+		$this->request				= $request;
+		$this->template				= $template;
+		$this->user					= $user;
+		$this->utils				= $utils;
+		$this->php_ext				= $php_ext;
+		$this->phpbb_root_path		= $phpbb_root_path;
+		$this->func					= $func;
 	}
 
 	/**
@@ -402,6 +405,24 @@ class posting
 				));
 			}
 
+			# Check if user editing is author, if not, send the author a notification
+			if (($this->user->data['user_id'] != $blog_to_edit['author_id']) && !$add)
+			{
+				# Increment our notifications sent counter
+				$this->config->increment('ub_notification_id', 1);
+
+				# Send out notification
+				$this->notification_manager->add_notifications('mrgoldy.ultimateblog.notification.type.ultimateblog', array(
+					'actionee_id'		=> (int) $this->user->data['user_id'],
+					'author_id'			=> (int) $blog_to_edit['author_id'],
+					'blog_id'			=> (int) $blog_id,
+					'blog_title'		=> $blog_to_edit['blog_title'],
+					'comment_id'		=> 0,
+					'notification_id'	=> $this->config['ub_notification_id'],
+					'notification_type'	=> $edit ? 'blog_edited' : 'blog_deleted',
+				));
+			}
+
 			# Add it to the log
 			$log_mode = $mode == 'add' ? 'user' : ($blog_to_edit['author_id'] == $this->user->data['user_id'] ? 'user' : 'mod');
 			$this->log->add('user', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_UB_LOG_BLOG_' . strtoupper($mode) . 'ED', time(), array($blog_to_update['blog_title'], 'reportee_id' => (int) $this->user->data['user_id']));
@@ -486,7 +507,7 @@ class posting
 	 * @param $mode
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function misc($blog_id, $mode)
+	public function misc($mode, $blog_id)
 	{
 		# Check if Ultimate Blog is enabled and if the user has the 'view' permission
 		$this->func->ub_status();
@@ -512,7 +533,7 @@ class posting
 					}
 
 					# Need to return an empty response, otherwise 500 Internal Server error (???)
-					return new Response();
+					return new JsonResponse();
 				}
 			break;
 
@@ -538,18 +559,19 @@ class posting
 			case 'comment':
 				$action = $this->request->variable('action', '');
 
-				switch ($action)
+				if ($this->request->is_ajax())
 				{
-					case 'add':
-						# Check permission
-						if (!$this->auth->acl_get('u_ub_comment_post'))
-						{
-							throw new \phpbb\exception\http_exception(403, $this->lang->lang('BLOG_ERROR_CANT_COMMENT'));
-						}
+					switch ($action)
+					{
+						case 'add':
+							# Check permission
+							if (!$this->auth->acl_get('u_ub_comment_post'))
+							{
+								throw new \phpbb\exception\http_exception(403, $this->lang->lang('BLOG_ERROR_CANT_COMMENT'));
+							}
 
-						if ($this->request->is_ajax())
-						{
 							$parent_id = (int) $this->request->variable('pid', 0);
+							$parent_author_id = (int) $this->request->variable('paid', 0);
 							$comment_text = $this->request->variable('comment_text', '', true);
 
 							# Generate text for storage
@@ -568,118 +590,163 @@ class posting
 							# Add the comment
 							$comment_id = $this->func->comment_add($comment_array);
 
+							# If parent ID is NOT 0, it's a reply and we send a notification to the original comment author, if it's not the same author
+							if (!empty($parent_id) && ($this->user->data['user_id'] != $parent_author_id))
+							{
+								# Increment our notifications sent counter
+								$this->config->increment('ub_notification_id', 1);
+
+								# Send out notification
+								$this->notification_manager->add_notifications('mrgoldy.ultimateblog.notification.type.ultimateblog', array(
+									'actionee_id'		=> (int) $this->user->data['user_id'],
+									'author_id'			=> (int) $parent_author_id,
+									'blog_id'			=> (int) $blog_id,
+									'blog_title'		=> '',
+									'comment_id'		=> (int) $parent_id,
+									'notification_id'	=> $this->config['ub_notification_id'],
+									'notification_type'	=> 'comment_added',
+								));
+							}
+
 							# Add it to the log
 							$comment_param = !empty($parent_id) ? $parent_id : $comment_id;
 							$comment_url = $this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => (int) $blog_id)) . '#' . (int) $comment_param;
 							$this->log->add('user', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_UB_LOG_COMMENT_ADDED', time(), array($comment_url, 'reportee_id' => $this->user->data['user_id']));
+							redirect($comment_url);
+						break;
 
-							return new Response();
-						}
-					break;
+						case 'delete':
+							$author_id = $this->request->variable('aid', 0);
+							$comment_id = $this->request->variable('cid', 0);
 
-					case 'delete':
-					if ($this->request->is_ajax())
-					{
-						if (confirm_box(true))
-						{
-							trigger_error('BYE');
-						}
-						else
-						{
-							confirm_box(false, 'Hi');
-						}
-					}
-						/*$author_id = $this->request->variable('aid', 0);
-						$comment_id = $this->request->variable('cid', 0);
+							if (!$this->auth->acl_get('m_ub_delete') && (!$this->auth->acl_get('u_ub_comment_delete') || $this->user->data['user_id'] != $author_id))
+							{
+								throw new \phpbb\exception\http_exception(403, $this->lang->lang('BLOG_ERROR_CANT_COMMENT_DELETE'));
+							}
 
-						if (!$this->auth->acl_get('m_ub_delete') && (!$this->auth->acl_get('u_ub_comment_delete') || $this->user->data['user_id'] != $author_id))
-						{
-							throw new \phpbb\exception\http_exception(403, $this->lang->lang('BLOG_ERROR_CANT_COMMENT_DELETE'));
-						}
+							$reply_count = $this->func->comment_reply_count((int) $comment_id);
 
-						$reply_count = $this->func->comment_reply_count((int) $comment_id);
-
-						if ($this->request->is_ajax())
-						{
 							if (confirm_box(true))
 							{
 								# Delete the comment
 								$this->func->comment_delete((int) $comment_id);
+
+								# Check if user deleting is author, if not, send the author a notification
+								if ($this->user->data['user_id'] != $author_id)
+								{
+									# Increment our notifications sent counter
+									$this->config->increment('ub_notification_id', 1);
+
+									# Send out notification
+									$this->notification_manager->add_notifications('mrgoldy.ultimateblog.notification.type.ultimateblog', array(
+										'actionee_id'		=> (int) $this->user->data['user_id'],
+										'author_id'			=> (int) $author_id,
+										'blog_id'			=> (int) $blog_id,
+										'blog_title'		=> '',
+										'comment_id'		=> (int) $comment_id,
+										'notification_id'	=> $this->config['ub_notification_id'],
+										'notification_type'	=> 'comment_deleted',
+									));
+								}
 
 								# Add it to the log
 								$log_mode = $author_id == $this->user->data['user_id'] ? 'user' : 'mod';
 								$this->log->add($log_mode, $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_UB_LOG_COMMENT_DELETED', time(), array('reportee_id' => $this->user->data['user_id']));
 
 								# Redirect the user back to the blog
-								return new Response();
+								redirect($this->helper->route('mrgoldy_ultimateblog_view', array('blog_id' => $blog_id)));
 							}
 							else
 							{
-								confirm_box(false, $this->user->lang('BLOG_COMMENTS_DELETE_CONFIRM') . (!empty($reply_count) ? '<br>'. $this->lang->lang('BLOG_COMMENTS_DELETE_REPLIES') : ''), '', 'confirm_body.html', $this->helper->route('mrgoldy_ultimateblog_misc', array('blog_id' => (int) $blog_id, 'mode' => 'comment', 'action' => 'delete', 'aid' => (int) $author_id, 'cid' => (int) $comment_id)));
+								confirm_box(false, $this->user->lang('BLOG_COMMENTS_DELETE_CONFIRM') . (!empty($reply_count) ? '<br>'. $this->lang->lang('BLOG_COMMENTS_DELETE_REPLIES') : ''), build_hidden_fields(array(
+									'blog_id'	=> $blog_id,
+									'mode'		=> $mode,
+									'aid'		=> $author_id,
+									'cid' 		=> $comment_id,
+									'action'	=> $action,
+								)));
 							}
-						}*/
-					break;
+						break;
 
-					case 'edit':
-						$comment_id = $this->request->variable('cid', 0);
+						case 'edit':
+							$comment_id = $this->request->variable('cid', 0);
 
-						if ($this->request->is_ajax())
-						{
-							$comment_row = $this->func->comment_info((int) $comment_id);
-
-							# Check permission
-							if (!$this->auth->acl_get('m_ub_edit') && (!$this->auth->acl_get('u_ub_comment_edit') || $this->user->data['user_id'] != $comment_row['user_id']))
+							if ($this->request->is_ajax())
 							{
-								throw new \phpbb\exception\http_exception(403, $this->lang->lang('BLOG_ERROR_CANT_COMMENT_EDIT'));
+								$comment_row = $this->func->comment_info((int) $comment_id);
+
+								# Check permission
+								if (!$this->auth->acl_get('m_ub_edit') && (!$this->auth->acl_get('u_ub_comment_edit') || $this->user->data['user_id'] != $comment_row['user_id']))
+								{
+									throw new \phpbb\exception\http_exception(403, $this->lang->lang('BLOG_ERROR_CANT_COMMENT_EDIT'));
+								}
+
+								return new JsonResponse(array(
+									'author_id'		=> (int) $comment_row['user_id'],
+									'comment_id'	=> (int) $comment_id,
+									'comment_text'	=> $this->utils->unparse($comment_row['comment_text']),
+									'form_action'	=> $this->helper->route('mrgoldy_ultimateblog_misc', array('blog_id' => (int) $blog_id, 'mode' => 'comment', 'action' => 'edit_save', 'cid' => (int) $comment_id)),
+								));
 							}
+						break;
 
-							return new JsonResponse(array(
-								'author_id'		=> (int) $comment_row['user_id'],
-								'comment_id'	=> (int) $comment_id,
-								'comment_text'	=> $this->utils->unparse($comment_row['comment_text']),
-								'form_action'	=> $this->helper->route('mrgoldy_ultimateblog_misc', array('blog_id' => (int) $blog_id, 'mode' => 'comment', 'action' => 'edit_save', 'cid' => (int) $comment_id)),
-							));
-						}
-					break;
+						case 'edit_save':
+							$cancel = $this->request->is_set_post('cancel');
+							$submit = $this->request->is_set_post('submit');
 
-					case 'edit_save':
-						$cancel = $this->request->is_set_post('cancel');
-						$submit = $this->request->is_set_post('submit');
-
-						if ($this->request->is_ajax())
-						{
-							if ($cancel)
+							if ($this->request->is_ajax())
 							{
-								return new \Symfony\Component\HttpFoundation\JsonResponse(array());
+								if ($cancel)
+								{
+									return new JsonResponse(array());
+								}
+
+								$author_id = $this->request->variable('author_id', 0);
+								$comment_id = $this->request->variable('comment_id', 0);
+								$comment_text = $this->request->variable('comment_edit_text', '', true);
+
+								if ($submit)
+								{
+									# Generate text for storage
+									!$this->config['ub_allow_bbcodes'] ? $this->parser->disable_bbcodes() : $this->parser->enable_bbcodes();
+									!$this->config['ub_allow_smilies'] ? $this->parser->disable_smilies() : $this->parser->enable_smilies();
+									!$this->config['ub_allow_magic_url'] ? $this->parser->disable_magic_url() : $this->parser->enable_magic_url();
+									$comment_array = array(
+										'comment_id'		=> (int) $comment_id,
+										'comment_text'		=> $this->parser->parse($comment_text),
+									);
+
+									# Save the comment
+									$this->func->comment_update($comment_array);
+
+									# Check if user editing is author, if not, send the author a notification
+									if ($this->user->data['user_id'] != $author_id)
+									{
+										# Increment our notifications sent counter
+										$this->config->increment('ub_notification_id', 1);
+
+										# Send out notification
+										$this->notification_manager->add_notifications('mrgoldy.ultimateblog.notification.type.ultimateblog', array(
+											'actionee_id'		=> (int) $this->user->data['user_id'],
+											'author_id'			=> (int) $author_id,
+											'blog_id'			=> (int) $blog_id,
+											'blog_title'		=> '',
+											'comment_id'		=> (int) $comment_id,
+											'notification_id'	=> $this->config['ub_notification_id'],
+											'notification_type'	=> 'comment_edited',
+										));
+									}
+
+									# Add it to the log
+									$log_mode = $author_id == $this->user->data['user_id'] ? 'user' : 'mod';
+									$this->log->add($log_mode, $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_UB_LOG_COMMENT_EDITED', time(), array('reportee_id' => $this->user->data['user_id']));
+
+									# Return
+									return new JsonResponse();
+								}
 							}
-
-							$author_id = $this->request->variable('author_id', 0);
-							$comment_id = $this->request->variable('comment_id', 0);
-							$comment_text = $this->request->variable('comment_edit_text', '', true);
-
-							if ($submit)
-							{
-								# Generate text for storage
-								!$this->config['ub_allow_bbcodes'] ? $this->parser->disable_bbcodes() : $this->parser->enable_bbcodes();
-								!$this->config['ub_allow_smilies'] ? $this->parser->disable_smilies() : $this->parser->enable_smilies();
-								!$this->config['ub_allow_magic_url'] ? $this->parser->disable_magic_url() : $this->parser->enable_magic_url();
-								$comment_array = array(
-									'comment_id'		=> (int) $comment_id,
-									'comment_text'		=> $this->parser->parse($comment_text),
-								);
-
-								# Save the comment
-								$this->func->comment_update($comment_array);
-
-								# Add it to the log
-								$log_mode = $author_id == $this->user->data['user_id'] ? 'user' : 'mod';
-								$this->log->add($log_mode, $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_UB_LOG_COMMENT_EDITED', time(), array('reportee_id' => $this->user->data['user_id']));
-
-								# Return
-								return new Response();
-							}
-						}
-					break;
+						break;
+					}
 				}
 			break;
 		}

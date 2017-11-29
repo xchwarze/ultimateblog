@@ -1,5 +1,5 @@
 mrgoldy_ultimateblog_index:
-    pattern: /blog
+    path: /blog
     defaults: { _controller: mrgoldy.ultimateblog.controller.bloglist:index, page: 1 }
 
 mrgoldy_ultimateblog_subpages:

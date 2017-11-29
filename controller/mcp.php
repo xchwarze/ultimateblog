@@ -38,11 +38,17 @@ class mcp
 	/** @var \phpbb\log\log */
 	protected $log;
 
+	/** @var \phpbb\notification\manager */
+	protected $notification_manager;
+
 	/** @var \phpbb\pagination */
 	protected $pagination;
 
 	/** @var \phpbb\request\request */
 	protected $request;
+
+	/** @var \phpbb\textformatter\s9e\renderer */
+	protected $renderer;
 
 	/** @var \phpbb\template\template */
 	protected $template;
@@ -68,38 +74,42 @@ class mcp
 	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth						$auth				Authentication object
-	* @param \phpbb\config\config					$config				Config object
-	* @param \phpbb\db\driver\driver_interface		$db					Database object
-	* @param \mrgoldy\ultimateblog\core\functions	$func				Ultimate Blog functions
-	* @param \phpbb\controller\helper				$helper				Controller helper object
-	* @param \phpbb\language\language				$lang				Language object
-	* @param \phpbb\log\log							$log				Log object
-	* @param \phpbb\pagination						$pagination			Pagination object
-	* @param \phpbb\request\request					$request			Request object
-	* @param \phpbb\template\template				$template			Template object
-	* @param \phpbb\user							$user				User object
-	* @param string									$php_ext			phpEx
-	* @param string									$phpbb_root_path	phpBB root path
-	* @param string									$ub_blogs_table		Ultimate Blog blogs table
-	* @param string									$ub_comments_table	Ultimate Blog comments table
-	* @param string									$ub_reports_table	Ultimate Blog reports table
+	* @param \phpbb\auth\auth						$auth					Authentication object
+	* @param \phpbb\config\config					$config					Config object
+	* @param \phpbb\db\driver\driver_interface		$db						Database object
+	* @param \mrgoldy\ultimateblog\core\functions	$func					Ultimate Blog functions
+	* @param \phpbb\controller\helper				$helper					Controller helper object
+	* @param \phpbb\language\language				$lang					Language object
+	* @param \phpbb\log\log							$log					Log object
+	* @param \phpbb\notification\manager			$notification_manager	Notification manager
+	* @param \phpbb\pagination						$pagination				Pagination object
+	* @param \phpbb\textformatter\s9e\renderer		$renderer				Renderer object
+	* @param \phpbb\request\request					$request				Request object
+	* @param \phpbb\template\template				$template				Template object
+	* @param \phpbb\user							$user					User object
+	* @param string									$php_ext				phpEx
+	* @param string									$phpbb_root_path		phpBB root path
+	* @param string									$ub_blogs_table			Ultimate Blog blogs table
+	* @param string									$ub_comments_table		Ultimate Blog comments table
+	* @param string									$ub_reports_table		Ultimate Blog reports table
 	* @access public
 	*/
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, $func, \phpbb\controller\helper $helper, \phpbb\language\language $lang, \phpbb\log\log $log, \phpbb\pagination $pagination, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $php_ext, $phpbb_root_path, $ub_blogs_table, $ub_comments_table, $ub_reports_table)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, $func, \phpbb\controller\helper $helper, \phpbb\language\language $lang, \phpbb\log\log $log, \phpbb\notification\manager $notification_manager, \phpbb\pagination $pagination, \phpbb\textformatter\s9e\renderer $renderer, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $php_ext, $phpbb_root_path, $ub_blogs_table, $ub_comments_table, $ub_reports_table)
 	{
-		$this->auth			= $auth;
-		$this->config		= $config;
-		$this->db			= $db;
-		$this->func			= $func;
-		$this->helper		= $helper;
-		$this->lang			= $lang;
-		$this->log			= $log;
-		$this->pagination	= $pagination;
-		$this->request		= $request;
-		$this->template		= $template;
-		$this->user			= $user;
-		$this->php_ext		= $php_ext;
+		$this->auth					= $auth;
+		$this->config				= $config;
+		$this->db					= $db;
+		$this->func					= $func;
+		$this->helper				= $helper;
+		$this->lang					= $lang;
+		$this->log					= $log;
+		$this->notification_manager = $notification_manager;
+		$this->pagination			= $pagination;
+		$this->renderer				= $renderer;
+		$this->request				= $request;
+		$this->template				= $template;
+		$this->user					= $user;
+		$this->php_ext				= $php_ext;
 		$this->phpbb_root_path		= $phpbb_root_path;
 		$this->ub_blogs_table		= $ub_blogs_table;
 		$this->ub_comments_table	= $ub_comments_table;
@@ -378,7 +388,7 @@ class mcp
 
 			$this->template->assign_vars(array(
 				'PARENT_AUTHOR'	=> get_username_string('full', $parent['user_id'], $parent['username'], $parent['user_colour']),
-				'PARENT_TEXT'	=> $parent['comment_text'],
+				'PARENT_TEXT'	=> $this->renderer->render($parent['comment_text']),
 				'PARENT_TIME'	=> $this->user->format_date($parent['comment_time']),
 
 				'S_PARENT_APPROVED'	=> $parent['comment_approved'],
@@ -395,7 +405,7 @@ class mcp
 				# Set up all children
 				$this->template->assign_block_vars('replies', array(
 					'AUTHOR'	=> get_username_string('full', $child['user_id'], $child['username'], $child['user_colour']),
-					'TEXT'		=> $child['comment_text'],
+					'TEXT'		=> $this->renderer->render($child['comment_text']),
 					'TIME'		=> $this->user->format_date($child['comment_time']),
 
 					'S_APPROVED'	=> $child['comment_approved'],
@@ -418,7 +428,7 @@ class mcp
 			'REPORTED_POST_AUTHOR'	=> get_username_string('full', $report['author_user_id'], $report['author_username'], $report['author_user_colour']),
 			'REPORTED_POST_IP'		=> $report['author_user_ip'],
 			'REPORTED_POST_IPADDR'	=> ($this->auth->acl_getf_global('m_info') && $this->request->variable('lookup', '')) ? @gethostbyaddr($report['author_user_ip']) : '',
-			'REPORTED_POST_TEXT'	=> $type == 'blog' ? $blog['blog_text'] : $parent['comment_text'],
+			'REPORTED_POST_TEXT'	=> $type == 'blog' ? $this->renderer->render($blog['blog_text']) : $this->renderer->render($parent['comment_text']),
 			'REPORTED_POST_TIME'	=> $this->user->format_date($report['post_time']),
 			'REPORTER'				=> get_username_string('full', $report['reporter_user_id'], $report['reporter_username'], $report['reporter_user_colour']),
 
@@ -568,13 +578,34 @@ class mcp
 	 */
 	private function update_reports($id, $mode, $report_id_list, $action, $type)
 	{
-		$redirect_url = $this->u_action . ($mode === 'ub_blog_reports_details' || $mode === 'ub_comment_reports_details' ? '&amp;report_id=' . (int) $report_id_list[0] : '');
+		# Set up redirect url
+		if ($mode === 'ub_blog_reports_details' || $mode === 'ub_comment_reports_details')
+		{
+			switch ($action)
+			{
+				case 'close':
+					$redirect_url = $this->u_action . '&amp;report_id=' . (int) $report_id_list[0];
+				break;
+
+				case 'delete':
+					$redirect_url = append_sid("{$this->phpbb_root_path}mcp.{$this->php_ext}?i=-mrgoldy-ultimateblog-mcp-report_module&amp;mode=ub_{$type}_reports_open");
+				break;
+			}
+		}
+		else
+		{
+			$redirect_url = $this->u_action;
+		}
+
+
 		if (empty($report_id_list))
 		{
 			trigger_error($this->lang->lang('MCP_UB_REPORTS_IDS_EMPTY') . '<br><br>' . $this->lang->lang('RETURN_REPORTS', '<a href="'. $redirect_url . '">', '</a>'));
 		}
 
 		$success_msg = '';
+		$users_to_notify = array();
+
 		$s_hidden_fields = build_hidden_fields(array(
 			'i'					=> $id,
 			'mode'				=> $mode,
@@ -588,22 +619,28 @@ class mcp
 			switch ($type)
 			{
 				case 'blog':
-					$sql = 'SELECT blog_id, user_notify, user_id FROM ' . $this->ub_reports_table . ' WHERE ' . $this->db->sql_in_set('report_id', $report_id_list);
+					$sql = 'SELECT report_closed, blog_id, user_notify, user_id FROM ' . $this->ub_reports_table . ' WHERE ' . $this->db->sql_in_set('report_id', $report_id_list);
 				break;
 
 				case 'comment':
-					$sql = 'SELECT comment_id, user_notify, user_id FROM ' . $this->ub_reports_table . ' WHERE ' . $this->db->sql_in_set('report_id', $report_id_list);
+					$sql = 'SELECT report_closed, blog_id, comment_id, user_notify, user_id FROM ' . $this->ub_reports_table . ' WHERE ' . $this->db->sql_in_set('report_id', $report_id_list);
 				break;
 			}
 
 			$result = $this->db->sql_query($sql);
+
 			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$adjust_id_list[] = $type === 'blog' ? (int) $row['blog_id'] : (int) $row['comment_id'];
 
-				if ($row['user_notify'])
+				# Only notify when user has requested it, and the report is not already closed.
+				if (!empty($row['user_notify']) && empty($row['report_closed']))
 				{
-					$users_to_notify[] = (int) $row['user_id'];
+					$users_to_notify[] = array(
+						'user_id'		=> (int) $row['user_id'],
+						'blog_id'		=> (int) $row['blog_id'],
+						'comment_id'	=> $type === 'blog' ? 0 : (int) $row['comment_id'],
+					);
 				}
 			}
 			$this->db->sql_freeresult($result);
@@ -630,6 +667,26 @@ class mcp
 			$this->log->add('mod', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_UB_LOG_REPORT_'. strtoupper($action) . 'D', time(), array());
 
 			# Send notifaction ($users_to_notify)
+			# If parent ID is NOT 0, it's a reply and we send a notification to the original comment author, if it's not the same author
+			if (!empty($users_to_notify))
+			{
+				foreach ($users_to_notify as $user_to_notify)
+				{
+					# Increment our notifications sent counter
+					$this->config->increment('ub_notification_id', 1);
+
+					# Send out notification
+					$this->notification_manager->add_notifications('mrgoldy.ultimateblog.notification.type.ultimateblog', array(
+						'actionee_id'		=> (int) $this->user->data['user_id'],
+						'author_id'			=> (int) $user_to_notify['user_id'],
+						'blog_id'			=> (int) $user_to_notify['blog_id'],
+						'blog_title'		=> '',
+						'comment_id'		=> (int) $user_to_notify['comment_id'],
+						'notification_id'	=> $this->config['ub_notification_id'],
+						'notification_type'	=> 'report_' . $type,
+					));
+				}
+			}
 
 			# Show success message
 			$success_msg = $this->lang->lang('MCP_UB_REPORTS_' . strtoupper($action) . 'D_SUCCESS') . '<br><br>' . $this->lang->lang('RETURN_REPORTS', '<a href="'. $redirect_url . '">', '</a>');

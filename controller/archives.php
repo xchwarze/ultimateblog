@@ -17,11 +17,22 @@ namespace mrgoldy\ultimateblog\controller;
  */
 class archives
 {
+	/** @var \phpbb\config\config */
 	protected $config;
+
+	/** @var \mrgoldy\ultimateblog\core\functions */
 	protected $func;
+
+	/** @var \phpbb\controller\helper */
 	protected $helper;
+
+	/** @var \phpbb\language\language */
 	protected $lang;
+
+	/** @var \phpbb\template\template */
 	protected $template;
+
+	/** @var \phpbb\user */
 	protected $user;
 
 	/**

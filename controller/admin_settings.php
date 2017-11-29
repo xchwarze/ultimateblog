@@ -95,7 +95,7 @@ class admin_settings
 		add_form_key('ub_settings');
 
 		# Set up array for all the setting bools
-		$settings = array('ub_enable', 'ub_allow_bbcodes', 'ub_allow_smilies', 'ub_allow_magic_url', 'ub_enable_announcement', 'ub_enable_comments', 'ub_enable_friends_only', 'ub_enable_rss', 'ub_enable_rating', 'ub_enable_subscriptions');
+		$settings = array('ub_enable', 'ub_allow_bbcodes', 'ub_allow_smilies', 'ub_allow_magic_url', 'ub_enable_announcement', 'ub_enable_comments', 'ub_enable_friends_only', 'ub_enable_rss', 'ub_enable_rss_cats', 'ub_enable_rss_stats', 'ub_enable_rating', 'ub_enable_subscriptions');
 
 		# Set up array for all the index blocks
 		$blocks = array(1 => 'ub_category1_', 2 => 'ub_category2_', 3 => 'ub_category3_', 4 => 'ub_latest_', 5 => 'ub_comments_', 6 => 'ub_rating_', 7 => 'ub_views_');
@@ -118,6 +118,7 @@ class admin_settings
 			$ub_blog_min_chars = $this->request->variable('ub_blog_min_chars', 100);
 			$ub_blogs_per_page = $this->request->variable('ub_blogs_per_page', 3);
 			$ub_comments_per_page = $this->request->variable('ub_comments_per_page', 5);
+			$ub_enable_rss_limit = $this->request->variable('ub_enable_rss_limit', 10);
 			$ub_custom_index = $this->request->variable('ub_custom_index', false);
 			$ub_custom_order = $this->request->variable('ub_index_order', '');
 			$order_array = empty($ub_custom_order) ? array() : explode(',', $ub_custom_order);
@@ -135,6 +136,11 @@ class admin_settings
 			if ($ub_comments_per_page < 5)
 			{
 				$errors[] = $this->lang->lang('ACP_UB_ERROR_COMMENTS_PER_PAGE');
+			}
+
+			if ($ub_enable_rss_limit < 5 || $ub_enable_rss_limit > 100)
+			{
+				$errors[] = $this->lang->lang('ACP_UB_ERROR_RSS_LIMIT', $ub_enable_rss_limit);
 			}
 
 			if (!empty($ub_custom_index) && empty($order_array))
@@ -180,6 +186,7 @@ class admin_settings
 				$this->config->set('ub_blog_min_chars', $ub_blog_min_chars);
 				$this->config->set('ub_blogs_per_page', $ub_blogs_per_page);
 				$this->config->set('ub_comments_per_page', $ub_comments_per_page);
+				$this->config->set('ub_enable_rss_limit', $ub_enable_rss_limit);
 				$this->config->set('ub_custom_index', $ub_custom_index);
 				$this->config->set('ub_image_size', $ub_image_size);
 				$this->config->set('ub_image_dir', $ub_image_dir);
@@ -256,6 +263,7 @@ class admin_settings
 			'UB_BLOG_MIN_CHARS'		=> $submit ? $ub_blog_min_chars : $this->config['ub_blog_min_chars'],
 			'UB_BLOGS_PER_PAGE'		=> $submit ? $ub_blogs_per_page : $this->config['ub_blogs_per_page'],
 			'UB_COMMENTS_PER_PAGE'	=> $submit ? $ub_comments_per_page : $this->config['ub_comments_per_page'],
+			'UB_ENABLE_RSS_LIMIT'	=> $submit ? $ub_enable_rss_limit : $this->config['ub_enable_rss_limit'],
 			'UB_CUSTOM_INDEX_ORDER'	=> implode(",", $block_current_order_array),
 			'UB_FA_ICON'			=> $submit ? $this->request->variable('ub_fa_icon', '', true) : $this->config['ub_fa_icon'],
 			'UB_IMAGE_DIR'			=> $submit ? $ub_image_dir : $this->config['ub_image_dir'],
@@ -273,6 +281,8 @@ class admin_settings
 			'S_UB_ENABLE_FRIENDS_ONLY'	=> $submit ? $this->request->variable('ub_enable_friends_only', true) : $this->config['ub_enable_friends_only'],
 			'S_UB_ENABLE_RATING'		=> $submit ? $this->request->variable('ub_enable_rating', true) : $this->config['ub_enable_rating'],
 			'S_UB_ENABLE_RSS'			=> $submit ? $this->request->variable('ub_enable_rss', true) : $this->config['ub_enable_rss'],
+			'S_UB_ENABLE_RSS_CATS'		=> $submit ? $this->request->variable('ub_enable_rss_cats', true) : $this->config['ub_enable_rss_cats'],
+			'S_UB_ENABLE_RSS_STATS'		=> $submit ? $this->request->variable('ub_enable_rss_stats', true) : $this->config['ub_enable_rss_stats'],
 			'S_UB_ENABLE_SUBSCRIPTIONS'	=> $submit ? $this->request->variable('ub_enable_subscriptions', true) : $this->config['ub_enable_subscriptions'],
 
 			'U_ACTION'			=> $this->u_action,

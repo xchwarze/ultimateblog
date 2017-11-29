@@ -81,6 +81,7 @@ $lang = array_merge($lang, array(
 
 	'ACP_UB_CUSTOM_INDEX'					=> 'Use custom index',
 	'ACP_UB_CUSTOM_INDEX_EXPLAIN'			=> 'Either use the standard <em>(Latest blogs and Blogs per page)</em> blog index, or the custom one which you can lay out below.',
+	'ACP_UB_CUSTOM_INDEX_SETTINGS'			=> 'Custom index settings',
 
 	'ACP_UB_ENABLE'							=> 'Enable Ultimate Blog extension',
 	'ACP_UB_ENABLE_ANNOUNCEMENT'			=> 'Enable announcements',
@@ -91,8 +92,15 @@ $lang = array_merge($lang, array(
 	'ACP_UB_ENABLE_FRIENDS_ONLY_EXPLAIN'	=> 'Users can select to show their blog posts to users in their friendslist.<br>You got to have the Friends UCP Module <em>(both Zebra and Zebra friends)</em> enabled. ',
 	'ACP_UB_ENABLE_RATING'					=> 'Enable rating',
 	'ACP_UB_ENABLE_RATING_EXPLAIN'			=> 'Users can rate a blog on a 5 star scale.',
-	'ACP_UB_ENABLE_RSS'						=> 'Enable RSS feed',
-	'ACP_UB_ENABLE_RSS_EXPLAIN'				=> 'Provides a RSS feed for all the blogs.',
+	'ACP_UB_ENABLE_RSS'						=> 'Enable feed',
+	'ACP_UB_ENABLE_RSS_EXPLAIN'				=> 'Turns on or off ATOM feeds for the entire extension.',
+	'ACP_UB_ENABLE_RSS_CATS'				=> 'Enable per-category feed',
+	'ACP_UB_ENABLE_RSS_CATS_EXPLAIN'		=> 'Enables the “per-category” feed, which displays a list of blogs per single category.',
+	'ACP_UB_ENABLE_RSS_LIMIT'				=> 'Number of items',
+	'ACP_UB_ENABLE_RSS_LIMIT_EXPLAIN'		=> 'The maximum number of feed items to display.<br><em>(Has to be between 5 and 100)</em>',
+	'ACP_UB_ENABLE_RSS_SETTINGS'			=> 'General feed settings',
+	'ACP_UB_ENABLE_RSS_STATS'				=> 'Item statistics',
+	'ACP_UB_ENABLE_RSS_STATS_EXPLAIN'		=> 'Display individual statistics underneath feed items.<br><em>(e.g. category count, edit count, views, comments, rating)</em>',
 	'ACP_UB_ENABLE_SUBSCRIPTIONS'			=> 'Enable subscriptions',
 	'ACP_UB_ENABLE_SUBSCRIPTIONS_EXPLAIN'	=> 'Allows users to subscribe to categories and blogs and receive a notification when a new blog or comment is posted.',
 
@@ -103,6 +111,7 @@ $lang = array_merge($lang, array(
 	'ACP_UB_ERROR_CUSTOM_INDEX_EMPTY'	=> 'You have to set atleast one block in your “Custom index” or disable to setting.',
 	'ACP_UB_ERROR_EMPTY_CATEGORY_NAME'	=> 'You have to set a category name.',
 	'ACP_UB_ERROR_EMPTY_TITLE'			=> 'You have to set the “Ultimate Blog title” setting.',
+	'ACP_UB_ERROR_RSS_LIMIT'			=> 'The RSS limit has to be between 5 and 100. You have it set to %s.',
 
 	'ACP_UB_FA_ICON'			=> 'Font Awesome icon',
 	'ACP_UB_FA_ICON_CHOOSE'		=> 'Choose icon',
@@ -111,9 +120,9 @@ $lang = array_merge($lang, array(
 	'ACP_UB_IMAGE_SIZE'				=> 'Maximum image filesize',
 	'ACP_UB_IMAGE_SIZE_EXPLAIN'		=> 'Maximum size of each file. If this value is 0, the uploadable filesize is only limited by your PHP configuration.<br>Average image filesizes: PNG ~ 2–4 kB, GIF ~ 6–8 kB, JPG ~ 9–12 kB',
 	'ACP_UB_IMAGE_DIR'				=> 'Blog image upload directory',
-	'ACP_UB_IMAGE_DIR_EXPLAIN'		=> 'Storage path for blog images. Please note that if you change this directory while already having uploaded attachments you need to manually copy the files to their new location.',
+	'ACP_UB_IMAGE_DIR_EXPLAIN'		=> 'Storage path for blog images. Please note that if you change this directory while already having uploaded blog images you need to manually copy the files to their new location.',
 	'ACP_UB_IMAGE_CAT_DIR'			=> 'Category image upload directory',
-	'ACP_UB_IMAGE_CAT_DIR_EXPLAIN'	=> 'Storage path for category images. Please note that if you change this directory while already having uploaded attachments you need to manually copy the files to their new location.',
+	'ACP_UB_IMAGE_CAT_DIR_EXPLAIN'	=> 'Storage path for category images. Please note that if you change this directory while already having uploaded category images you need to manually copy the files to their new location.',
 
 	'ACP_UB_INVALID_HASH'		=> 'Error: invalid hash',
 
