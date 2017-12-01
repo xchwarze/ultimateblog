@@ -158,6 +158,9 @@ $lang = array_merge($lang, array(
 	'UB_NOTIFICATION_COMMENT_EDITED'	=> '<strong>Comment edited</strong> by %1$s for:<br>"%2$s"', // 1: Editor name | 2: Blog title
 	'UB_NOTIFICATION_COMMENT_REPORT'	=> '<strong>Comment report closed</strong> by %1$s for:<br>"%2$s"', // 1: Moderator name | 2: Blog title
 	'UB_NOTIFICATION_DEFAULT'			=> 'Notification for Ultimate Blog', // Should never get this.
+	'UB_NOTIFICATION_TYPE_COMMENTS_MSG'	=> 'Your blog has received <strong>%1$s comments</strong>:<br>"%2$s"', // 1: Comment count | 2: Blog title
+	'UB_NOTIFICATION_TYPE_RATINGS_MSG'	=> 'Your blog has received <strong>%1$s ratings</strong:<br>"%2$s"', // 1: Rating count | 2: Blog title
+	'UB_NOTIFICATION_TYPE_VIEWS_MSG'	=> 'Your blog has received <strong>%1$s views</strong>:<br>"%2$s"', // 1: View count | 2: Blog title
 
 	'UB_VIEWONLINE_ARCHIVE'		=> 'Viewing the %1$s archive for %3$s %2$s', // 1: Ultimate Blog title | 2: Numeric year (eg. 2017) | 3: Textual month (eg. January)
 	'UB_VIEWONLINE_ARCHIVES'	=> 'Viewing the %s archives',

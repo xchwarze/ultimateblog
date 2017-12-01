@@ -17,49 +17,77 @@ namespace mrgoldy\ultimateblog\controller;
  */
 class blog
 {
-	protected $renderer;
+	/** @var \phpbb\auth\auth */
 	protected $auth;
+
+	/** @var \phpbb\config\config */
 	protected $config;
+
+	/** @var \mrgoldy\ultimateblog\core\functions */
 	protected $func;
+
+	/** @var \phpbb\controller\helper */
 	protected $helper;
+
+	/** @var \phpbb\language\language */
 	protected $lang;
+
+	/** @var \phpbb\notification\manager */
+	protected $notification_manager;
+
+	/** @var \phpbb\path_helper */
 	protected $path_helper;
+
+	/** @var \phpbb\textformatter\s9e\renderer */
+	protected $renderer;
+
+	/** @var \phpbb\request\request */
 	protected $request;
+
+	/** @var \phpbb\template\template */
 	protected $template;
+
+	/** @var \phpbb\user */
 	protected $user;
+
+	/** @var string .php Extension */
 	protected $php_ext;
+
+	/** @var string phpBB root path */
 	protected $phpbb_root_path;
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\textformatter\s9e\renderer    $renderer
 	 * @param \phpbb\auth\auth                     $auth
 	 * @param \phpbb\config\config                 $config
 	 * @param \mrgoldy\ultimateblog\core\functions $func
 	 * @param \phpbb\controller\helper             $helper
 	 * @param \phpbb\language\language             $lang
+	 * @param \phpbb\notification\manager          $notification_manager
 	 * @param \phpbb\path_helper                   $path_helper
+	 * @param \phpbb\textformatter\s9e\renderer    $renderer
 	 * @param \phpbb\request\request               $request
 	 * @param \phpbb\template\template             $template
 	 * @param \phpbb\user                          $user
 	 * @param                                      $php_ext
 	 * @param                                      $phpbb_root_path
 	 */
-	public function __construct(\phpbb\textformatter\s9e\renderer $renderer, \phpbb\auth\auth $auth, \phpbb\config\config $config, $func, \phpbb\controller\helper $helper, \phpbb\language\language $lang, \phpbb\path_helper $path_helper, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $php_ext, $phpbb_root_path)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, $func, \phpbb\controller\helper $helper, \phpbb\language\language $lang, \phpbb\notification\manager $notification_manager, \phpbb\path_helper $path_helper, \phpbb\textformatter\s9e\renderer $renderer, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $php_ext, $phpbb_root_path)
 	{
-		$this->renderer		= $renderer;
-		$this->auth			= $auth;
-		$this->config		= $config;
-		$this->func			= $func;
-		$this->helper		= $helper;
-		$this->lang			= $lang;
-		$this->path_helper	= $path_helper;
-		$this->request		= $request;
-		$this->template		= $template;
-		$this->user			= $user;
-		$this->php_ext		= $php_ext;
-		$this->phpbb_root_path = $phpbb_root_path;
+		$this->auth					= $auth;
+		$this->config				= $config;
+		$this->func					= $func;
+		$this->helper				= $helper;
+		$this->lang					= $lang;
+		$this->notification_manager	= $notification_manager;
+		$this->path_helper			= $path_helper;
+		$this->renderer				= $renderer;
+		$this->request				= $request;
+		$this->template				= $template;
+		$this->user					= $user;
+		$this->php_ext				= $php_ext;
+		$this->phpbb_root_path		= $phpbb_root_path;
 	}
 
 	/**
@@ -80,7 +108,21 @@ class blog
 			$this->user->set_cookie('blog_viewed_' . (int) $blog_id, 'viewed', 0);
 
 			# Increment the blog views counter
-			$this->func->increment_blog_views((int) $blog_id);
+			$view_multiplier = $this->func->increment_blog_views((int) $blog_id);
+
+			# If view_multiplier is NOT 0, it means a (new) threshold is reached, so we send out a notification
+			if (!empty($view_multiplier))
+			{
+				# Increment our notifications sent counter
+				$this->config->increment('ub_notification_views_id', 1);
+
+				# Send out notification
+				$this->notification_manager->add_notifications('mrgoldy.ultimateblog.notification.type.views', array(
+					'blog_id'			=> (int) $blog_id,
+					'multiplier'		=> (int) $view_multiplier,
+					'notification_id'	=> $this->config['ub_notification_views_id'],
+				));
+			}
 		}
 
 		# Get blog data

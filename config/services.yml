@@ -111,13 +111,14 @@ services:
     mrgoldy.ultimateblog.controller.blog:
         class: mrgoldy\ultimateblog\controller\blog
         arguments:
-            - '@text_formatter.renderer'
             - '@auth'
             - '@config'
             - '@mrgoldy.ultimateblog.core.functions'
             - '@controller.helper'
             - '@language'
+            - '@notification_manager'
             - '@path_helper'
+            - '@text_formatter.renderer'
             - '@request'
             - '@template'
             - '@user'
@@ -236,6 +237,39 @@ services:
         calls:
             - [set_controller_helper, ['@controller.helper']]
             - [set_user_loader, ['@user_loader']]
+            - [set_blogs_table, ['%mrgoldy.ultimateblog.tables.ub_blogs%']]
+        tags:
+            - { name: notification.type }
+
+    mrgoldy.ultimateblog.notification.type.comments:
+        class: mrgoldy\ultimateblog\notification\type\comments
+        shared: false # service MUST not be shared  for this to work!
+        parent: notification.type.base
+        calls:
+            - [set_controller_helper, ['@controller.helper']]
+            - [set_config, ['@config']]
+            - [set_blogs_table, ['%mrgoldy.ultimateblog.tables.ub_blogs%']]
+        tags:
+            - { name: notification.type }
+
+    mrgoldy.ultimateblog.notification.type.rating:
+        class: mrgoldy\ultimateblog\notification\type\rating
+        shared: false # service MUST not be shared  for this to work!
+        parent: notification.type.base
+        calls:
+            - [set_controller_helper, ['@controller.helper']]
+            - [set_config, ['@config']]
+            - [set_blogs_table, ['%mrgoldy.ultimateblog.tables.ub_blogs%']]
+        tags:
+            - { name: notification.type }
+
+    mrgoldy.ultimateblog.notification.type.views:
+        class: mrgoldy\ultimateblog\notification\type\views
+        shared: false # service MUST not be shared  for this to work!
+        parent: notification.type.base
+        calls:
+            - [set_controller_helper, ['@controller.helper']]
+            - [set_config, ['@config']]
             - [set_blogs_table, ['%mrgoldy.ultimateblog.tables.ub_blogs%']]
         tags:
             - { name: notification.type }

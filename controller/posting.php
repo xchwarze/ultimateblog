@@ -294,7 +294,9 @@ class posting
 			!$blog_to_update['enable_bbcode'] || !$this->config['ub_allow_bbcodes'] ? $this->parser->disable_bbcodes() : $this->parser->enable_bbcodes();
 			!$blog_to_update['enable_smilies'] || !$this->config['ub_allow_smilies'] ? $this->parser->disable_smilies() : $this->parser->enable_smilies();
 			!$blog_to_update['enable_magic_url'] || !$this->config['ub_allow_magic_url'] ? $this->parser->disable_magic_url() : $this->parser->enable_magic_url();
-			$blog_to_update['blog_text'] = $this->parser->parse($this->request->variable('blog_text', '', true));
+			$blog_text = $this->request->variable('blog_text', '', true);
+			$blog_text = htmlspecialchars_decode($blog_text, ENT_COMPAT);
+			$blog_to_update['blog_text'] = $this->parser->parse($blog_text);
 
 			# Categories to update
 			if ($edit && !$this->auth->acl_get('u_ub_post_private'))
@@ -529,6 +531,20 @@ class posting
 						if ($rating_data['rating_added'])
 						{
 							$this->log->add('user', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_UB_LOG_BLOG_RATED', time(), array($rating_data['blog_title'], $score));
+
+							# If a new rating is added, check if the multiplier is not 0, otherwise the notification threshold is reached
+							if (!empty($rating_data['rating_multiplier']))
+							{
+								# Increment our notifications sent counter
+								$this->config->increment('ub_notification_ratings_id', 1);
+
+								# Send out notification
+								$this->notification_manager->add_notifications('mrgoldy.ultimateblog.notification.type.rating', array(
+									'blog_id'			=> (int) $blog_id,
+									'multiplier'		=> (int) $rating_data['rating_multiplier'],
+									'notification_id'	=> $this->config['ub_notification_ratings_id'],
+								));
+							}
 						}
 					}
 
@@ -573,6 +589,7 @@ class posting
 							$parent_id = (int) $this->request->variable('pid', 0);
 							$parent_author_id = (int) $this->request->variable('paid', 0);
 							$comment_text = $this->request->variable('comment_text', '', true);
+							$comment_text = htmlspecialchars_decode($comment_text, ENT_COMPAT);
 
 							# Generate text for storage
 							!$this->config['ub_allow_bbcodes'] ? $this->parser->disable_bbcodes() : $this->parser->enable_bbcodes();
@@ -704,6 +721,7 @@ class posting
 								$author_id = $this->request->variable('author_id', 0);
 								$comment_id = $this->request->variable('comment_id', 0);
 								$comment_text = $this->request->variable('comment_edit_text', '', true);
+								$comment_text = htmlspecialchars_decode($comment_text, ENT_COMPAT);
 
 								if ($submit)
 								{

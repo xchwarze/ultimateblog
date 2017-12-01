@@ -113,13 +113,13 @@ class feed
 		}
 
 		# Check for permission to read the Ultimate Blogs (before checking if the feed is enabled, otherwise they don't have to know that ..)
-		if (!$this->auth->acl_get('u_ub_view') || !$this->auth->acl_get('u_ub_rss_view'))
+		if (!$this->auth->acl_get('u_ub_view') || !$this->auth->acl_get('u_ub_feed_view'))
 		{
 			throw new \phpbb\exception\http_exception(403, $this->user->lang('BLOG_ERROR_CANT_VIEW'));
 		}
 
 		# Check if the feed is enabled
-		if (!$this->config['ub_enable_rss'])
+		if (!$this->config['ub_enable_feed'])
 		{
 			throw new \phpbb\exception\http_exception(404, $this->user->lang('NO_FEED_ENABLED'));
 		}
@@ -166,7 +166,7 @@ class feed
 		}
 
 		# Add a specific category ID
-		if ($mode === 'category' && $this->config['ub_enable_rss_cats'])
+		if ($mode === 'category' && $this->config['ub_enable_feed_cats'])
 		{
 			# Check if category id is valid
 			$sql = 'SELECT category_name FROM ' . $this->ub_categories_table . ' WHERE category_id = ' . (int) $id;
@@ -185,7 +185,7 @@ class feed
 		}
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query_limit($sql, $this->config['ub_enable_rss_limit']);
+		$result = $this->db->sql_query_limit($sql, $this->config['ub_enable_feed_limit']);
 		$feeds_rowset = $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
 
@@ -244,7 +244,7 @@ class feed
 				'category'		=> !empty($category_url) ? $category_url : '',
 				'category_name'	=> !empty($category_name) ? $category_name : '',
 				'description'	=> censor_text($this->feed_helper->generate_content($row['blog_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $options, 0, array())),
-				'statistics'	=> $this->config['ub_enable_rss_stats'] ? censor_text($this->feed_helper->generate_content($statistics, '', '', 0, 0, array())) : '',
+				'statistics'	=> $this->config['ub_enable_feed_stats'] ? censor_text($this->feed_helper->generate_content($statistics, '', '', 0, 0, array())) : '',
 			);
 
 			$item_vars[] = $item_row;

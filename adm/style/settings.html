@@ -122,22 +122,22 @@
 </fieldset>
 
 <fieldset>
-    <legend>{{ lang('ACP_UB_ENABLE_RSS_SETTINGS') }}</legend>
+    <legend>{{ lang('ACP_UB_ENABLE_FEED_SETTINGS') }}</legend>
     <dl>
-		<dt><label for="ub_enable_rss">{{ lang('ACP_UB_ENABLE_RSS') }}{{ lang('COLON') }}</label><br><span>{{ lang('ACP_UB_ENABLE_RSS_EXPLAIN') }}</span></dt>
-		<dd><input type="checkbox" class="js-switch" id="ub_enable_rss" name="ub_enable_rss" value="1"{% if S_UB_ENABLE_RSS %} checked="checked"{% endif %} /></dd>
+		<dt><label for="ub_enable_feed">{{ lang('ACP_UB_ENABLE_FEED') }}{{ lang('COLON') }}</label><br><span>{{ lang('ACP_UB_ENABLE_FEED_EXPLAIN') }}</span></dt>
+		<dd><input type="checkbox" class="js-switch" id="ub_enable_feed" name="ub_enable_feed" value="1"{% if S_UB_ENABLE_FEED %} checked="checked"{% endif %} /></dd>
 	</dl>
     <dl>
-		<dt><label for="ub_enable_rss_cats">{{ lang('ACP_UB_ENABLE_RSS_CATS') }}{{ lang('COLON') }}</label><br><span>{{ lang('ACP_UB_ENABLE_RSS_CATS_EXPLAIN') }}</span></dt>
-		<dd><input type="checkbox" class="js-switch" id="ub_enable_rss_cats" name="ub_enable_rss_cats" value="1"{% if S_UB_ENABLE_RSS_CATS %} checked="checked"{% endif %} /></dd>
+		<dt><label for="ub_enable_feed_cats">{{ lang('ACP_UB_ENABLE_FEED_CATS') }}{{ lang('COLON') }}</label><br><span>{{ lang('ACP_UB_ENABLE_FEED_CATS_EXPLAIN') }}</span></dt>
+		<dd><input type="checkbox" class="js-switch" id="ub_enable_feed_cats" name="ub_enable_feed_cats" value="1"{% if S_UB_ENABLE_FEED_CATS %} checked="checked"{% endif %} /></dd>
 	</dl>
     <dl>
-		<dt><label for="ub_enable_rss_stats">{{ lang('ACP_UB_ENABLE_RSS_STATS') }}{{ lang('COLON') }}</label><br><span>{{ lang('ACP_UB_ENABLE_RSS_STATS_EXPLAIN') }}</span></dt>
-		<dd><input type="checkbox" class="js-switch" id="ub_enable_rss_stats" name="ub_enable_rss_stats" value="1"{% if S_UB_ENABLE_RSS_STATS %} checked="checked"{% endif %} /></dd>
+		<dt><label for="ub_enable_feed_stats">{{ lang('ACP_UB_ENABLE_FEED_STATS') }}{{ lang('COLON') }}</label><br><span>{{ lang('ACP_UB_ENABLE_FEED_STATS_EXPLAIN') }}</span></dt>
+		<dd><input type="checkbox" class="js-switch" id="ub_enable_feed_stats" name="ub_enable_feed_stats" value="1"{% if S_UB_ENABLE_FEED_STATS %} checked="checked"{% endif %} /></dd>
 	</dl>
     <dl>
-		<dt><label for="ub_enable_rss_limit">{{ lang('ACP_UB_ENABLE_RSS_LIMIT') }}{{ lang('COLON') }}</label><br><span>{{ lang('ACP_UB_ENABLE_RSS_LIMIT_EXPLAIN') }}</span></dt>
-		<dd><input type="number" id="ub_enable_rss_limit" name="ub_enable_rss_limit" value="{{ UB_ENABLE_RSS_LIMIT }}" min="5" max="100"></dd>
+		<dt><label for="ub_enable_feed_limit">{{ lang('ACP_UB_ENABLE_FEED_LIMIT') }}{{ lang('COLON') }}</label><br><span>{{ lang('ACP_UB_ENABLE_FEED_LIMIT_EXPLAIN') }}</span></dt>
+		<dd><input type="number" id="ub_enable_feed_limit" name="ub_enable_feed_limit" value="{{ UB_ENABLE_FEED_LIMIT }}" min="5" max="100"></dd>
 	</dl>
 </fieldset>
 

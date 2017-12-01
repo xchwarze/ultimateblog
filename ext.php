@@ -49,6 +49,9 @@ class ext extends \phpbb\extension\base
 
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->enable_notifications('mrgoldy.ultimateblog.notification.type.ultimateblog');
+				$phpbb_notifications->enable_notifications('mrgoldy.ultimateblog.notification.type.comments');
+				$phpbb_notifications->enable_notifications('mrgoldy.ultimateblog.notification.type.rating');
+				$phpbb_notifications->enable_notifications('mrgoldy.ultimateblog.notification.type.views');
 				return 'notifications';
 
 			break;
@@ -76,6 +79,9 @@ class ext extends \phpbb\extension\base
 
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->disable_notifications('mrgoldy.ultimateblog.notification.type.ultimateblog');
+				$phpbb_notifications->disable_notifications('mrgoldy.ultimateblog.notification.type.comments');
+				$phpbb_notifications->disable_notifications('mrgoldy.ultimateblog.notification.type.rating');
+				$phpbb_notifications->disable_notifications('mrgoldy.ultimateblog.notification.type.views');
 				return 'notifications';
 
 			break;
@@ -103,6 +109,9 @@ class ext extends \phpbb\extension\base
 
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->purge_notifications('mrgoldy.ultimateblog.notification.type.ultimateblog');
+				$phpbb_notifications->purge_notifications('mrgoldy.ultimateblog.notification.type.comments');
+				$phpbb_notifications->purge_notifications('mrgoldy.ultimateblog.notification.type.rating');
+				$phpbb_notifications->purge_notifications('mrgoldy.ultimateblog.notification.type.views');
 				return 'notifications';
 
 			break;

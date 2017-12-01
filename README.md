@@ -47,7 +47,7 @@ by abpetkov")
 ## To-do
 * Pretty URL's
 * Notifications
-* RSS Feed
+* ATOM Feed
 * Subscriptions
 * Search
 * Better error handling (use phpBB's native exceptions)

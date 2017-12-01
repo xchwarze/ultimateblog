@@ -3,7 +3,7 @@
  *
  * Ultimate Blog. An extension for the phpBB Forum Software package.
  *
- * @copyright (c) 2017, mrgoldy
+ * @copyright (c) 2017, Mr. Goldy
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */

@@ -277,6 +277,7 @@ class admin_categories
 			!$data['enable_smilies'] || !$this->config['ub_allow_smilies'] ? $this->parser->disable_smilies() : $this->parser->enable_smilies();
 			!$data['enable_magic_url'] || !$this->config['ub_allow_magic_url'] ? $this->parser->disable_magic_url() : $this->parser->enable_magic_url();
 			$category_description = $data['category_description'];
+			$category_description = htmlspecialchars_decode($category_description, ENT_COMPAT);
 			$data['category_description'] = $this->parser->parse($category_description);
 
 			$clean_description_length = strlen($this->utils->clean_formatting($data['category_description']));

@@ -35,7 +35,7 @@ $lang = array_merge($lang, array(
 	'ACL_U_UB_COMMENT_VIEW'			=> 'Can view blog comments',
 	'ACL_U_UB_RATE'					=> 'Can rate blogs',
 	'ACL_U_UB_REPORT'				=> 'Can report blogs and comments',
-	'ACL_U_UB_RSS_VIEW'				=> 'Can view RSS',
+	'ACL_U_UB_FEED_VIEW'				=> 'Can view FEED',
 
 	'ACL_M_UB_EDIT'			=> 'Can edit blogs and comments',
 	'ACL_M_UB_DELETE'		=> 'Can delete blogs and comments',

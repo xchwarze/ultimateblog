@@ -10,6 +10,8 @@
 
 namespace mrgoldy\ultimateblog\core;
 
+use mrgoldy\ultimateblog\constants;
+
 /**
  * Class functions
  *
@@ -377,16 +379,16 @@ class functions
 			break;
 
 			case 'comments':
-				$sql_array['LEFT_JOIN'][] = array('FROM' => array($this->ub_comments_table => 'c'), 'ON' => 'c.blog_id = b.blog_id');
+				$sql_array['FROM'][$this->ub_comments_table] = 'c';
 				$sql_array['ORDER_BY'] = 'c.comment_time DESC, b.blog_date DESC';
 				$sql_array['GROUP_BY'] .= ', c.blog_id';
+				$sql_array['WHERE']  .= ' AND c.blog_id = b.blog_id';
 			break;
 
 			case 'rating':
 				$sql_array['SELECT'] .= ', AVG(r.rating) as blog_rating';
 				$sql_array['LEFT_JOIN'][] = array('FROM' => array($this->ub_ratings_table => 'r'), 'ON' => 'r.blog_id = b.blog_id');
 				$sql_array['GROUP_BY'] .= ', r.blog_id';
-				$sql_array['HAVING'] = 'COUNT(r.user_id) >= ' . (int) $rating_threshold;
 			break;
 
 			case 'views':
@@ -633,6 +635,22 @@ class functions
 	{
 		$sql = 'UPDATE ' . $this->ub_blogs_table . ' SET blog_views = blog_views + 1 WHERE blog_id = ' . (int) $blog_id;
 		$this->db->sql_query($sql);
+
+		$view_multiplier = 0;
+
+		$sql = 'SELECT blog_views FROM ' . $this->ub_blogs_table . ' WHERE blog_id = ' . (int) $blog_id;
+		$result = $this->db->sql_query($sql);
+		$views = $this->db->sql_fetchfield('blog_views');
+		$this->db->sql_query($sql);
+
+		# No need to check if blog views is more than one, as we just added one, but hey, why not!
+		if (!empty($views))
+		{
+			$views_division = $views / constants::NOTIFY_VIEWS_THRESHOLD;
+			$view_multiplier = fmod($views_division, 1) == 0 ? $views : 0;
+		}
+
+		return $view_multiplier;
 	}
 
 	/**
@@ -644,6 +662,7 @@ class functions
 	public function rating_add($blog_id, $user_id, $score)
 	{
 		$rating_added = false;
+		$rating_multiplier = 0;
 
 		# Set up rating_array
 		$rating_array = array(
@@ -670,6 +689,18 @@ class functions
 			$this->db->sql_query($sql);
 
 			$rating_added = true;
+
+			# A new rating is added, count the total amount of ratings and see if we have to send out a notification.
+			$sql = 'SELECT COUNT(distinct user_id) as rating_count FROM ' . $this->ub_ratings_table . ' WHERE blog_id = ' . (int) $blog_id;
+			$result = $this->db->sql_query($sql);
+			$rating_count = $this->db->sql_fetchfield('rating_count');
+			$this->db->sql_query($sql);
+
+			if (!empty($rating_count))
+			{
+				$rating_division = $rating_count / constants::NOTIFY_RATINGS_THRESHOLD;
+				$rating_multiplier = fmod($rating_division, 1) == 0 ? $rating_division : 0;
+			}
 		}
 		else if ($rating['rating'] != $score)
 		{
@@ -681,7 +712,7 @@ class functions
 			$rating_added = true;
 		}
 
-		return $rating_data = array('rating_added' => $rating_added, 'blog_title' => $rating['blog_title']);
+		return $rating_data = array('rating_added' => $rating_added, 'rating_multiplier' => (int) $rating_multiplier, 'blog_title' => $rating['blog_title']);
 	}
 
 	/**

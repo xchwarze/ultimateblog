@@ -2,8 +2,8 @@ To do list:
 
 ☐ MCP (approve, reported)
 ☐ Subscriptions
-☐ Notifications for (x Ratings, x Views, x Comments)
-☐ Text formatter special characters ( <, &, ", etc)
+☐ Notification e-mails (remove METHOD from SQL)
+☐ Notifications for (x Ratings, x Views, x Comments) [Ratings done, Views done] [ Still have to test ]
 ☐ Search
 ☐ Blog errors better exceptions (trigger error perhaps) (no blogs in blog list)
 ☐ Drag and drop image upload
@@ -15,6 +15,7 @@ To do list:
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+	✔ Text formatter special characters ( <, &, ", etc) (Solution: htmlspecialchars_decode($texxt, ENT_COMPAT); - Thanks to JoshyPHP and Kasimi) @done(2017-11-29 14:48)
 	✔ Feed @done(2017-11-29 00:11)
 	✔ Notifications @done(2017-11-28 17:34)
 	✔ Report update redirect url @done(2017-11-28 17:38)
