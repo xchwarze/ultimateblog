@@ -225,11 +225,12 @@ class admin_settings
 			}
 
 			$this->template->assign_block_vars($block_part, array(
-				'ID'	=> $row['block_id'],
-				'LIMIT'	=> $row['block_limit'],
-				'NAME'	=> $row['block_name'],
-				'DATA'	=> $row['block_data'],
-				'TITLE'	=> $row['block_id'] > 3 ? $this->lang->lang('ACP_UB_BLOCK_' . strtoupper($row['block_name'])) : $this->lang->lang('ACP_UB_BLOCK_CATEGORY'),
+				'ID'		=> $row['block_id'],
+				'LIMIT'		=> $row['block_limit'],
+				'NAME'		=> $row['block_name'],
+				'DATA'		=> $row['block_data'],
+				'EXPLAIN'	=> $row['block_id'] > 3 ? $this->lang->lang('ACP_UB_BLOCK_' . strtoupper($row['block_name']) . '_EXPLAIN') : $this->lang->lang('ACP_UB_BLOCK_CATEGORY_EXPLAIN'),
+				'TITLE'		=> $row['block_id'] > 3 ? $this->lang->lang('ACP_UB_BLOCK_' . strtoupper($row['block_name'])) : $this->lang->lang('ACP_UB_BLOCK_CATEGORY'),
 				'IS_CAT'	=> $row['block_id'] <= 3 ? true : false,
 				'IS_RATING'	=> $row['block_id'] == 6 ? true : false,
 			));

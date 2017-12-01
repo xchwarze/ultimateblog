@@ -153,10 +153,10 @@
 				{% for blocks_not_used in loops.blocks_not_used %}
 					<div class="ub-index-block" data-block-id="{{ blocks_not_used.ID }}">
 						<h2>{{ blocks_not_used.TITLE }}</h2>
-						<label for="ub_{{ blocks_not_used.NAME }}_limit">Show amount:</label>
+						<label for="ub_{{ blocks_not_used.NAME }}_limit">{{ lang('ACP_UB_BLOCK_AMOUNT') }}{{ lang('COLON') }}</label>
 						<input name="ub_{{ blocks_not_used.NAME }}_limit" type="number" class="ub-index-limit" min="1" value="{{ blocks_not_used.LIMIT }}" />
 						{% if blocks_not_used.IS_CAT %}
-							<label for="ub_{{ blocks_not_used.NAME }}_data">Category:</label>
+							<label for="ub_{{ blocks_not_used.NAME }}_data">{{ lang('ACP_UB_CATEGORY') }}{{ lang('COLON') }}</label>
 							<select name="ub_{{ blocks_not_used.NAME }}_data">
 								{% for cats in blocks_not_used.cats %}
 									<option name="ub_{{ blocks_not_used.NAME }}_data" value="{{ cats.ID }}">{{ cats.NAME }}</option>
@@ -164,10 +164,10 @@
 							</select>
 						{% endif %}
 						{% if blocks_not_used.IS_RATING %}
-							<label for="ub_rating_data">Required ratings:</label>
+							<label for="ub_rating_data">{{ lang('ACP_UB_BLOCK_RATING_REQUIRED') }}{{ lang('COLON') }}</label>
 							<input name="ub_rating_data" type="number" value="{{ blocks_not_used.DATA }}"/>
 						{% endif %}
-						<div>Show blogs with the most views</div>
+						<div>{{ blocks_not_used.EXPLAIN }}</div>
 					</div>
 				{% endfor %}
 			</div>
@@ -178,11 +178,11 @@
 					{% for blocks_used in loops.blocks_used %}
 						<div class="ub-index-block" data-block-id="{{ blocks_used.ID }}">
 							<h2>{{ blocks_used.TITLE }}</h2>
-							<label for="ub_{{ blocks_used.NAME }}_limit">Show amount:</label>
+							<label for="ub_{{ blocks_used.NAME }}_limit">{{ lang('ACP_UB_BLOCK_AMOUNT') }}{{ lang('COLON') }}</label>
 							<input name="ub_{{ blocks_used.NAME }}_limit" type="number" class="ub-index-limit" min="1" value="{{ blocks_used.LIMIT }}" />
 							{% if blocks_used.IS_CAT %}
                                 <br>
-								<label for="ub_{{ blocks_used.NAME }}_data">Category:</label>
+								<label for="ub_{{ blocks_used.NAME }}_data">{{ lang('ACP_UB_CATEGORY') }}{{ lang('COLON') }}</label>
 								<select name="ub_{{ blocks_used.NAME }}_data">
 									{% for cats in blocks_used.cats %}
 										<option name="ub_{{ blocks_used.NAME }}_data" value="{{ cats.ID }}">{{ cats.NAME }}</option>
@@ -190,10 +190,10 @@
 								</select>
 							{% endif %}
 							{% if blocks_used.IS_RATING %}
-								<label for="ub_rating_data">Required ratings:</label>
+								<label for="ub_rating_data">{{ lang('ACP_UB_BLOCK_RATING_REQUIRED') }}{{ lang('COLON') }}</label>
 								<input name="ub_rating_data" type="number" value="{{ blocks_used.DATA }}"/>
 							{% endif %}
-							<div>Show blogs with the most views</div>
+							<div>{{ blocks_used.EXPLAIN }}</div>
 						</div>
 					{% endfor %}
 				</div>
