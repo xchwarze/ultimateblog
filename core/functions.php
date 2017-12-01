@@ -662,7 +662,6 @@ class functions
 	public function rating_add($blog_id, $user_id, $score)
 	{
 		$rating_added = false;
-		$rating_multiplier = 0;
 
 		# Set up rating_array
 		$rating_array = array(
@@ -694,7 +693,7 @@ class functions
 			$sql = 'SELECT COUNT(distinct user_id) as rating_count FROM ' . $this->ub_ratings_table . ' WHERE blog_id = ' . (int) $blog_id;
 			$result = $this->db->sql_query($sql);
 			$rating_count = $this->db->sql_fetchfield('rating_count');
-			$this->db->sql_query($sql);
+			$this->db->sql_freeresult($result);
 
 			if (!empty($rating_count))
 			{
@@ -712,7 +711,7 @@ class functions
 			$rating_added = true;
 		}
 
-		return $rating_data = array('rating_added' => $rating_added, 'rating_multiplier' => (int) $rating_multiplier, 'blog_title' => $rating['blog_title']);
+		return $rating_data = array('rating_added' => $rating_added, 'rating_multiplier' => $rating_multiplier, 'blog_title' => $rating['blog_title']);
 	}
 
 	/**
