@@ -125,7 +125,7 @@ class functions
 	{
 		$sql = 'SELECT blog_date
 				FROM ' . $this->ub_blogs_table . '
-				GROUP BY MONTH(FROM_UNIXTIME(blog_date)), YEAR(FROM_UNIXTIME(blog_date))
+				GROUP BY MONTH(FROM_UNIXTIME(blog_date)), YEAR(FROM_UNIXTIME(blog_date)), blog_date
 				ORDER BY blog_date DESC';
 		$result = $this->db->sql_query($sql);
 		$rowset = $this->db->sql_fetchrowset($result);
@@ -217,6 +217,7 @@ class functions
 								),
 							),
 
+			'GROUP_BY'	=> 'ur.rating',
 			'WHERE'		=> 'b.author_id = u.user_id
 							AND b.blog_id = ' . (int) $blog_id,
 		);

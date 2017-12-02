@@ -365,7 +365,7 @@ class initial_schema extends \phpbb\db\migration\container_aware_migration
 			}
 		}
 
-		$filesystem->mirror($this->phpbb_root_path . 'ext/mrgoldy/ultimateblog/images/', $img_dir . $blog_dir);
+		$filesystem->mirror($this->phpbb_root_path . 'ext/mrgoldy/ultimateblog/images/', $blog_dir);
 	}
 
 	/**
@@ -429,7 +429,7 @@ Hope you like the Ultimate Blog extension and: Have fun!</r>',
 			array(
 				'category_id'			=> 1,
 				'category_name'			=> 'Your first Ultimate Blog category',
-				'category_description'	=> 'A description of your first Ultimate Blog category.',
+				'category_description'	=> '<t>A description of your first Ultimate Blog category.</t>',
 				'category_image'		=> 'ub_cat_image.png',
 				'bbcode_bitfield'		=> '',
 				'bbcode_uid'			=> '',
