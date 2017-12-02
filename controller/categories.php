@@ -79,10 +79,13 @@ class categories
 		# Set start variable
 		$start = (($page - 1) * $this->config['ub_blogs_per_page']);
 
+		# Grab all categories
 		$categories = $this->func->category_list();
 
+		# Set up count for pagination.
 		$count = count($categories);
 
+		# Assign template block variables.
 		foreach ($categories as $category)
 		{
 			$this->template->assign_block_vars('categories', array(
@@ -95,6 +98,7 @@ class categories
 			));
 		}
 
+		# Create pagination
 		$this->pagination->generate_template_pagination(
 			array(
 				'routes' => array(
@@ -104,6 +108,7 @@ class categories
 				'params' => array(),
 			), 'pagination', 'page', $count, $this->config['ub_blogs_per_page'], $start);
 
+		# And the template variables.
 		$this->template->assign_vars(array(
 			'PAGE_NUMBER'			=> $this->pagination->on_page($count, $this->config['ub_blogs_per_page'], $start),
 			'TOTAL_CATEGORIES'		=> $this->lang->lang('BLOG_CATEGORIES_COUNT', (int) $count),

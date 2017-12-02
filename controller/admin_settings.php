@@ -10,6 +10,8 @@
 
 namespace mrgoldy\ultimateblog\controller;
 
+use mrgoldy\ultimateblog\constants;
+
 /**
  * Class admin_settings
  *
@@ -105,6 +107,7 @@ class admin_settings
 
 		if ($submit)
 		{
+			# Check form key for security
 			if (!check_form_key('ub_settings'))
 			{
 				$errors[] = $this->lang->lang('FORM_INVALID');
@@ -168,7 +171,7 @@ class admin_settings
 					$limit = (int) $this->request->variable($block_prefix . 'limit', 3);
 					$block = array (
 						'block_order'	=> in_array($block_id, $order_array) ? $order_id[array_search($block_id, $order_array)] : 0,
-						'block_limit'	=> $limit > 14 ? 14 : ($limit < 1 ? 1 : $limit),
+						'block_limit'	=> $limit > constants::BLOCK_MAX_LIMIT ? constants::BLOCK_MAX_LIMIT : ($limit < 1 ? 1 : $limit),
 						'block_data'	=> in_array($block_id, array(1, 2, 3, 6)) ? (int) $this->request->variable($block_prefix . 'data', 0) : 0,
 					);
 

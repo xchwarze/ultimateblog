@@ -1,20 +1,21 @@
 To do list:
 
 ☐ MCP (approve, reported)
+☐ Check max fontsize before parsing blog/comment text
+☐ Pagination (Sql isn't done yet) for categories
 ☐ Subscriptions
 ☐ Notification e-mails (remove METHOD from SQL)
 ☐ Notifications for (x Ratings, x Views, x Comments) [Ratings done, Views done] [ Still have to test ]
 ☐ Search
 ☐ Blog errors better exceptions (trigger error perhaps) (no blogs in blog list)
-☐ Drag and drop image upload
-☐ Disabling extension failing, MODULE CAN NOT BE REMOVED
 ☐ MISC: Split up language files, Check 'protected' and 'Construct', Comment everything
-☐ MISC2: Different blog layouts, Share this blog
+☐ MISC2: Different blog layouts, Share this blog, Drag and drop image upload
 ☐ SEO: Show SEO per blog
 ☐ GITHUB: Releases, Wiki, Branches (Master and Development)
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+	✔ Disabling extension failing, MODULE CAN NOT BE REMOVED @done(2017-12-01 12:31)
 	✔ Text formatter special characters ( <, &, ", etc) (Solution: htmlspecialchars_decode($texxt, ENT_COMPAT); - Thanks to JoshyPHP and Kasimi) @done(2017-11-29 14:48)
 	✔ Feed @done(2017-11-29 00:11)
 	✔ Notifications @done(2017-11-28 17:34)

@@ -10,6 +10,8 @@
 
 namespace mrgoldy\ultimateblog\controller;
 
+use mrgoldy\ultimateblog\constants;
+
 /**
  * Class admin_categories
  *
@@ -248,8 +250,10 @@ class admin_categories
 
 			$upload_file = $upload->handle_upload('files.types.form', 'category_image');
 
+			# Depending on the status (edit / add) check if we have to upload a new file.
 			if ($status === 'add' || ($status === 'edit' && $upload_file->get('uploadname')))
 			{
+				# Perform some common checks
 				if (!empty($upload_file->error) || !$upload_file->is_image() || !$upload_file->is_uploaded() || $upload_file->init_error())
 				{
 					$errors[] = $this->lang->lang('ACP_UB_ERROR_CATEGORY_IMAGE');
@@ -281,9 +285,9 @@ class admin_categories
 			$data['category_description'] = $this->parser->parse($category_description);
 
 			$clean_description_length = strlen($this->utils->clean_formatting($data['category_description']));
-			if ($clean_description_length < 50 || $clean_description_length > 125)
+			if ($clean_description_length < constants::BLOG_DESC_MINIMUM || $clean_description_length > constants::BLOG_DESC_MAXIMUM)
 			{
-				# String out of bounds TO DO
+				# String out of bounds
 				$errors[] = $this->lang->lang('ACP_UB_ERROR_CATEGORY_DESCRIPTION_OUT_OF_BOUNDS', $clean_description_length);
 			}
 		}

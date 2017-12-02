@@ -381,7 +381,7 @@ class functions
 			case 'comments':
 				$sql_array['FROM'][$this->ub_comments_table] = 'c';
 				$sql_array['ORDER_BY'] = 'c.comment_time DESC, b.blog_date DESC';
-				$sql_array['GROUP_BY'] .= ', c.blog_id';
+				$sql_array['GROUP_BY'] .= ', c.comment_time';
 				$sql_array['WHERE']  .= ' AND c.blog_id = b.blog_id';
 			break;
 
@@ -402,7 +402,7 @@ class functions
 			$sql_array['WHERE'] .= ' AND ((b.friends_only = 1 AND (b.author_id = ' . (int) $this->user->data['user_id'] . ' OR z.zebra_id = ' . (int) $this->user->data['user_id'] . ')) OR b.friends_only = 0)';
 		}
 
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$sql = $this->db->sql_build_query('SELECT_DISTINCT', $sql_array);
 		$mode === 'rating' ? $sql .= ' HAVING COUNT(r.user_id) >= ' . (int) $rating_threshold . ' ORDER BY blog_rating DESC, b.blog_date DESC' : '';
 		$result = $this->db->sql_query_limit($sql, $limit);
 		$rowset = $this->db->sql_fetchrowset($result);

@@ -153,8 +153,10 @@ class admin_overview
 			break;
 		}
 
+		# Find the difference in the arrays
 		$delete_images_array = array_diff($all_images, $inuse_images);
 
+		# Foreach difference, we delete the file. Be gone you fools!
 		foreach ($delete_images_array as $delete_image)
 		{
 			switch ($mode)

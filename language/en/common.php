@@ -8,6 +8,8 @@
  *
  */
 
+use mrgoldy\ultimateblog\constants;
+
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -58,7 +60,7 @@ $lang = array_merge($lang, array(
 	'BLOG_DELETE'					=> 'Delete blog',
 	'BLOG_DELETE_CONFIRM'			=> 'You are about to delete “<strong>%s</strong>”.<br>Are you sure you want to delete this blog?<br>This action can <strong>not</strong> be undone!',
 	'BLOG_DESCRIPTION'				=> 'Blog description',
-	'BLOG_DESCRIPTION_PLACEHOLDER'	=> 'Add a mandatory blog description. It needs to have between 50 and 125 characters.',
+	'BLOG_DESCRIPTION_PLACEHOLDER'	=> 'Add a mandatory blog description. It needs to have between ' . constants::BLOG_DESC_MINIMUM . ' and ' . constants::BLOG_DESC_MAXIMUM . ' characters.',
 
 	'BLOG_EDIT'					=> 'Edit blog',
 	'BLOG_EDIT_DELETE'			=> 'Delete edit reason',
@@ -79,7 +81,7 @@ $lang = array_merge($lang, array(
 	'BLOG_ERROR_CANT_EDIT_DELETE'	=> 'You do <strong>not</strong> have the permission to delete this edit reason.',
 	'BLOG_ERROR_CANT_VIEW'			=> 'You do <strong>not</strong> have the permission to view this page.',
 	'BLOG_ERROR_CATEGORY_NONE'		=> 'You have <strong>not</strong> selected any category. You need to select <strong>one <em>(1)</em> or more</strong> categories.',
-	'BLOG_ERROR_DESC_BOUNDS'		=> 'Your blog description is out of bounds. It has to be <strong>between 50 and 125</strong> characters. It currently has %d characters.',
+	'BLOG_ERROR_DESC_BOUNDS'		=> 'Your blog description is out of bounds. It has to be <strong>between ' . constants::BLOG_DESC_MINIMUM . ' and ' . constants::BLOG_DESC_MAXIMUM . '</strong> characters. It currently has %d characters.',
 	'BLOG_ERROR_DISABLED'			=> 'The Ultimate Blog extension for this board has been disabled.',
 	'BLOG_ERROR_EDIT_REASON'		=> 'You have to supply an edit reason, with <strong>less than 100</strong> characters.',
 	'BLOG_ERROR_INVALID_MODE'		=> 'You have entered an <strong>invalid</strong> mode.',

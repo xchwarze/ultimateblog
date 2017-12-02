@@ -63,18 +63,22 @@ class archives
 		# Check if Ultimate Blog is enabled and if the user has the 'view' permission
 		$this->func->ub_status();
 
+		# Grab a list of all blog dates, grouped by month.
 		$data = $this->func->archive_list();
 		$archive_array = array();
 
+		# Set up an array, Year as key, Month as value.
 		foreach ($data as $row)
 		{
 			$archive_array[] = array($this->user->format_date($row['blog_date'], 'Y') => $this->user->format_date($row['blog_date'], 'm'));
 		}
 
+		# Group the months per year.
 		array_walk_recursive($archive_array, function($month_value, $year_key) use (&$archive){
 			$archive[$year_key][] = $month_value;
 		});
 
+		# And send it off to the template.
 		foreach ($archive as $year => $months)
 		{
 			$this->template->assign_block_vars('years', array(
