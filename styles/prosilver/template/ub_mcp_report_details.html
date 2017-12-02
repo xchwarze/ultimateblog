@@ -80,7 +80,7 @@
 		<div class="inner">
 			<div class="postbody">
 				<p class="author">{{ lang('POSTED') }} {{ lang('POST_BY_AUTHOR') }} {{ PARENT_AUTHOR }} « {{ PARENT_TIME }}</p>
-				{% if S_PARENT_REPORTED %}<p class="post-notice reported"><i class="icon fa-exclamation fa-fw icon-red" aria-hidden="true"></i>{{ lang('BLOG_COMMENTS_REPORTED') }}</p>{% endif %}
+				{% if S_PARENT_REPORTED %}<p class="post-notice reported"><i class="icon fa-exclamation fa-fw icon-red" aria-hidden="true"></i>{{ lang('MCP_UB_COMMENT_REPORTED') }}</p>{% endif %}
 				{% if not S_PARENT_APPROVED and S_CAN_APPROVE %}<p class="post-notice reported"><i class="icon fa-exclamation fa-fw icon-red" aria-hidden="true"></i>{{ lang('POST_UNAPPROVED') }}</p>{% endif %}
 				<div class="content">{{ PARENT_TEXT }}</div>
 			</div>
@@ -92,7 +92,7 @@
 			<div class="inner">
 				<div class="postbody">
 					<p class="author">{{ lang('POSTED') }} {{ lang('POST_BY_AUTHOR') }} {{ replies.AUTHOR }} « {{ replies.TIME }}</p>
-					{% if replies.S_REPORTED %}<p class="post-notice reported"><i class="icon fa-exclamation fa-fw icon-red" aria-hidden="true"></i>{{ lang('BLOG_COMMENTS_REPORTED') }}</p>{% endif %}
+					{% if replies.S_REPORTED %}<p class="post-notice reported"><i class="icon fa-exclamation fa-fw icon-red" aria-hidden="true"></i>{{ lang('MCP_UB_COMMENT_REPORTED') }}</p>{% endif %}
 					{% if not replies.S_APPROVED and S_CAN_APPROVE %}<p class="post-notice reported"><i class="icon fa-exclamation fa-fw icon-red" aria-hidden="true"></i>{{ lang('POST_UNAPPROVED') }}</p>{% endif %}
 					<div class="content">{{ replies.TEXT }}</div>
 				</div>

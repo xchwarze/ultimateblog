@@ -23,4 +23,7 @@ class constants
 	# Limit for blog and category descriptions, ideal for search engines.
 	const BLOG_DESC_MINIMUM = 50;
 	const BLOG_DESC_MAXIMUM = 125;
+
+	# Maximum characters for edit reasons
+	const BLOG_EDIT_REASON = 100;
 }

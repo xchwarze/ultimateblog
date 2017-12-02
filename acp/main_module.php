@@ -42,19 +42,19 @@ class main_module
 		switch ($mode)
 		{
 			case 'overview':
-				$this->tpl_name = 'overview';
+				$this->tpl_name = 'ub_overview';
 				$this->page_title = $lang->lang('ACP_UB_OVERVIEW');
 				$overview_controller->ub_overview($id, $mode, $action);
 			break;
 
 			case 'settings':
-				$this->tpl_name = 'settings';
+				$this->tpl_name = 'ub_settings';
 				$this->page_title = $lang->lang('ACP_UB_SETTINGS');
 				$settings_controller->ub_settings();
 			break;
 
 			case 'categories':
-				$this->tpl_name = 'categories';
+				$this->tpl_name = 'ub_categories';
 				$this->page_title = $lang->lang('ACP_UB_CATEGORIES');
 				switch ($action)
 				{

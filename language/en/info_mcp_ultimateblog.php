@@ -31,6 +31,7 @@ $lang = array_merge($lang, array(
 		2 => 'There are %s blog reports to review.',
 	),
 
+	'MCP_UB_COMMENT_REPORTED'				=> 'This comment has been reported.',
 	'MCP_UB_COMMENT_REPORTS_OPEN'			=> 'Open comment reports',
 	'MCP_UB_COMMENT_REPORTS_OPEN_EXPLAIN'	=> 'This is a list of all reported comments which are still to be handled.',
 	'MCP_UB_COMMENT_REPORTS_CLOSED'			=> 'Closed comment reports',

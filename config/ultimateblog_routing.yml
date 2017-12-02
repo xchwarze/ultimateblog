@@ -89,3 +89,7 @@ mrgoldy_ultimateblog_feed:
     defaults: { _controller: mrgoldy.ultimateblog.controller.feed:handle, mode: latest, id: 1 }
     requirements:
         id: \d+
+
+mrgoldy_ultimateblog_search:
+    path: /search
+    defaults: { _controller: mrgoldy.ultimateblog.controller.search:handle }

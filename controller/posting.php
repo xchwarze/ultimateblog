@@ -132,6 +132,9 @@ class posting
 	 */
 	public function handle($mode, $blog_id = 0)
 	{
+		# Add the Ultimate Blog posting language
+		$this->lang->add_lang('posting', 'mrgoldy/ultimateblog');
+
 		# Check Ultimate Blog status, add language, smilies and BBCodes
 		$this->func->ub_status();
 		$this->lang->add_lang('posting');
@@ -321,7 +324,7 @@ class posting
 
 			# Check if there is an edit reason supplied, with correct length
 			$edit_reason = $this->request->variable('edit_reason', '', true);
-			($edit && empty($edit_reason)) ? $errors[] = $this->lang->lang('BLOG_ERROR_EDIT_REASON') : false;
+			($edit && (empty($edit_reason) || strlen($edit_reason) > constants::BLOG_EDIT_REASON)) ? $errors[] = $this->lang->lang('BLOG_ERROR_EDIT_REASON') : false;
 
 			# Check if a blog title is present
 			empty($blog_to_update['blog_title']) ? $errors[] = $this->lang->lang('BLOG_ERROR_NO_TITLE') : false;
@@ -512,6 +515,9 @@ class posting
 	 */
 	public function misc($mode, $blog_id)
 	{
+		# Add the Ultimate Blog posting language
+		$this->lang->add_lang('posting', 'mrgoldy/ultimateblog');
+		
 		# Check if Ultimate Blog is enabled and if the user has the 'view' permission
 		$this->func->ub_status();
 

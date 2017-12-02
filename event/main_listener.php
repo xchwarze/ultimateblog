@@ -286,6 +286,9 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function viewonline_page($event)
 	{
+		# Add viewonline language file
+		$this->lang->add_lang('viewonline', 'mrgoldy/ultimateblog');
+
 		# Grab Ultimate Blog category information
 		$categories = array();
 		$sql = 'SELECT category_id, category_name FROM ' . $this->ub_categories_table;
