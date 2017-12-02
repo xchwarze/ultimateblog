@@ -45,14 +45,10 @@ by abpetkov")
 * [Walkway Font](https://www.fontsquirrel.com/fonts/walkway "Walkway UltraBold Font")
 
 ## To-do
-* Pretty URL's
-* Notifications
-* ATOM Feed
 * Subscriptions
 * Search
 * Better error handling (use phpBB's native exceptions)
 * SEO per blog
-* XML Sitemap
 
 ## License
 [GPLv2](license.txt) &copy; 2017, **Mr. Goldy**

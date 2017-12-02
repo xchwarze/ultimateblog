@@ -79,7 +79,6 @@ class functions
 	* @param string								$ub_index_table
 	* @param string								$ub_ratings_table
 	*/
-
 	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, $php_ext, $phpbb_root_path, $ub_blogs_table, $ub_categories_table, $ub_blog_category_table, $ub_comments_table, $ub_edits_table, $ub_index_table, $ub_ratings_table)
 	{
 		$this->auth		= $auth;

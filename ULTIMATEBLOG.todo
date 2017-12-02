@@ -2,7 +2,7 @@ To do list:
 
 ☐ MCP (approve, reported)
 ☐ Check max fontsize before parsing blog/comment text
-☐ Pagination (Sql isn't done yet) for categories
+☐ Pagination (Sql isn't done yet) for categories, do I even want this?
 ☐ Subscriptions
 ☐ Notification e-mails (remove METHOD from SQL)
 ☐ Notifications for (x Ratings, x Views, x Comments) [Ratings done, Views done] [ Still have to test ]

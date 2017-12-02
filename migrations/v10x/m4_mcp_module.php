@@ -8,21 +8,21 @@
  *
  */
 
-namespace mrgoldy\ultimateblog\migrations;
+namespace mrgoldy\ultimateblog\migrations\v10x;
 
 /**
- * Class install_mcp_module
+ * Class m4_mcp_module
  *
  * @package mrgoldy\ultimateblog\migrations
  */
-class install_mcp_module extends \phpbb\db\migration\migration
+class m4_mcp_module extends \phpbb\db\migration\migration
 {
 	/**
 	 * @return array
 	 */
 	static public function depends_on()
 	{
-		return array('\mrgoldy\ultimateblog\migrations\initial_schema');
+		return array('\mrgoldy\ultimateblog\migrations\v10x\m3_acp_module');
 	}
 
 	/**

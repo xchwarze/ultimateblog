@@ -366,7 +366,7 @@ class admin_overview
 						)
 					),
 				'WHERE'		=> 'b.author_id = u.user_id',
-				'GROUP_BY'	=> 'c.blog_id',
+				'GROUP_BY'	=> 'c.blog_id, b.author_id, b.blog_title',
 				'ORDER_BY'	=> 'count DESC'
 				);
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -410,7 +410,7 @@ class admin_overview
 					)
 				),
 				'WHERE'			=> 'b.author_id = u.user_id',
-				'GROUP_BY'		=> 'r.blog_id',
+				'GROUP_BY'		=> 'r.blog_id, u.user_id, b.blog_title',
 				'ORDER_BY'		=> 'rating DESC'
 			);
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
