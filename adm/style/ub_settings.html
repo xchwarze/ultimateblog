@@ -58,7 +58,7 @@
 	</dl>
 	<dl>
 		<dt><label for="ub_image_size">{{ lang('ACP_UB_IMAGE_SIZE') }}{{ lang('COLON') }}</label><br><span>{{ lang('ACP_UB_IMAGE_SIZE_EXPLAIN') }}</span></dt>
-		<dd><input type="number" id="ub_image_size" name="ub_image_size" value="{{ UB_IMAGE_SIZE }}"> <label for="ub_image_size">KiB</label></dd>
+		<dd><input type="number" id="ub_image_size" name="ub_image_size" value="{{ UB_IMAGE_SIZE }}"> <label for="ub_image_size">{{ lang('KIB') }}</label></dd>
 	</dl>
 	<dl>
 		<dt><label for="ub_image_dir">{{ lang('ACP_UB_IMAGE_DIR') }}{{ lang('COLON') }}</label><br><span>{{ lang('ACP_UB_IMAGE_DIR_EXPLAIN') }}</span></dt>
@@ -211,8 +211,6 @@
 	</p>
 	{{ S_FORM_TOKEN }}
 </fieldset>
-</form>
-
 </form>
 
 {% INCLUDEJS '@mrgoldy_ultimateblog/ultimateblog.js' %}

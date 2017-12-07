@@ -527,6 +527,6 @@ class admin_overview
 			$string = array_slice($string, 0, 1);
 		}
 
-		return implode(', ', $string);
+		return implode($this->user->lang('COMMA_SEPARATOR'), $string);
 	}
 }

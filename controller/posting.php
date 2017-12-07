@@ -379,7 +379,7 @@ class posting
 				$blog_to_update['blog_image'] = $upload_file->get('realname');
 			}
 
-			# Set blog id when editing a new blog
+			# Set blog id when editing a blog
 			$edit ? $blog_to_update['blog_id'] = (int) $blog_id : false;
 
 			# Add or update the blog
@@ -517,7 +517,7 @@ class posting
 	{
 		# Add the Ultimate Blog posting language
 		$this->lang->add_lang('posting', 'mrgoldy/ultimateblog');
-		
+
 		# Check if Ultimate Blog is enabled and if the user has the 'view' permission
 		$this->func->ub_status();
 

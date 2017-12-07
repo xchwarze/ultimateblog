@@ -124,7 +124,7 @@ class admin_settings
 			$ub_enable_feed_limit = $this->request->variable('ub_enable_feed_limit', 10);
 			$ub_custom_index = $this->request->variable('ub_custom_index', false);
 			$ub_custom_order = $this->request->variable('ub_index_order', '');
-			$order_array = empty($ub_custom_order) ? array() : explode(',', $ub_custom_order);
+			$order_array = empty($ub_custom_order) ? array() : explode($this->lang->lang('COMMA_SEPARATOR'), $ub_custom_order);
 
 			if ($ub_title == '')
 			{
@@ -268,7 +268,7 @@ class admin_settings
 			'UB_BLOGS_PER_PAGE'		=> $submit ? $ub_blogs_per_page : $this->config['ub_blogs_per_page'],
 			'UB_COMMENTS_PER_PAGE'	=> $submit ? $ub_comments_per_page : $this->config['ub_comments_per_page'],
 			'UB_ENABLE_FEED_LIMIT'	=> $submit ? $ub_enable_feed_limit : $this->config['ub_enable_feed_limit'],
-			'UB_CUSTOM_INDEX_ORDER'	=> implode(",", $block_current_order_array),
+			'UB_CUSTOM_INDEX_ORDER'	=> implode($this->lang->lang('COMMA_SEPARATOR'), $block_current_order_array),
 			'UB_FA_ICON'			=> $submit ? $this->request->variable('ub_fa_icon', '', true) : $this->config['ub_fa_icon'],
 			'UB_IMAGE_DIR'			=> $submit ? $ub_image_dir : $this->config['ub_image_dir'],
 			'UB_IMAGE_CAT_DIR'		=> $submit ? $ub_image_cat_dir : $this->config['ub_image_cat_dir'],

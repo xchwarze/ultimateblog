@@ -66,7 +66,7 @@ class m6_permissions extends \phpbb\db\migration\container_aware_migration
 			array('permission.add', array('a_ub_categories')),
 
 			# Add view permission for the Guests group
-			array('permission.permission_set', array('GUESTS', 'u_u_view', 'group')),
+			array('permission.permission_set', array('GUESTS', 'u_ub_view', 'group')),
 		);
 
 		# Assign permissions to roles
