@@ -19,7 +19,7 @@ To be assigned
 
 Wiki link? [[Name of Wiki Page|WikiLink]]
 
-Issues link? [Issues](./../../issues)
+<i class="fa fa-camera-retro fa-5x"></i>
 
 ## Development
 
@@ -42,7 +42,6 @@ by escapeboy")
 * [Switchery](http://abpetkov.github.io/switchery/ "Switchery
 iOS 7 style switches for your checkboxes.
 by abpetkov")
-* [Walkway Font](https://www.fontsquirrel.com/fonts/walkway "Walkway UltraBold Font")
 
 ## To-do
 * Subscriptions
