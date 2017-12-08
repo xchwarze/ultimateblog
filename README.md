@@ -7,8 +7,8 @@
 
 
 ## Install
-```
-Copy the extension to phpBB/ext/mrgoldy/ultimateblog
+```javascript
+// Copy the extension to phpBB/ext/mrgoldy/ultimateblog
 
 Go to "ACP" > "Customise" > "Extensions" and enable the "Ultimate Blog" extension.
 ```
