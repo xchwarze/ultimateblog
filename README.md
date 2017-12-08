@@ -1,5 +1,5 @@
 
-# Ultimate Blog
+# :fa-book: Ultimate Blog
 ---
 > It is a fact that a good blog can attract visitors to your board. The more information and content you show, the more chances to get a higher ranking on search engines. Therefore, it can be said that creating a helpful blog on your board is an essential and quick step to get closer to various audiences.. <br><br>
 > **Ultimate Blog**. *An extension for the phpBB Forum Software package.*
@@ -18,8 +18,6 @@ Go to "ACP" > "Customise" > "Extensions" and enable the "Ultimate Blog" extensio
 To be assigned
 
 Wiki link? [[Name of Wiki Page|WikiLink]]
-
-<i class="fa fa-camera-retro fa-5x"></i>
 
 ## Development
 
