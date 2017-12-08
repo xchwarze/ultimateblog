@@ -13,6 +13,7 @@ Copy the extension to phpBB/ext/mrgoldy/ultimateblog
 Go to "ACP" > "Customise" > "Extensions" and enable the "Ultimate Blog" extension.
 ```
 
+:fa-thumbs-up:
 
 ## Overview
 To be assigned
